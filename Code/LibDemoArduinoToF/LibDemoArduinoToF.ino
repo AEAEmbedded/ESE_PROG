@@ -63,8 +63,8 @@ public:
     : WireScanner(wire, label) {}
 
   // Override scanForDevice to only look for the VL6180X address
-  bool scanForDevice(byte address) override {
-    return address == VL6180X::DEFAULT_SENSOR_ADDRESS && WireScanner::scanForDevice(address);
+  bool scanForDevice() override {
+    return WireScanner::scanForDevice(VL6180X::DEFAULT_SENSOR_ADDRESS);
   }
 };
 
