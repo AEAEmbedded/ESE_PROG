@@ -19,21 +19,24 @@ This repository contains my work for the Prog5 programming course, focusing on A
 
 ## How to Use
 
-1. **Clone the repository:** `git clone [repository URL]`
+1. **Clone the repository:** `git clone https://github.com/AEAEmbedded/ESE_PROG`
 2. **Navigate to the relevant folder:** `cd [folder name]`
 3. **Open Arduino sketches in the Arduino IDE.**
 4. **Upload code to your Arduino board.**
 5. **Refer to notes and lab instructions for guidance.**
 
-## Key Topics Covered (Based on File Names)
+## Key Topics Covered
 
-* Arduino basics (blinking, timing)
 * Constructors, inline functions, default parameters
 * Lists and more advanced data structures
 * Interfacing and abstract classes
 * Threading and callbacks
 * Polymorphism
+
+Labs:
+* Arduino basics using SOLID / OOP (blinking, timing)
 * I2C communication and sensor interfacing
+* MQTT and Raspberry Pi (more high level focus)
 
 ## Disclaimer
 
