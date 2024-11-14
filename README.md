@@ -15,7 +15,7 @@ This repository contains my work for the Prog5 programming course, focusing on A
   * `Keynotes_1_Introduction.pdf` etc.: PDFs covering various course topics.
 * **Rubrics:** Grading rubrics for assignments and projects.
 * **Other:**
-  * `HAN_Hackaton_Prog_6_2324.pdf`: Potentially related to a hackathon.
+  * `HAN_Hackaton_Prog_6_2025.pdf`: Potentially related to a hackathon.
 
 ## How to Use
 
