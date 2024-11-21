@@ -27,17 +27,18 @@ The system is modular and allows integration of additional sensors through stand
 Raspberry Pi 3 (or higher) with GPIO-enabled interface
 
 ### Sensor Modules:
-ECG: ecg_leaddetection_module
-SpO2: spo2_module
-Temperature: temp_module
-NIBP: Pressure_Module
+- ECG: ecg_leaddetection_module
+- SpO2: spo2_module
+- Temperature: temp_module
+- NIBP: Pressure_Module
 
 ### Adapters:
-SensorAdapter Quad PTSM4
-SimModule Adapter
-Connections:
-I2C: SDA (GPIO2) and SCL (GPIO3)
-UART or SPI (if required by modules)
+- SensorAdapter Quad PTSM4
+- SimModule Adapter
+
+### Connections:
+- I2C: SDA (GPIO2) and SCL (GPIO3)
+- UART or SPI (if required by modules)
 
 Refer to the provided .brd and .sch files for hardware schematics.
 
