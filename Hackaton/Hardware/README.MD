@@ -41,10 +41,10 @@ UART or SPI (if required by modules)
 
 Refer to the provided .brd and .sch files for hardware schematics.
 
-  * [hardware](./Hardware)
-    * [Adapters](./Hardware/Adapters) - PCB schematics and board files for adapters
-    * [SimModule_ECG](./Hardware/SimModule_ECG) - ECG sensor module files
-    * [SimModule_NIBP](./Hardware/SimModule_NIBP) - Blood pressure (NIBP) module files
-    * [SimModule_SpO2](./Hardware/SimModule_SpO2) - SpO2 (Oxygen saturation) module files
-    * [SimModule_Temperature](./Hardware/SimModule_Temperature) - Temperature module files
+  * [hardware](./)
+    * [Adapters](./Adapters) - PCB schematics and board files for adapters
+    * [SimModule_ECG](./SimModule_ECG) - ECG sensor module files
+    * [SimModule_NIBP](./SimModule_NIBP) - Blood pressure (NIBP) module files
+    * [SimModule_SpO2](./SimModule_SpO2) - SpO2 (Oxygen saturation) module files
+    * [SimModule_Temperature](./SimModule_Temperature) - Temperature module files
   * [README.md](README.md) - Documentation file (this file)
