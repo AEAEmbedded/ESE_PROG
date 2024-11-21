@@ -43,9 +43,10 @@ Refer to the provided .brd and .sch files for hardware schematics.
 
 patient-monitoring-system/
 ├── hardware/
-│   ├── Adapters/
-│   ├── SimModule_ECG/
-│   ├── SimModule_NIBP/
-│   ├── SimModule_SpO2/
-│   └── SimModule_Temperature/
-└── README.md
+│   ├── Adapters/               # PCB schematics and board files for adapters
+│   ├── SimModule_ECG/          # ECG sensor module files
+│   ├── SimModule_NIBP/         # Blood pressure (NIBP) module files
+│   ├── SimModule_SpO2/         # SpO2 (Oxygen saturation) module files
+│   └── SimModule_Temperature/  # Temperature module files
+└── README.md                   # Documentation file (this file)
+
