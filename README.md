@@ -42,6 +42,11 @@ Labs:
 
 This repository is for educational purposes. The code may be incomplete or contain errors. Use at your own risk.
 
+## Inspiration
+
+Inspiration:
+https://github.com/Dobutamine/explain-web
+
 ## Contact
 
 jakorten - johan.korten@han.nl
