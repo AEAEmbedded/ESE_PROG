@@ -1,0 +1,47 @@
+graph TD
+    A[main] --> B[performSystemSetup]
+    A --> C[executeMotionControl]
+    
+    B --> D[initializeHardware]
+    B --> E[initializeMotionParameters]
+    
+    D --> F[initPorts]
+    D --> G[initTimer1] 
+    D --> H[enableInterrupts]
+    
+    E --> I[updateDirection]
+    
+    C --> J[isTimeForNextStep]
+    C --> K[executeStepSequence]
+    C --> L[handleTargetReached]
+    
+    J --> M[getTimer1]
+    J --> N[getTimeDifference]
+    
+    K --> O[makeStep]
+    K --> P[updatePosition]
+    K --> Q[handleAcceleration]
+    
+    O --> R[generateStepPulse]
+    R --> S[delayMicroseconds]
+    
+    P --> T[isMovingForward]
+    
+    Q --> U[canAccelerate]
+    Q --> V[accelerateMotor]
+    
+    L --> W[reverseDirection]
+    L --> X[resetSpeedForDirectionChange] 
+    L --> Y[updateDirection]
+    
+    W --> Z[calculateNewTarget]
+    
+    Y --> AA[setDirectionForward]
+    Y --> BB[setDirectionReverse]
+    Y --> CC[delayMicroseconds]
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#fff3e0
