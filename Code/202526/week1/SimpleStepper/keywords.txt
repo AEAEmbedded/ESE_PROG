@@ -1,0 +1,34 @@
+# Syntax Coloring Map for SimpleStepper Library v2.0
+
+# Classes and Types (KEYWORD1)
+SimpleStepper	KEYWORD1
+Direction	KEYWORD1
+MotorState	KEYWORD1
+MotorConfig	KEYWORD1
+SignalLogic	KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin	KEYWORD2
+setState	KEYWORD2
+getState	KEYWORD2
+setDirection	KEYWORD2
+getDirection	KEYWORD2
+step	KEYWORD2
+move	KEYWORD2
+rotate	KEYWORD2
+setRPM	KEYWORD2
+getRPM	KEYWORD2
+
+# Enums and Constants (LITERAL1)
+CLOCKWISE	LITERAL1
+COUNTER_CLOCKWISE	LITERAL1
+ENABLED	LITERAL1
+DISABLED	LITERAL1
+ACTIVE_HIGH	LITERAL1
+ACTIVE_LOW	LITERAL1
+
+# Struct Members (LITERAL2)
+stepsPerRevolution	LITERAL2
+microsteps	LITERAL2
+rpm	LITERAL2
+signalLogic	LITERAL2
