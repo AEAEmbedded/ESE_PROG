@@ -1,3 +1,7 @@
+# Assignment
+
+Assignment: Create a UML Use Case diagram with description (see Markdown document) for a sensor application. See the following requirements. You are free to prioritize using MoSCoW (consult your product owner).
+
 # Stepper Motor Linear Actuator Syringe System Requirements
 
 ## System Overview
