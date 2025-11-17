@@ -8,7 +8,7 @@ using namespace std;
 
 class PoliceDog : public GermanShepherd {
     public:
-        PoliceDog(string name) : GermanShepherd(name) {};
+        PoliceDog(string name);
         void barks();
         void patrol();
     private:

@@ -2,14 +2,12 @@
 #include "GoldFish.h"
 #include "StrayDog.h"
 #include "PoliceDog.h"
-#include "StrayDog.h"
 
 int main() {
 
     PetDog pluto("Pluto");
     pluto.gotPetted();
     pluto.barks();
-    
     
     PoliceDog rex("Rex");
     rex.barks();
@@ -19,7 +17,6 @@ int main() {
     GoldFish myGoldFish;
     myGoldFish.splashes();
     myGoldFish.gotPetted();
-
     
     // what about a stray Dog?
     StrayDog stray;

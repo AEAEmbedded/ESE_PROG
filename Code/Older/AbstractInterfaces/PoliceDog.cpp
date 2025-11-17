@@ -3,6 +3,10 @@
 
 using namespace std;
 
+PoliceDog::PoliceDog(string name) : GermanShepherd(name) {
+    _name = name;
+}
+
 void PoliceDog::barks() {
     cout << _name << " barks loudly!" << endl;
 }
