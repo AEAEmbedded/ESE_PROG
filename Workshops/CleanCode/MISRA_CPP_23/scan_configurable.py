@@ -1,0 +1,545 @@
+#!/usr/bin/env python3
+"""
+MISRA C++ Configurable Scanner - SOLID Refactored
+==================================================
+
+Refactored to follow SOLID principles:
+- Single Responsibility Principle (SRP)
+- Open/Closed Principle (OCP)
+- Liskov Substitution Principle (LSP)
+- Interface Segregation Principle (ISP)
+- Dependency Inversion Principle (DIP)
+
+Usage:
+    python3 scan_configurable_solid.py <directory> [options]
+
+Options:
+    --priority MANDATORY|REQUIRED|ADVISORY
+    --chapter 4.7|4.9|4.12|...
+    --rules 7.0.1,7.0.2,...
+    --output report.md
+    --verbose
+"""
+
+import argparse
+import sys
+from pathlib import Path
+from typing import List, Dict, Protocol, Optional
+from dataclasses import dataclass
+from abc import ABC, abstractmethod
+
+from misra_cpp_checker_configurable import (
+    ConfigurableMISRAChecker, Violation, Priority, Color
+)
+
+
+# ============================================================================
+# DOMAIN MODELS (Value Objects) - SRP
+# ============================================================================
+
+@dataclass(frozen=True)
+class ScanConfiguration:
+    """Immutable configuration value object"""
+    directory: str
+    priority_filter: Optional[str] = None
+    chapter_filter: Optional[str] = None
+    rules_filter: Optional[List[str]] = None
+    output_file: str = "MISRA_SCAN_REPORT.md"
+    verbose: bool = False
+
+
+@dataclass(frozen=True)
+class ScanSummary:
+    """Immutable summary statistics"""
+    total_files: int
+    total_violations: int
+    files_with_issues: int
+    violations_by_priority: Dict[Priority, int]
+    violations_by_file: Dict[str, List[Violation]]
+
+
+# ============================================================================
+# INTERFACES (ISP - Interface Segregation Principle)
+# ============================================================================
+
+class FileFinder(Protocol):
+    """Interface for finding files (ISP)"""
+    def find_cpp_files(self, directory: str) -> List[str]:
+        """Find C++ files in directory"""
+        ...
+
+
+class FileScanner(Protocol):
+    """Interface for scanning files (ISP)"""
+    def scan_file(self, file_path: str, filters: Dict) -> List[Violation]:
+        """Scan a single file"""
+        ...
+
+
+class ReportGenerator(Protocol):
+    """Interface for report generation (ISP)"""
+    def generate(self, summary: ScanSummary, output_path: str, checker: ConfigurableMISRAChecker) -> None:
+        """Generate report"""
+        ...
+
+
+class ProgressReporter(Protocol):
+    """Interface for progress reporting (ISP)"""
+    def report_start(self, total_files: int, directory: str) -> None:
+        """Report scan start"""
+        ...
+
+    def report_file_progress(self, current: int, total: int, file_name: str, violations: int) -> None:
+        """Report file scan progress"""
+        ...
+
+    def report_summary(self, summary: ScanSummary) -> None:
+        """Report final summary"""
+        ...
+
+
+# ============================================================================
+# CONCRETE IMPLEMENTATIONS (SRP)
+# ============================================================================
+
+class CppFileFinder:
+    """Finds C++ files in directory - single responsibility"""
+
+    def __init__(self, extensions: List[str] = None):
+        self._extensions = extensions or ['.cpp', '.h', '.hpp', '.cc']
+
+    def find_cpp_files(self, directory: str) -> List[str]:
+        """Recursively find all C++ files"""
+        dir_path = Path(directory)
+        if not dir_path.exists():
+            return []
+
+        files = []
+        for ext in self._extensions:
+            files.extend(dir_path.rglob(f'*{ext}'))
+
+        return [str(f) for f in sorted(files)]
+
+
+class MISRAFileScanner:
+    """Scans files using MISRA checker - single responsibility"""
+
+    def __init__(self, checker: ConfigurableMISRAChecker):
+        self._checker = checker
+
+    def scan_file(self, file_path: str, filters: Dict) -> List[Violation]:
+        """Scan a single file"""
+        return self._checker.check_file(file_path, filters)
+
+
+class MarkdownReportGenerator:
+    """Generates Markdown reports - single responsibility"""
+
+    def generate(self, summary: ScanSummary, output_path: str, checker: ConfigurableMISRAChecker) -> None:
+        """Generate comprehensive Markdown report"""
+        try:
+            with open(output_path, 'w', encoding='utf-8') as f:
+                self._write_header(f)
+                self._write_executive_summary(f, summary, checker)
+                self._write_detailed_violations(f, summary)
+                self._write_violations_by_rule(f, summary)
+
+            print(f"{Color.GREEN}✓{Color.RESET} Report saved to {output_path}")
+        except Exception as e:
+            print(f"{Color.RED}✗ Error writing report: {e}{Color.RESET}")
+
+    def _write_header(self, f):
+        """Write report header"""
+        f.write("# MISRA C++ 2023 Compliance Report\n\n")
+        f.write(f"**Generated by:** Configurable MISRA C++ Checker\n\n")
+        f.write("---\n\n")
+
+    def _write_executive_summary(self, f, summary: ScanSummary, checker: ConfigurableMISRAChecker):
+        """Write executive summary section"""
+        f.write("## Executive Summary\n\n")
+        f.write(f"- **Files Scanned:** {summary.total_files}\n")
+        f.write(f"- **Total Violations:** {summary.total_violations}\n\n")
+
+        # Violations by priority
+        f.write("### Violations by Priority\n\n")
+        f.write(f"- 🔴 **Mandatory:** {summary.violations_by_priority.get(Priority.MANDATORY, 0)}\n")
+        f.write(f"- 🟡 **Required:** {summary.violations_by_priority.get(Priority.REQUIRED, 0)}\n")
+        f.write(f"- 🔵 **Advisory:** {summary.violations_by_priority.get(Priority.ADVISORY, 0)}\n\n")
+
+        # Compliance score
+        total_checks = summary.total_files * len([r for r in checker.rule_db.rules.values() if r.implemented])
+        compliance = ((total_checks - summary.total_violations) / total_checks * 100) if total_checks > 0 else 100
+
+        f.write("### Compliance Score\n\n")
+        f.write(f"**Overall Compliance:** {compliance:.1f}%\n\n")
+
+        # Implementation coverage
+        total_rules = len(checker.rule_db.rules)
+        implemented = sum(1 for r in checker.rule_db.rules.values() if r.implemented)
+
+        f.write("### Rule Coverage\n\n")
+        f.write(f"- **Total MISRA C++ Rules:** {total_rules}\n")
+        f.write(f"- **Implemented in Checker:** {implemented}\n")
+        f.write(f"- **Coverage:** {implemented/total_rules*100:.1f}%\n\n")
+        f.write("---\n\n")
+
+    def _write_detailed_violations(self, f, summary: ScanSummary):
+        """Write detailed violations by file"""
+        f.write("## Detailed Violations by File\n\n")
+
+        for file_path, violations in sorted(summary.violations_by_file.items()):
+            if violations:
+                f.write(f"### {file_path}\n\n")
+                f.write(f"**Violations:** {len(violations)}\n\n")
+
+                # Group by priority
+                by_prio = {Priority.MANDATORY: [], Priority.REQUIRED: [], Priority.ADVISORY: []}
+                for v in violations:
+                    by_prio[v.rule.category].append(v)
+
+                for priority in [Priority.MANDATORY, Priority.REQUIRED, Priority.ADVISORY]:
+                    if by_prio[priority]:
+                        icon = "🔴" if priority == Priority.MANDATORY else "🟡" if priority == Priority.REQUIRED else "🔵"
+                        f.write(f"#### {icon} {priority.value} Violations\n\n")
+
+                        for v in by_prio[priority]:
+                            f.write(f"**Line {v.line_number}** - Rule {v.rule.rule_id}: {v.rule.headline}\n\n")
+                            f.write(f"_{v.description}_\n\n")
+                            f.write(f"```cpp\n{v.line_content.strip()}\n```\n\n")
+
+                f.write("---\n\n")
+
+    def _write_violations_by_rule(self, f, summary: ScanSummary):
+        """Write violations by rule section"""
+        f.write("## Violations by Rule\n\n")
+
+        violations_by_rule = {}
+        for violations in summary.violations_by_file.values():
+            for v in violations:
+                rule_id = v.rule.rule_id
+                if rule_id not in violations_by_rule:
+                    violations_by_rule[rule_id] = []
+                violations_by_rule[rule_id].append(v)
+
+        for rule_id in sorted(violations_by_rule.keys()):
+            violations = violations_by_rule[rule_id]
+            rule = violations[0].rule
+            icon = "🔴" if rule.category == Priority.MANDATORY else "🟡" if rule.category == Priority.REQUIRED else "🔵"
+
+            f.write(f"### {icon} Rule {rule_id} [{rule.category.value}]\n\n")
+            f.write(f"**{rule.headline}**\n\n")
+            f.write(f"- **Occurrences:** {len(violations)}\n")
+            f.write(f"- **Files affected:** {len(set(v.file_path for v in violations))}\n\n")
+
+
+class ConsoleProgressReporter:
+    """Reports progress to console - single responsibility"""
+
+    def report_start(self, total_files: int, directory: str) -> None:
+        """Report scan start"""
+        print(f"\n{Color.BOLD}Scanning directory: {directory}{Color.RESET}")
+        print(f"{Color.GREEN}✓{Color.RESET} Found {total_files} C++ files\n")
+
+    def report_file_progress(self, current: int, total: int, file_name: str, violations: int) -> None:
+        """Report file scan progress"""
+        print(f"[{current}/{total}] Checking {file_name}...", end=' ')
+        if violations > 0:
+            print(f"{Color.YELLOW}{violations} violations{Color.RESET}")
+        else:
+            print(f"{Color.GREEN}✓{Color.RESET}")
+
+    def report_summary(self, summary: ScanSummary) -> None:
+        """Report final summary"""
+        print(f"\n{Color.BOLD}Scan Complete!{Color.RESET}")
+        print(f"  Total violations: {summary.total_violations}")
+        print(f"  Files with issues: {summary.files_with_issues}/{summary.total_files}\n")
+
+
+class VerboseConsoleReporter(ConsoleProgressReporter):
+    """Extended console reporter with verbose output - LSP"""
+
+    def report_summary(self, summary: ScanSummary) -> None:
+        """Report summary with priority breakdown"""
+        super().report_summary(summary)
+
+        print(f"{Color.BOLD}Summary by Priority:{Color.RESET}")
+        for priority in [Priority.MANDATORY, Priority.REQUIRED, Priority.ADVISORY]:
+            count = summary.violations_by_priority.get(priority, 0)
+            if count > 0:
+                icon = "🔴" if priority == Priority.MANDATORY else "🟡" if priority == Priority.REQUIRED else "🔵"
+                print(f"  {icon} {priority.value}: {count}")
+        print()
+
+
+# ============================================================================
+# STATISTICS CALCULATOR (SRP)
+# ============================================================================
+
+class ScanStatisticsCalculator:
+    """Calculates summary statistics - single responsibility"""
+
+    def calculate(self, violations_by_file: Dict[str, List[Violation]]) -> ScanSummary:
+        """Calculate summary from scan results"""
+        total_violations = sum(len(v) for v in violations_by_file.values())
+        files_with_issues = sum(1 for v in violations_by_file.values() if v)
+
+        violations_by_priority = {Priority.MANDATORY: 0, Priority.REQUIRED: 0, Priority.ADVISORY: 0}
+        for violations in violations_by_file.values():
+            for v in violations:
+                violations_by_priority[v.rule.category] += 1
+
+        return ScanSummary(
+            total_files=len(violations_by_file),
+            total_violations=total_violations,
+            files_with_issues=files_with_issues,
+            violations_by_priority=violations_by_priority,
+            violations_by_file=violations_by_file
+        )
+
+
+# ============================================================================
+# FILTER BUILDER (Builder Pattern)
+# ============================================================================
+
+class FilterBuilder:
+    """Builds filter dictionary - single responsibility"""
+
+    def __init__(self):
+        self._filters = {}
+
+    def with_priority(self, priority: Optional[str]) -> 'FilterBuilder':
+        """Add priority filter"""
+        if priority:
+            self._filters['priority'] = priority
+        return self
+
+    def with_chapter(self, chapter: Optional[str]) -> 'FilterBuilder':
+        """Add chapter filter"""
+        if chapter:
+            self._filters['chapter'] = chapter
+        return self
+
+    def with_rules(self, rules: Optional[str]) -> 'FilterBuilder':
+        """Add rules filter"""
+        if rules:
+            self._filters['rules'] = rules.split(',')
+        return self
+
+    def build(self) -> Dict:
+        """Build filter dictionary"""
+        return self._filters
+
+
+# ============================================================================
+# SCAN ORCHESTRATOR (SRP - Orchestration only)
+# ============================================================================
+
+class ConfigurableScanOrchestrator:
+    """
+    Orchestrates the scanning process - single responsibility
+
+    Uses dependency injection (DIP)
+    """
+
+    def __init__(self,
+                 file_finder: FileFinder,
+                 file_scanner: FileScanner,
+                 progress_reporter: ProgressReporter,
+                 report_generator: ReportGenerator,
+                 stats_calculator: ScanStatisticsCalculator):
+        self._file_finder = file_finder
+        self._file_scanner = file_scanner
+        self._progress_reporter = progress_reporter
+        self._report_generator = report_generator
+        self._stats_calculator = stats_calculator
+
+    def scan_directory(self, config: ScanConfiguration, checker: ConfigurableMISRAChecker) -> ScanSummary:
+        """Scan directory with configuration"""
+        # Find files
+        file_paths = self._file_finder.find_cpp_files(config.directory)
+        self._progress_reporter.report_start(len(file_paths), config.directory)
+
+        # Build filters
+        filters = (FilterBuilder()
+                  .with_priority(config.priority_filter)
+                  .with_chapter(config.chapter_filter)
+                  .with_rules(','.join(config.rules_filter) if config.rules_filter else None)
+                  .build())
+
+        # Scan files
+        violations_by_file = {}
+        for i, file_path in enumerate(file_paths, 1):
+            file_name = Path(file_path).name
+            violations = self._file_scanner.scan_file(file_path, filters)
+            violations_by_file[file_path] = violations
+
+            self._progress_reporter.report_file_progress(i, len(file_paths), file_name, len(violations))
+
+        # Calculate summary
+        summary = self._stats_calculator.calculate(violations_by_file)
+
+        # Report summary
+        self._progress_reporter.report_summary(summary)
+
+        # Generate report
+        self._report_generator.generate(summary, config.output_file, checker)
+
+        return summary
+
+
+# ============================================================================
+# CONFIGURATION BUILDER (Builder Pattern)
+# ============================================================================
+
+class ScanConfigurationBuilder:
+    """Builds scan configuration - single responsibility"""
+
+    def __init__(self):
+        self._directory = None
+        self._priority = None
+        self._chapter = None
+        self._rules = None
+        self._output = "MISRA_SCAN_REPORT.md"
+        self._verbose = False
+
+    def with_directory(self, directory: str) -> 'ScanConfigurationBuilder':
+        """Set directory"""
+        self._directory = directory
+        return self
+
+    def with_priority(self, priority: Optional[str]) -> 'ScanConfigurationBuilder':
+        """Set priority filter"""
+        self._priority = priority
+        return self
+
+    def with_chapter(self, chapter: Optional[str]) -> 'ScanConfigurationBuilder':
+        """Set chapter filter"""
+        self._chapter = chapter
+        return self
+
+    def with_rules(self, rules: Optional[str]) -> 'ScanConfigurationBuilder':
+        """Set rules filter"""
+        if rules:
+            self._rules = rules.split(',')
+        return self
+
+    def with_output(self, output: str) -> 'ScanConfigurationBuilder':
+        """Set output file"""
+        self._output = output
+        return self
+
+    def with_verbose(self, verbose: bool) -> 'ScanConfigurationBuilder':
+        """Set verbose mode"""
+        self._verbose = verbose
+        return self
+
+    def build(self) -> ScanConfiguration:
+        """Build configuration"""
+        return ScanConfiguration(
+            directory=self._directory,
+            priority_filter=self._priority,
+            chapter_filter=self._chapter,
+            rules_filter=self._rules,
+            output_file=self._output,
+            verbose=self._verbose
+        )
+
+
+# ============================================================================
+# DEPENDENCY INJECTION CONTAINER (DIP)
+# ============================================================================
+
+class DIContainer:
+    """Dependency injection container - wires everything together"""
+
+    @staticmethod
+    def create_orchestrator(verbose: bool = False) -> ConfigurableScanOrchestrator:
+        """Create orchestrator with all dependencies"""
+
+        # Create dependencies
+        file_finder = CppFileFinder()
+        checker = ConfigurableMISRAChecker()
+        file_scanner = MISRAFileScanner(checker)
+        progress_reporter = VerboseConsoleReporter() if verbose else ConsoleProgressReporter()
+        report_generator = MarkdownReportGenerator()
+        stats_calculator = ScanStatisticsCalculator()
+
+        # Create and return orchestrator
+        return ConfigurableScanOrchestrator(
+            file_finder=file_finder,
+            file_scanner=file_scanner,
+            progress_reporter=progress_reporter,
+            report_generator=report_generator,
+            stats_calculator=stats_calculator
+        )
+
+
+# ============================================================================
+# APPLICATION ENTRY POINT
+# ============================================================================
+
+class ScanApplication:
+    """Main application - thin wrapper"""
+
+    def __init__(self, orchestrator: ConfigurableScanOrchestrator, config: ScanConfiguration):
+        self._orchestrator = orchestrator
+        self._config = config
+
+    def run(self) -> None:
+        """Run the scan"""
+        try:
+            # Validate directory
+            if not Path(self._config.directory).exists():
+                print(f"{Color.RED}✗ Error: Directory '{self._config.directory}' not found{Color.RESET}")
+                sys.exit(1)
+
+            # Create checker (needed for report generation)
+            checker = ConfigurableMISRAChecker()
+
+            # Run scan
+            summary = self._orchestrator.scan_directory(self._config, checker)
+
+            # Could do something with summary here
+            # (e.g., check thresholds, exit codes, etc.)
+
+        except KeyboardInterrupt:
+            print(f"\n{Color.YELLOW}Scan interrupted by user{Color.RESET}")
+        except Exception as e:
+            print(f"{Color.RED}✗ Scan failed: {e}{Color.RESET}")
+            raise
+
+
+def main():
+    """Entry point using dependency injection"""
+
+    # Parse arguments
+    parser = argparse.ArgumentParser(description='Scan directory with configurable MISRA checker (SOLID)')
+    parser.add_argument('directory', help='Directory to scan')
+    parser.add_argument('--priority', choices=['MANDATORY', 'REQUIRED', 'ADVISORY'])
+    parser.add_argument('--chapter', help='Filter by chapter')
+    parser.add_argument('--rules', help='Comma-separated rule list')
+    parser.add_argument('--output', '-o', default='MISRA_SCAN_REPORT.md', help='Output file')
+    parser.add_argument('--verbose', '-v', action='store_true')
+
+    args = parser.parse_args()
+
+    # Build configuration
+    config = (ScanConfigurationBuilder()
+             .with_directory(args.directory)
+             .with_priority(args.priority)
+             .with_chapter(args.chapter)
+             .with_rules(args.rules)
+             .with_output(args.output)
+             .with_verbose(args.verbose)
+             .build())
+
+    # Create orchestrator using DI container
+    orchestrator = DIContainer.create_orchestrator(config.verbose)
+
+    # Create and run application
+    app = ScanApplication(orchestrator, config)
+    app.run()
+
+
+if __name__ == '__main__':
+    main()
