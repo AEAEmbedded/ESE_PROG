@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 3.20)
 project(SensorApp
     VERSION 1.0.0
     DESCRIPTION "SHT45 Temperature/Humidity Sensor Monitor"
-    HOMEPAGE_URL "https://github.com/han-university/sensor-app"
+    HOMEPAGE_URL "https://github.com/AEAEmbedded/ESE_PROG"
     LANGUAGES CXX
 )
 

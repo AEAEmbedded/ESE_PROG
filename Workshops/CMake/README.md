@@ -10,6 +10,26 @@
 
 This workshop teaches you how to use CMake, a modern cross-platform build system generator. You'll learn why build systems exist, the problems with traditional Makefiles, and how CMake solves these issues.
 
+---
+
+## 📦 Repository
+
+**GitHub:** [https://github.com/AEAEmbedded/ESE_PROG](https://github.com/AEAEmbedded/ESE_PROG)
+
+**Workshop Location:**
+```
+https://github.com/AEAEmbedded/ESE_PROG/tree/main/Workshops/CMake
+```
+
+### Getting the Code
+
+```bash
+git clone https://github.com/AEAEmbedded/ESE_PROG.git
+cd ESE_PROG/Workshops/CMake/Source
+```
+
+---
+
 ### Prerequisites
 
 - Basic C++ knowledge

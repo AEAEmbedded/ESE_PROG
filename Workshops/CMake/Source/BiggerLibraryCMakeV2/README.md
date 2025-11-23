@@ -11,6 +11,34 @@ This is an **advanced CMake workshop** showing the progression from basic CMake 
 
 ---
 
+## 📦 Repository
+
+**GitHub:** [https://github.com/AEAEmbedded/ESE_PROG](https://github.com/AEAEmbedded/ESE_PROG)
+
+**Direct Link to This Workshop:**
+```
+https://github.com/AEAEmbedded/ESE_PROG/tree/main/Workshops/CMake/Source/BiggerLibraryCMakeV2
+```
+
+### Getting the Code
+
+**Clone the entire repository:**
+```bash
+git clone https://github.com/AEAEmbedded/ESE_PROG.git
+cd ESE_PROG/Workshops/CMake/Source/BiggerLibraryCMakeV2
+```
+
+**Or download just this workshop:**
+```bash
+# Download as ZIP from GitHub
+# Navigate to: https://github.com/AEAEmbedded/ESE_PROG
+# Click "Code" → "Download ZIP"
+```
+
+**Each stage is self-contained** with all source files, so you can work through them independently!
+
+---
+
 ## Workshop Structure
 
 ```
