@@ -1,0 +1,577 @@
+# CMake Workshop
+
+**HAN University of Applied Sciences**
+**Software Engineering - Programming 6**
+**Johan Korten - v1.0 2025**
+
+---
+
+## Workshop Overview
+
+This workshop teaches you how to use CMake, a modern cross-platform build system generator. You'll learn why build systems exist, the problems with traditional Makefiles, and how CMake solves these issues.
+
+### Prerequisites
+
+- Basic C++ knowledge
+- Previous workshops: Clean Code, MISRA C++
+- CMake installed (version 3.10 or higher)
+- A C++17 compatible compiler (g++, clang, or MSVC)
+
+---
+
+## Workshop Structure
+
+The workshop progresses through 5 stages, each building on the previous one:
+
+```
+Source/
+├── SimpleProject/          # Step 1: Single file compilation
+├── SimpleLibrary/          # Step 2: Multiple files
+├── BiggerLibrary/          # Step 3: Complex project (manual compilation)
+├── BiggerLibraryMake/      # Step 4: Using Makefiles
+└── BiggerLibraryCMake/     # Step 5: Using CMake
+```
+
+---
+
+## Step 1: SimpleProject
+
+**Goal:** Understand basic compilation
+
+### Contents
+- `main.cpp` - Simple program that prints a message
+
+### Compile and Run
+```bash
+cd Source/SimpleProject
+g++ main.cpp -o sensor_app
+./sensor_app
+```
+
+### What You Learn
+- Basic compilation command
+- How a single file becomes an executable
+- This is simple... but what happens with more files?
+
+---
+
+## Step 2: SimpleLibrary
+
+**Goal:** See the complexity increase with multiple files
+
+### Contents
+- `main.cpp` - Uses the SHT45 sensor class
+- `sht45.hpp` - Header file with class declaration
+- `sht45.cpp` - Implementation file
+
+### Compile and Run
+```bash
+cd Source/SimpleLibrary
+g++ main.cpp sht45.cpp -o sensor_app
+./sensor_app
+```
+
+### What You Learn
+- Need to list all `.cpp` files
+- Both source files must be compiled
+- Still manageable... but getting tedious
+
+---
+
+## Step 3: BiggerLibrary
+
+**Goal:** Experience the pain of complex manual compilation
+
+### Contents
+- `main.cpp` - Main application
+- `sht45.cpp/hpp` - Temperature sensor
+- `i2c.cpp/hpp` - I2C communication
+- `logger.cpp/hpp` - Logging utility
+- `config.cpp/hpp` - Configuration management
+- `filter.cpp/hpp` - Signal filtering
+- `include/` - All header files organized
+
+### Compile and Run
+```bash
+cd Source/BiggerLibrary
+g++ main.cpp sht45.cpp i2c.cpp logger.cpp config.cpp filter.cpp \
+    -I./include -std=c++17 -Wall -O2 -o sensor_app
+./sensor_app
+```
+
+### What You Learn
+- 😫 **This is painful!**
+- Long compilation command
+- Easy to make mistakes
+- Have to type this every time you want to rebuild
+- What if you add a new file? Have to remember to update the command!
+
+### The Problem
+Typing long compilation commands manually is:
+- **Error-prone** - Easy to forget a file
+- **Time-consuming** - Repetitive typing
+- **Not scalable** - Gets worse with more files
+- **Not portable** - Different commands for different platforms
+
+---
+
+## Step 4: BiggerLibraryMake
+
+**Goal:** See how Makefiles help... and their limitations
+
+### Contents
+Same files as BiggerLibrary, plus:
+- `Makefile` - Build automation script
+
+### Build and Run
+```bash
+cd Source/BiggerLibraryMake
+make            # Build the project
+make run        # Build and run
+make clean      # Clean build artifacts
+make help       # Show available commands
+```
+
+### What You Learn
+
+#### ✅ Makefiles are Better Than Manual Commands
+- Don't need to type long g++ commands
+- Incremental compilation (only rebuilds changed files)
+- Dependency tracking (rebuilds when headers change)
+- Reusable commands (make, make clean, etc.)
+
+#### ❌ But Makefiles Have Problems
+
+1. **Repetitive Rules** - Look at the Makefile:
+   ```makefile
+   main.o: main.cpp $(HEADERS)
+       $(CXX) $(CXXFLAGS) -c main.cpp
+
+   sht45.o: sht45.cpp include/sht45.hpp
+       $(CXX) $(CXXFLAGS) -c sht45.cpp
+
+   # ... 4 more nearly identical rules!
+   ```
+   Every `.cpp` file needs its own rule!
+
+2. **Manual Listing** - You must list:
+   - All source files: `SOURCES = main.cpp sht45.cpp ...`
+   - All object files: `OBJECTS = main.o sht45.o ...`
+   - All dependencies: `main.o: main.cpp $(HEADERS)`
+
+3. **Manual Dependency Tracking** - Have to specify which `.cpp` depends on which `.hpp`
+
+4. **Platform-Specific** - This Makefile won't work on Windows without modification
+
+5. **Hard-Coded Compiler** - Uses `g++` - what if someone has `clang++` or MSVC?
+
+6. **Tedious Maintenance**:
+   - Add a new `.cpp` file? Update 3+ places in the Makefile
+   - Change a dependency? Update manually
+   - Support Windows? Write a new Makefile
+
+### The Question
+**"There must be a better way!"** 🤔
+
+---
+
+## Step 5: BiggerLibraryCMake
+
+**Goal:** See how CMake solves all these problems!
+
+### Contents
+Same files as BiggerLibrary, plus:
+- `CMakeLists.txt` - CMake build configuration (35 lines vs 62 in Makefile!)
+
+### Build and Run
+```bash
+cd Source/BiggerLibraryCMake
+mkdir build              # Create build directory (out-of-source build)
+cd build
+cmake ..                 # Generate build system
+cmake --build .          # Build the project
+./sensor_app            # Run the application
+```
+
+Or using make (if CMake generated Makefiles):
+```bash
+cd build
+make
+./sensor_app
+```
+
+### What You Learn
+
+#### ✨ CMake is Amazing!
+
+**Compare the files:**
+
+**Makefile (62 lines):**
+```makefile
+OBJECTS = main.o sht45.o i2c.o logger.o config.o filter.o
+
+main.o: main.cpp $(HEADERS)
+    $(CXX) $(CXXFLAGS) -c main.cpp
+sht45.o: sht45.cpp include/sht45.hpp
+    $(CXX) $(CXXFLAGS) -c sht45.cpp
+# ... many more rules
+```
+
+**CMakeLists.txt (35 lines):**
+```cmake
+set(SOURCES
+    main.cpp
+    sht45.cpp
+    i2c.cpp
+    logger.cpp
+    config.cpp
+    filter.cpp
+)
+
+add_executable(sensor_app ${SOURCES})
+```
+
+That's it! CMake figures out the rest!
+
+#### CMake Benefits
+
+1. **No Object File Listing** ✅
+   - CMake automatically creates `.o` files
+   - You just list the `.cpp` sources
+
+2. **No Repetitive Rules** ✅
+   - One `add_executable()` command
+   - CMake generates all compilation rules
+
+3. **Automatic Dependency Scanning** ✅
+   - CMake scans `#include` statements
+   - Automatically tracks header dependencies
+   - Rebuilds when headers change
+
+4. **Cross-Platform** ✅
+   - Same `CMakeLists.txt` works on:
+     - Linux (generates Makefiles)
+     - macOS (generates Makefiles or Xcode projects)
+     - Windows (generates Visual Studio projects or Ninja)
+   - CMake detects available compilers automatically
+
+5. **Modern Build Features** ✅
+   - Out-of-source builds (keeps source directory clean)
+   - Parallel compilation (faster builds)
+   - IDE integration (CLion, VS Code, Visual Studio)
+   - Package management integration (vcpkg, Conan)
+
+6. **Easy Maintenance** ✅
+   - Add new file? Just add filename to `SOURCES`
+   - Change includes? CMake detects automatically
+   - One simple configuration file
+
+---
+
+## Key Concepts
+
+### Out-of-Source Builds
+
+CMake uses a separate `build/` directory:
+```
+BiggerLibraryCMake/
+├── CMakeLists.txt      # Configuration
+├── main.cpp            # Source files
+├── sht45.cpp
+└── build/              # All build artifacts here
+    ├── Makefile        # Generated
+    ├── sensor_app      # Generated
+    └── *.o             # Generated
+```
+
+**Benefits:**
+- Source directory stays clean
+- Can delete `build/` anytime to start fresh
+- Can have multiple build configurations (Debug/Release)
+
+### CMake Workflow
+
+1. **Configure**: `cmake ..`
+   - Reads `CMakeLists.txt`
+   - Detects compiler, platform
+   - Generates native build system (Makefile, .sln, etc.)
+
+2. **Build**: `cmake --build .`
+   - Runs the native build system
+   - Compiles source files
+   - Links executable
+
+3. **Clean**: `rm -rf build/`
+   - Delete build directory
+   - Start fresh anytime
+
+---
+
+## Code Quality
+
+All code in this workshop follows:
+- ✅ **MISRA C++ Guidelines** - Safe, portable C++
+- ✅ **Clean Code Principles** - Readable, maintainable
+- ✅ **Bjarne Stroustrup's C++ Guidelines** - Modern C++ best practices
+
+### Code Features
+
+1. **RAII (Resource Acquisition Is Initialization)**
+   ```cpp
+   I2C i2c;        // ✅ Fully initialized, ready to use
+   Config config;  // ✅ Config loaded in constructor
+   ```
+   Not:
+   ```cpp
+   I2C i2c;
+   i2c.init();     // ❌ Two-phase initialization
+   ```
+
+2. **Rule of Five** - All classes explicitly declare copy/move operations
+
+3. **Const Correctness** - Methods that don't modify state are `const`
+
+4. **No Magic Numbers** - All literals have descriptive names:
+   ```cpp
+   static constexpr float SIMULATED_TEMPERATURE = 22.5F;
+   ```
+
+5. **Fixed-Width Types** - `uint8_t`, `int32_t` instead of `unsigned char`, `int`
+
+6. **Documentation** - All classes and public methods documented
+
+---
+
+## Workshop Exercises
+
+### Exercise 1: Build All Projects
+Go through each step and build all 5 projects. Notice how the compilation gets more complex, then simpler with CMake.
+
+### Exercise 2: Add a New Class
+Add a new sensor class (e.g., `bmp280.cpp/hpp` for pressure sensor):
+1. Create the files
+2. Update BiggerLibraryMake's Makefile - notice how many places you need to edit
+3. Update BiggerLibraryCMake's CMakeLists.txt - just add one line!
+
+### Exercise 3: Cross-Platform Build
+Try generating different build systems:
+```bash
+# Unix Makefiles (default on Linux/Mac)
+cmake -G "Unix Makefiles" ..
+
+# Ninja (fast build system)
+cmake -G "Ninja" ..
+
+# Xcode (macOS)
+cmake -G "Xcode" ..
+```
+
+### Exercise 4: Debug vs Release
+Build with different configurations:
+```bash
+# Debug build (no optimization, debug symbols)
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+cmake --build .
+
+# Release build (optimized)
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build .
+```
+
+---
+
+## Common CMake Commands
+
+### Basic Commands
+```bash
+cmake ..                    # Configure (from build directory)
+cmake --build .             # Build
+cmake --build . --clean-first  # Clean then build
+```
+
+### Configuration Options
+```bash
+cmake -DCMAKE_BUILD_TYPE=Debug ..       # Debug build
+cmake -DCMAKE_BUILD_TYPE=Release ..     # Release build
+cmake -DCMAKE_CXX_COMPILER=clang++ ..   # Use clang instead of g++
+```
+
+### Generator Selection
+```bash
+cmake -G "Ninja" ..                     # Use Ninja build system
+cmake -G "Unix Makefiles" ..            # Use make
+cmake -G "Xcode" ..                     # Generate Xcode project
+```
+
+---
+
+## Troubleshooting
+
+### CMake not found
+```bash
+# macOS (using Homebrew)
+brew install cmake
+
+# Ubuntu/Debian
+sudo apt-get install cmake
+
+# Check version
+cmake --version
+```
+
+### Build errors after changes
+```bash
+# Clean rebuild
+cd build
+rm -rf *
+cmake ..
+cmake --build .
+```
+
+### Wrong compiler detected
+```bash
+# Specify compiler explicitly
+cmake -DCMAKE_CXX_COMPILER=g++-11 ..
+```
+
+### CMake Cache Errors (Common!)
+
+**This is a very common issue students encounter!**
+
+#### Error: Source Directory Mismatch
+
+```
+CMake Error: The source "/path/old/location/CMakeLists.txt" does not match
+the source "/path/new/location/CMakeLists.txt" used to generate cache.
+Re-run cmake with a different source directory.
+```
+
+**What happened:**
+- You moved or renamed the project directory
+- The build cache still references the old path
+- CMake refuses to continue with mismatched paths
+
+**Solution:**
+```bash
+# Delete and recreate the build directory
+rm -rf build
+mkdir build
+cd build
+cmake ..
+```
+
+#### Error: Generator Mismatch
+
+```
+CMake Error: Error: generator : Ninja
+Does not match the generator used previously: Unix Makefiles
+Either remove the CMakeCache.txt file and CMakeFiles directory
+or choose a different binary directory.
+```
+
+**What happened:**
+- First build used one generator (e.g., Unix Makefiles)
+- Now trying to use a different generator (e.g., Ninja)
+- Cache contains old generator configuration
+
+**Solution:**
+```bash
+# Option 1: Clean build directory (recommended)
+rm -rf build
+mkdir build
+cd build
+cmake -G "Ninja" ..  # Or whatever generator you want
+
+# Option 2: Delete cache files only
+cd build
+rm CMakeCache.txt
+rm -rf CMakeFiles
+cmake -G "Ninja" ..
+```
+
+#### Why This Happens
+
+CMake caches configuration to speed up rebuilds:
+- Detected compiler
+- Generator choice (Make, Ninja, Visual Studio, etc.)
+- Absolute paths to sources
+- Configured options
+
+When you change:
+- Project location
+- Generator
+- CMake version
+- Build system
+
+The cache becomes invalid!
+
+#### Prevention
+
+**Best Practice:**
+```bash
+# When in doubt, delete the build directory!
+rm -rf build
+mkdir build
+cd build
+cmake ..
+```
+
+**Why this works:**
+- Out-of-source builds keep source code clean
+- Build directory is disposable
+- No risk - your source code is never touched
+- Fresh start = no cache issues
+
+**Teaching Moment:** This is actually a **great feature** of out-of-source builds! If in-source builds (not recommended) got corrupted, you'd have a mess in your source directory. With out-of-source, just delete `build/` and start over!
+
+---
+
+## Summary: Why CMake?
+
+| Feature | Manual | Makefile | CMake |
+|---------|--------|----------|-------|
+| Easy to use | ❌ Long commands | ⚠️ Better | ✅ Simple |
+| Incremental builds | ❌ No | ✅ Yes | ✅ Yes |
+| Dependency tracking | ❌ Manual | ⚠️ Manual | ✅ Automatic |
+| Cross-platform | ❌ No | ❌ No | ✅ Yes |
+| IDE integration | ❌ No | ⚠️ Limited | ✅ Excellent |
+| Maintenance | ❌ Terrible | ⚠️ Tedious | ✅ Easy |
+| Scalability | ❌ No | ⚠️ Limited | ✅ Excellent |
+
+### The Evolution
+1. **Manual compilation** - Simple but doesn't scale
+2. **Makefiles** - Better, but platform-specific and repetitive
+3. **CMake** - Modern, cross-platform, maintainable! ✨
+
+---
+
+## Further Learning
+
+### Official Documentation
+- [CMake Tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)
+- [CMake Documentation](https://cmake.org/documentation/)
+
+### Best Practices
+- [Modern CMake Guide](https://cliutils.gitlab.io/modern-cmake/)
+- [Effective Modern CMake](https://gist.github.com/mbinna/c61dbb39bca0e4fb7d1f73b0d66a4fd1)
+
+### C++ Resources
+- [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/)
+- [MISRA C++ 2023](https://misra.org.uk/)
+
+---
+
+## Questions?
+
+If you have questions or issues during the workshop:
+1. Check the troubleshooting section above
+2. Ask your instructor
+3. Consult the CMake documentation
+
+---
+
+**Happy Building!** 🛠️
+
+---
+
+*This workshop is part of the Software Engineering curriculum at HAN University of Applied Sciences. It builds on previous workshops about Clean Code and MISRA C++ guidelines.*

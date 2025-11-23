@@ -1,0 +1,28 @@
+# Build directory (CMake out-of-source build)
+build/
+build-*/
+
+# Compiled executables
+sensor_app
+*.exe
+
+# Object files
+*.o
+*.obj
+
+# CMake cache and generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
