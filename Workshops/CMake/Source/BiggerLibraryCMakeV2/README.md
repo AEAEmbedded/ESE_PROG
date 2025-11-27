@@ -48,12 +48,13 @@ BiggerLibraryCMakeV2/
 ├── stage2/               # Modern CMake basics
 ├── stage3/               # Library structure
 ├── stage4/               # External dependencies
-└── stage5/               # Professional version
+├── stage5/               # Professional version
+└── stage6/               # Real-world STM32 embedded project
 ```
 
 ---
 
-## The 5 Stages
+## The 6 Stages
 
 ### Stage 1: Basic CMake (Starting Point)
 **What you already know from BiggerLibraryCMake**
@@ -175,6 +176,53 @@ target_compile_options(sensor_app PRIVATE -Wall)
 
 ---
 
+### Stage 6: Real-World STM32 Embedded Project
+**Everything you learned applies to embedded!**
+
+**Key Features:**
+- ✅ All concepts from Stages 1-5 applied to embedded
+- ✅ Cross-compilation for ARM Cortex-M4
+- ✅ Toolchain file configuration
+- ✅ STM32 HAL integration
+- ✅ MCU-specific compiler flags
+- ✅ Linker script integration
+- ✅ Binary generation (.hex, .bin files)
+- ✅ Flash and debug targets
+
+**File:** `stage6/CMakeLists.txt`
+
+**Target:** STM32F411 (ARM Cortex-M4) with SHT45 sensor
+
+**Teaching Point:** "The same modern CMake patterns work for embedded! Cross-compilation, libraries, dependencies—it all applies!"
+
+**Why this matters:**
+- Shows workshop concepts in production embedded firmware
+- Demonstrates cross-platform nature of CMake
+- Real-world professional embedded development
+- Same patterns: libraries, linking, target-based commands
+- Just different target architecture (ARM instead of x86)
+
+**What's different for embedded:**
+```cmake
+# Toolchain file (before project()!)
+set(CMAKE_TOOLCHAIN_FILE arm-toolchain.cmake)
+
+# MCU-specific flags
+set(MCU_FLAGS -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16)
+
+# Linker script (defines memory layout)
+target_link_options(firmware.elf PRIVATE -T${LINKER_SCRIPT})
+
+# Generate flashable binaries
+add_custom_command(TARGET firmware.elf POST_BUILD
+    COMMAND ${ARM_OBJCOPY} -O ihex firmware.elf firmware.hex
+)
+```
+
+**See the full README:** `stage6/README.md` for complete embedded CMake guide!
+
+---
+
 ## How to Use This Workshop
 
 ### Sequential Learning (Recommended)
@@ -196,8 +244,10 @@ cmake ..
 cmake --build .
 ./sensor_app
 
-# Continue through stage3, stage4, stage5...
+# Continue through stage3, stage4, stage5, stage6...
 ```
+
+**Note for Stage 6:** Requires ARM GCC toolchain for embedded development. See `stage6/README.md` for prerequisites.
 
 ### Compare Stages
 
@@ -321,17 +371,21 @@ target_link_libraries(myapp PRIVATE fmt::fmt)
 
 ## Stage-by-Stage Comparison
 
-| Feature | Stage 1 | Stage 2 | Stage 3 | Stage 4 | Stage 5 |
-|---------|---------|---------|---------|---------|---------|
-| Lines of code | 35 | 32 | 42 | 58 | 95 |
-| Target-specific commands | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Libraries | ❌ | ❌ | ✅ | ✅ | ✅ |
-| External deps | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Installation | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Options | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Build types | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ✅ |
-| Complexity | Simple | Simple | Medium | Medium | Advanced |
-| Professional? | No | Better | Good | Very Good | Yes! |
+| Feature | Stage 1 | Stage 2 | Stage 3 | Stage 4 | Stage 5 | Stage 6 |
+|---------|---------|---------|---------|---------|---------|---------|
+| Lines of code | 35 | 32 | 42 | 58 | 95 | 158 |
+| Target-specific commands | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Libraries | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| External deps | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ (HAL) |
+| Installation | ❌ | ❌ | ❌ | ❌ | ✅ | ⚠️ |
+| Options | ❌ | ❌ | ❌ | ❌ | ✅ | ⚠️ |
+| Build types | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ |
+| Cross-compilation | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Toolchain file | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Binary generation | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| MCU-specific | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Complexity | Simple | Simple | Medium | Medium | Advanced | Production |
+| Professional? | No | Better | Good | Very Good | Yes! | Embedded! |
 
 ---
 
@@ -538,11 +592,20 @@ target_include_directories(mylib PUBLIC include)
 - Conditional compilation
 - Cross-platform support
 
+### After Stage 6:
+- Cross-compilation for embedded systems
+- Toolchain file configuration
+- ARM Cortex-M specific settings
+- Linker script integration
+- Binary generation for microcontrollers
+- Real-world embedded firmware development
+- How workshop concepts apply to production embedded code
+
 ---
 
 ## Next Steps
 
-After completing all 5 stages:
+After completing all 6 stages:
 
 1. **Apply to your projects** - Use modern CMake in real work
 2. **Read documentation** - [CMake docs](https://cmake.org/documentation/)
