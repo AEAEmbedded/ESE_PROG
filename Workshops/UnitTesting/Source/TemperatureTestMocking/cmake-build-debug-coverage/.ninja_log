@@ -1,0 +1,26 @@
+# ninja log v5
+0	1048	1764505286729043615	CMakeFiles/test_temperature_controller.dir/temperature_controller.cpp.o	2f063bc946fb2ff3
+0	1050	1764505286768672216	CMakeFiles/test_temperature_controller.dir/test_temperature_controller.cpp.o	7d315cae5765c625
+0	1051	1764505286733071384	CMakeFiles/test_temperature_controller.dir/main.cpp.o	91df74696f3fb665
+0	1052	1764505286748689623	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/CommandLineArguments.cpp.o	7af009cb7c60b49a
+0	1053	1764505286754346691	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/MemoryLeakWarningPlugin.cpp.o	37fc337c8f6897e4
+1	1054	1764505286738507325	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/TestHarness_c.cpp.o	4e3406a758137c4
+1	1055	1764505286738516950	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/TestRegistry.cpp.o	2f9a0854a63d7b65
+2	1056	1764505286740470293	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/CommandLineTestRunner.cpp.o	9e2e31fdfa40d56f
+2	1057	1764505286776311794	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/SimpleString.cpp.o	f84b6f004534f8c1
+1050	1358	1764505287815905403	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/JUnitTestOutput.cpp.o	6d421c81c5fbf3ee
+1050	1363	1764505287818534082	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/TeamCityTestOutput.cpp.o	7f05aaf3c57f51e0
+1056	1364	1764505287820519591	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/TestTestingFixture.cpp.o	f0c6389640307a34
+1052	1374	1764505287831664518	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/TestOutput.cpp.o	8ecbd703c7647dd1
+1048	1381	1764505287840586643	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/TestResult.cpp.o	f7fb14a6e5b54d8c
+1054	1387	1764505287845498208	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/TestFilter.cpp.o	81cb6e1feedd412c
+1047	1400	1764505287859664024	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/TestMemoryAllocator.cpp.o	a38ce16602817b6d
+1057	1402	1764505287860627487	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/SimpleMutex.cpp.o	dcb92a77c37573b7
+1053	1404	1764505287862936331	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/MemoryLeakDetector.cpp.o	a51bc60dcee50e03
+1055	1404	1764505287864512796	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/TestPlugin.cpp.o	616cf8b043330e08
+3	1415	1764505287875118388	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/SimpleStringInternalCache.cpp.o	f007ef7f8f2d909
+1051	1424	1764505287884333139	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/TestFailure.cpp.o	2c938ec0416d5601
+1363	1585	1764505288045473142	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/__/Platforms/Gcc/UtestPlatform.cpp.o	7582d59491caf91e
+1358	1625	1764505288085731038	_deps/cpputest-build/src/CppUTest/CMakeFiles/CppUTest.dir/Utest.cpp.o	7f7330b57e9c49bd
+1625	1676	1764505288139574000	_deps/cpputest-build/src/CppUTest/libCppUTest.a	7806539a31077e11
+1676	1728	1764505288189781691	test_temperature_controller	f0581740caf2f7d1
