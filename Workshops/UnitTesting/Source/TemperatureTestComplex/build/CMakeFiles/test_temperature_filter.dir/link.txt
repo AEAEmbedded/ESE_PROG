@@ -1,0 +1,1 @@
+/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/test_temperature_filter.dir/test_temperature_filter.cpp.o CMakeFiles/test_temperature_filter.dir/main.cpp.o -o test_temperature_filter  _deps/cpputest-build/src/CppUTest/libCppUTest.a

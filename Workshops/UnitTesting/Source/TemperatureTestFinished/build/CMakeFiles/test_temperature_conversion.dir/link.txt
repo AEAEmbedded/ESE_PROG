@@ -1,0 +1,1 @@
+/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/test_temperature_conversion.dir/temperature_conversion.cpp.o CMakeFiles/test_temperature_conversion.dir/test_temperature_conversion.cpp.o CMakeFiles/test_temperature_conversion.dir/main.cpp.o -o test_temperature_conversion  _deps/cpputest-build/src/CppUTest/libCppUTest.a

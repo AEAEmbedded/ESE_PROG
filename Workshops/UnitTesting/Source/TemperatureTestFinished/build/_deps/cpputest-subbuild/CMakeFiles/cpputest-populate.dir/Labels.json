@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/jakorten/Library/Mobile Documents/com~apple~CloudDocs/Documents/Documenten - MacBook Pro van JA/HAN/HAN Engineering/S3 Programming - Software Engineering/Repo2425/ESE_PROG/Workshops/UnitTesting/Source/TemperatureTestFinished/build/_deps/cpputest-subbuild/CMakeFiles/cpputest-populate"
+		},
+		{
+			"file" : "/Users/jakorten/Library/Mobile Documents/com~apple~CloudDocs/Documents/Documenten - MacBook Pro van JA/HAN/HAN Engineering/S3 Programming - Software Engineering/Repo2425/ESE_PROG/Workshops/UnitTesting/Source/TemperatureTestFinished/build/_deps/cpputest-subbuild/CMakeFiles/cpputest-populate.rule"
+		},
+		{
+			"file" : "/Users/jakorten/Library/Mobile Documents/com~apple~CloudDocs/Documents/Documenten - MacBook Pro van JA/HAN/HAN Engineering/S3 Programming - Software Engineering/Repo2425/ESE_PROG/Workshops/UnitTesting/Source/TemperatureTestFinished/build/_deps/cpputest-subbuild/CMakeFiles/cpputest-populate-complete.rule"
+		},
+		{
+			"file" : "/Users/jakorten/Library/Mobile Documents/com~apple~CloudDocs/Documents/Documenten - MacBook Pro van JA/HAN/HAN Engineering/S3 Programming - Software Engineering/Repo2425/ESE_PROG/Workshops/UnitTesting/Source/TemperatureTestFinished/build/_deps/cpputest-subbuild/cpputest-populate-prefix/src/cpputest-populate-stamp/cpputest-populate-build.rule"
+		},
+		{
+			"file" : "/Users/jakorten/Library/Mobile Documents/com~apple~CloudDocs/Documents/Documenten - MacBook Pro van JA/HAN/HAN Engineering/S3 Programming - Software Engineering/Repo2425/ESE_PROG/Workshops/UnitTesting/Source/TemperatureTestFinished/build/_deps/cpputest-subbuild/cpputest-populate-prefix/src/cpputest-populate-stamp/cpputest-populate-configure.rule"
+		},
+		{
+			"file" : "/Users/jakorten/Library/Mobile Documents/com~apple~CloudDocs/Documents/Documenten - MacBook Pro van JA/HAN/HAN Engineering/S3 Programming - Software Engineering/Repo2425/ESE_PROG/Workshops/UnitTesting/Source/TemperatureTestFinished/build/_deps/cpputest-subbuild/cpputest-populate-prefix/src/cpputest-populate-stamp/cpputest-populate-download.rule"
+		},
+		{
+			"file" : "/Users/jakorten/Library/Mobile Documents/com~apple~CloudDocs/Documents/Documenten - MacBook Pro van JA/HAN/HAN Engineering/S3 Programming - Software Engineering/Repo2425/ESE_PROG/Workshops/UnitTesting/Source/TemperatureTestFinished/build/_deps/cpputest-subbuild/cpputest-populate-prefix/src/cpputest-populate-stamp/cpputest-populate-install.rule"
+		},
+		{
+			"file" : "/Users/jakorten/Library/Mobile Documents/com~apple~CloudDocs/Documents/Documenten - MacBook Pro van JA/HAN/HAN Engineering/S3 Programming - Software Engineering/Repo2425/ESE_PROG/Workshops/UnitTesting/Source/TemperatureTestFinished/build/_deps/cpputest-subbuild/cpputest-populate-prefix/src/cpputest-populate-stamp/cpputest-populate-mkdir.rule"
+		},
+		{
+			"file" : "/Users/jakorten/Library/Mobile Documents/com~apple~CloudDocs/Documents/Documenten - MacBook Pro van JA/HAN/HAN Engineering/S3 Programming - Software Engineering/Repo2425/ESE_PROG/Workshops/UnitTesting/Source/TemperatureTestFinished/build/_deps/cpputest-subbuild/cpputest-populate-prefix/src/cpputest-populate-stamp/cpputest-populate-patch.rule"
+		},
+		{
+			"file" : "/Users/jakorten/Library/Mobile Documents/com~apple~CloudDocs/Documents/Documenten - MacBook Pro van JA/HAN/HAN Engineering/S3 Programming - Software Engineering/Repo2425/ESE_PROG/Workshops/UnitTesting/Source/TemperatureTestFinished/build/_deps/cpputest-subbuild/cpputest-populate-prefix/src/cpputest-populate-stamp/cpputest-populate-test.rule"
+		},
+		{
+			"file" : "/Users/jakorten/Library/Mobile Documents/com~apple~CloudDocs/Documents/Documenten - MacBook Pro van JA/HAN/HAN Engineering/S3 Programming - Software Engineering/Repo2425/ESE_PROG/Workshops/UnitTesting/Source/TemperatureTestFinished/build/_deps/cpputest-subbuild/cpputest-populate-prefix/src/cpputest-populate-stamp/cpputest-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"cpputest-populate"
+		],
+		"name" : "cpputest-populate"
+	}
+}
