@@ -1,0 +1,21 @@
+# ninja log v5
+0	10	1728651607422112038	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	1b9b11022ecc700e
+677	689	1728651608100955550	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	752c901bf23ee5e
+0	10	1728651607422112038	/Users/jakorten/Development/ESEProg/UnitTesting/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	1b9b11022ecc700e
+10	665	1728651608076615145	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	af4cf3900c950029
+739	754	1728651608166381403	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	22d0c08e4b18085e
+10	665	1728651608076615145	/Users/jakorten/Development/ESEProg/UnitTesting/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	af4cf3900c950029
+665	677	1728651608089215696	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	d82dab28fe7c6910
+689	701	1728651608112858485	/Users/jakorten/Development/ESEProg/UnitTesting/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	6e2bc723b49ba9ab
+665	677	1728651608089215696	/Users/jakorten/Development/ESEProg/UnitTesting/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	d82dab28fe7c6910
+689	701	1728651608112858485	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	6e2bc723b49ba9ab
+701	713	1728651608125419162	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	d133a91dc4ee8e8b
+713	727	1728651608138998577	/Users/jakorten/Development/ESEProg/UnitTesting/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	981942b68a414745
+727	739	1728651608150702723	/Users/jakorten/Development/ESEProg/UnitTesting/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	d0ecbe1eccd6f3a8
+727	739	1728651608150702723	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	d0ecbe1eccd6f3a8
+701	713	1728651608125419162	/Users/jakorten/Development/ESEProg/UnitTesting/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	d133a91dc4ee8e8b
+739	754	1728651608166381403	CMakeFiles/googletest-populate-complete	22d0c08e4b18085e
+739	754	1728651608166381403	/Users/jakorten/Development/ESEProg/UnitTesting/cmake-build-debug/_deps/googletest-subbuild/CMakeFiles/googletest-populate-complete	22d0c08e4b18085e
+677	689	1728651608100955550	/Users/jakorten/Development/ESEProg/UnitTesting/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	752c901bf23ee5e
+713	727	1728651608138998577	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	981942b68a414745
+739	754	1728651608166381403	/Users/jakorten/Development/ESEProg/UnitTesting/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	22d0c08e4b18085e
