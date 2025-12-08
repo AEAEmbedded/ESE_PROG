@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "Spo2_module_v3.0.0_simple_dec2024")(type "KiCad")(uri "$(KIPRJMOD)/Spo2_module_v3.0.0_simple_dec2024.pretty")(options "")(descr ""))
+)
