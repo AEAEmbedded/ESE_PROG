@@ -1,12 +1,38 @@
 #ifndef CS_KOMPAKT_DATA_HPP
 #define CS_KOMPAKT_DATA_HPP
 
+/**
+ * =============================================================================
+ * DISCLAIMER
+ * =============================================================================
+ * This code is intentionally left "unprofessional" for educational purposes.
+ *
+ * We only refactored the ARCHITECTURE (extracting FixedPointQ412), not the
+ * code quality. The original code was written by a colleague with limited
+ * software engineering experience, and contains issues such as:
+ *
+ * - Dutch naming conventions (Spanning, geefMeting, geefReferentie, etc.)
+ * - Inconsistent style
+ * - Poor naming choices
+ *
+ * In a real refactoring effort, you would also:
+ * - Rename to English (Spanning -> Voltage, geefMeting -> getMeasurement)
+ * - Apply consistent naming conventions (camelCase or snake_case)
+ * - Add proper documentation
+ * - Review for MISRA/coding standard compliance
+ *
+ * The point of this workshop is to demonstrate that ARCHITECTURAL improvements
+ * (testability, separation of concerns) are separate from CODE QUALITY
+ * improvements. Both matter, but they are different concerns.
+ * =============================================================================
+ */
+
 #include "FixedPointQ412.hpp"
 #include <cstdint>
 
 namespace kompaktdata {
 
-// Type aliases matching original code style
+// Type aliases matching original code style (Dutch naming intentionally preserved)
 using Spanning = float;
 using UInt16 = uint16_t;
 using SampleMoment = uint16_t;
