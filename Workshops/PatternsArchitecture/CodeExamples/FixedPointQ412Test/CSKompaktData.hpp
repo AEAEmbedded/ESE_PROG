@@ -5,25 +5,23 @@
  * =============================================================================
  * DISCLAIMER
  * =============================================================================
- * This code is intentionally left "unprofessional" for educational purposes.
+ * This code intentionally preserves the original naming style for educational
+ * purposes.
  *
  * We only refactored the ARCHITECTURE (extracting FixedPointQ412), not the
- * code quality. The original code was written by a colleague with limited
- * software engineering experience, and contains issues such as:
+ * code style. The original code uses Dutch naming conventions which is common
+ * in legacy embedded systems in the Netherlands:
  *
- * - Dutch naming conventions (Spanning, geefMeting, geefReferentie, etc.)
- * - Inconsistent style
- * - Poor naming choices
+ * - Spanning (voltage), geefMeting (getMeasurement), geefReferentie, etc.
  *
- * In a real refactoring effort, you would also:
- * - Rename to English (Spanning -> Voltage, geefMeting -> getMeasurement)
- * - Apply consistent naming conventions (camelCase or snake_case)
- * - Add proper documentation
- * - Review for MISRA/coding standard compliance
+ * In a full refactoring effort, you might also consider:
+ * - Renaming to English for international teams
+ * - Applying consistent naming conventions
+ * - Reviewing for MISRA/coding standard compliance
  *
  * The point of this workshop is to demonstrate that ARCHITECTURAL improvements
- * (testability, separation of concerns) are separate from CODE QUALITY
- * improvements. Both matter, but they are different concerns.
+ * (testability, separation of concerns) are separate from CODE STYLE choices.
+ * Both matter, but they are different concerns.
  * =============================================================================
  */
 

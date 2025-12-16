@@ -1,0 +1,23 @@
+# Build directories
+build/
+cmake-build-*/
+out/
+
+# FetchContent downloads (if outside build dir)
+_deps/
+
+# Coverage artifacts
+*.gcno
+*.gcda
+*.gcov
+coverage.info
+coverage/
+
+# IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
