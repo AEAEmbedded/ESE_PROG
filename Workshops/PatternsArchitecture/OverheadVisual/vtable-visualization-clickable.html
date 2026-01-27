@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Function Dispatch Visualization</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+const { useState } = React;
+
+const VtableVisualization = () => {
+  const [step, setStep] = useState(0);
+  
+  const steps = [
+    { 
+      label: "The Call", 
+      detail: "When you write uart.send(0x42), the compiler doesn't know at compile time which send() to call — it could be Uart0::send(), Uart1::send(), or MockUart::send(). The decision must happen at runtime using the vtable mechanism."
+    },
+    { 
+      label: "Load vtable pointer", 
+      detail: "The compiler secretly added a hidden pointer (vptr) as the first field of every object with virtual functions. This pointer tells us which class's vtable to use. Loading it is the first memory access: LDR r0, [r1]"
+    },
+    { 
+      label: "Load function pointer", 
+      detail: "The vtable is an array of function pointers, one slot for each virtual function. send() is at slot 1 (offset +0x04). We load the actual function address from this slot. This is the second memory access: LDR r2, [r0, #4]"
+    },
+    { 
+      label: "Branch to function", 
+      detail: "Finally we can call the function! But because the address wasn't known until now, this is an indirect branch (BLX r2 instead of BL label). The CPU pipeline couldn't prefetch the target, causing a brief stall."
+    }
+  ];
+
+  const getHighlight = (element) => {
+    const highlights = {
+      0: [],
+      1: ['vptr', 'arrow1'],
+      2: ['vtable-send', 'arrow2'],
+      3: ['code-body', 'arrow3']
+    };
+    return highlights[step]?.includes(element);
+  };
+
+  const baseStyle = "transition-all duration-300";
+  const highlightBg = "bg-amber-100 border-amber-500";
+  const normalBg = "bg-slate-50 border-slate-300";
+  const dimmed = "opacity-40";
+
+  const getStyle = (element, isBox = true) => {
+    if (step === 0) return isBox ? normalBg : "";
+    return getHighlight(element) 
+      ? (isBox ? highlightBg : "") 
+      : (isBox ? `${normalBg} ${dimmed}` : dimmed);
+  };
+
+  // Clickable code span
+  const Code = ({ targetStep, children, className = "" }) => {
+    const isActive = step === targetStep;
+    return (
+      <span 
+        onClick={() => setStep(targetStep)}
+        className={`cursor-pointer transition-all rounded px-1 ${
+          isActive 
+            ? "bg-amber-400 text-amber-900" 
+            : "hover:bg-slate-600 text-slate-300"
+        } ${className}`}
+      >
+        {children}
+      </span>
+    );
+  };
+
+  // Non-clickable code
+  const Static = ({ children }) => (
+    <span className="text-slate-500">{children}</span>
+  );
+
+  return (
+    <div className="p-6 bg-white min-h-screen">
+      <h1 className="text-2xl font-bold mb-2 text-slate-800">Virtual Function Call: The Three Indirections</h1>
+      <p className="text-slate-600 mb-2">Click on the highlighted code to step through the dispatch mechanism</p>
+      <p className="text-slate-400 text-sm mb-6">→ Click the yellow highlighted lines below to see what happens at each step</p>
+      
+      {/* Main source code - the primary interaction */}
+      <div className="mb-6 border rounded overflow-hidden max-w-3xl">
+        <div className="bg-slate-700 text-slate-300 text-xs px-3 py-2 font-mono flex justify-between items-center">
+          <span>main.cpp — Click each highlighted line to step through</span>
+          <span className="text-amber-400">Step {step}/3: {steps[step].label}</span>
+        </div>
+        <pre className="p-4 bg-slate-800 text-sm font-mono leading-relaxed">
+          <Static>{`void transmit(IUart& uart, uint8_t data) {\n`}</Static>
+          <Static>{`    `}</Static>
+          <Code targetStep={0}>{`uart.send(data);`}</Code>
+          <Static>{`    `}</Static>
+          <span className="text-slate-600">// ← start here: which send() gets called?</span>
+          <Static>{`\n}\n\n`}</Static>
+          <Static>{`int main() {\n`}</Static>
+          <Static>{`    Uart0 uart{115200};   `}</Static>
+          <span className="text-slate-600">// object created with hidden vptr</span>
+          <Static>{`\n    transmit(uart, 0x42);\n}`}</Static>
+        </pre>
+      </div>
+
+      {/* Generated assembly - clickable */}
+      <div className="mb-6 border rounded overflow-hidden max-w-3xl">
+        <div className="bg-slate-700 text-slate-300 text-xs px-3 py-2 font-mono">
+          Generated assembly for uart.send(data) — Click each instruction
+        </div>
+        <pre className="p-4 bg-slate-800 text-sm font-mono leading-relaxed">
+          <Code targetStep={1}>{`LDR   r0, [r1]`}</Code>
+          <Static>{`        `}</Static>
+          <span className="text-slate-600">; 1. load vptr from object</span>
+          <Static>{`\n`}</Static>
+          <Code targetStep={2}>{`LDR   r2, [r0, #4]`}</Code>
+          <Static>{`    `}</Static>
+          <span className="text-slate-600">; 2. load send() ptr from vtable[1]</span>
+          <Static>{`\n`}</Static>
+          <Static>{`MOV   r0, r1          `}</Static>
+          <span className="text-slate-600">; this pointer</span>
+          <Static>{`\n`}</Static>
+          <Static>{`MOV   r1, #0x42       `}</Static>
+          <span className="text-slate-600">; argument</span>
+          <Static>{`\n`}</Static>
+          <Code targetStep={3}>{`BLX   r2`}</Code>
+          <Static>{`              `}</Static>
+          <span className="text-slate-600">; 3. indirect branch to function</span>
+        </pre>
+      </div>
+
+      {/* Explanation panel */}
+      <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded max-w-3xl">
+        <div className="font-semibold text-blue-800 mb-1">Step {step}: {steps[step].label}</div>
+        <div className="text-blue-700 text-sm">{steps[step].detail}</div>
+      </div>
+
+      {/* Memory diagram */}
+      <div className="flex gap-6 items-start mb-8 overflow-x-auto pb-4">
+        
+        {/* Object instance (RAM) */}
+        <div className={`${baseStyle} flex-shrink-0`}>
+          <div className="text-xs font-semibold text-slate-500 mb-1">RAM (Object)</div>
+          <div className="border-2 border-slate-400 rounded overflow-hidden w-52">
+            <div className="bg-slate-600 text-white text-xs px-2 py-1 font-mono">
+              uart @ 0x2000'0100
+            </div>
+            <div 
+              onClick={() => setStep(1)}
+              className={`border-b-2 px-2 py-2 cursor-pointer ${baseStyle} ${getStyle('vptr')}`}
+            >
+              <div className="text-xs text-slate-500">+0x00: vptr <span className="text-red-500">(hidden)</span></div>
+              <div className="font-mono text-sm font-bold">0x0800'1000 →</div>
+            </div>
+            <div className={`border-b-2 px-2 py-2 ${baseStyle} ${getStyle('field1')}`}>
+              <div className="text-xs text-slate-500">+0x04: baud_rate_</div>
+              <div className="font-mono text-sm">115200</div>
+            </div>
+            <div className={`px-2 py-2 ${baseStyle} ${getStyle('field2')}`}>
+              <div className="text-xs text-slate-500">+0x08: tx_buffer_</div>
+              <div className="font-mono text-sm">0x2000'0200</div>
+            </div>
+          </div>
+          <div className="text-xs text-slate-400 mt-1">sizeof = 12 bytes</div>
+        </div>
+
+        {/* Arrow 1 */}
+        <div className={`flex flex-col justify-center flex-shrink-0 ${baseStyle} ${getStyle('arrow1', false)}`}>
+          <div className="text-2xl">→</div>
+          <div className="text-xs text-slate-500 font-mono">LDR</div>
+        </div>
+
+        {/* Vtable (FLASH) */}
+        <div className={`${baseStyle} flex-shrink-0`}>
+          <div className="text-xs font-semibold text-slate-500 mb-1">FLASH (vtable)</div>
+          <div className="border-2 border-slate-400 rounded overflow-hidden w-56">
+            <div className={`bg-slate-600 text-white text-xs px-2 py-1 font-mono`}>
+              Uart0::vtable @ 0x0800'1000
+            </div>
+            <div className={`border-b-2 px-2 py-2 ${baseStyle} ${getStyle('vtable-dtor')}`}>
+              <div className="text-xs text-slate-500">[0] ~IUart()</div>
+              <div className="font-mono text-sm">0x0800'2000</div>
+            </div>
+            <div 
+              onClick={() => setStep(2)}
+              className={`border-b-2 px-2 py-2 cursor-pointer ${baseStyle} ${getStyle('vtable-send')}`}
+            >
+              <div className="text-xs text-slate-500">[1] send()</div>
+              <div className="font-mono text-sm font-bold">0x0800'2048 →</div>
+            </div>
+            <div className={`px-2 py-2 ${baseStyle} ${getStyle('vtable-recv')}`}>
+              <div className="text-xs text-slate-500">[2] receive()</div>
+              <div className="font-mono text-sm">0x0800'2100</div>
+            </div>
+          </div>
+          <div className="text-xs text-slate-400 mt-1">One per class (shared)</div>
+        </div>
+
+        {/* Arrow 2 */}
+        <div className={`flex flex-col justify-center flex-shrink-0 ${baseStyle} ${getStyle('arrow2', false)}`}>
+          <div className="text-2xl">→</div>
+          <div className="text-xs text-slate-500 font-mono">LDR</div>
+        </div>
+
+        {/* Function code (FLASH) */}
+        <div className={`${baseStyle} flex-shrink-0`}>
+          <div className="text-xs font-semibold text-slate-500 mb-1">FLASH (code)</div>
+          <div className="border-2 border-slate-400 rounded overflow-hidden w-48">
+            <div className={`bg-slate-600 text-white text-xs px-2 py-1 font-mono`}>
+              Uart0::send @ 0x0800'2048
+            </div>
+            <div 
+              onClick={() => setStep(3)}
+              className={`px-2 py-2 font-mono text-xs cursor-pointer ${baseStyle} ${getStyle('code-body')}`}
+            >
+              <div className="text-slate-600">PUSH {'{'}r4, lr{'}'}</div>
+              <div className="text-slate-600">LDR r4, [r0, #4]</div>
+              <div className="text-slate-600">; wait TX ready</div>
+              <div className="text-slate-600">STRB r1, [r4, #0]</div>
+              <div className="text-slate-600">POP {'{'}r4, pc{'}'}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Quick navigation */}
+      <div className="flex gap-2 mb-8">
+        {steps.map((s, i) => (
+          <button
+            key={i}
+            onClick={() => setStep(i)}
+            className={`px-3 py-1 rounded text-xs font-medium transition-all ${
+              step === i 
+                ? 'bg-blue-600 text-white' 
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+          >
+            {i}: {s.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Comparison */}
+      <h2 className="text-lg font-semibold text-slate-800 mb-3">The Cost: Virtual vs Direct</h2>
+      <div className="grid grid-cols-2 gap-6 mb-8 max-w-3xl">
+        <div className="border rounded overflow-hidden border-amber-300">
+          <div className="bg-amber-100 px-4 py-2">
+            <h3 className="font-semibold text-amber-800">Virtual: IUart&</h3>
+          </div>
+          <pre className="p-3 text-xs font-mono text-slate-700 bg-slate-50">{`LDR   r0, [r1]      ; +1-2 cycles
+LDR   r2, [r0, #4]  ; +1-2 cycles
+BLX   r2            ; +2-3 cycles (indirect)`}</pre>
+          <div className="px-3 py-2 bg-amber-50 text-sm text-amber-800">
+            Overhead: <strong>~5 cycles</strong> (more with flash wait states)
+          </div>
+        </div>
+        
+        <div className="border rounded overflow-hidden border-emerald-300">
+          <div className="bg-emerald-100 px-4 py-2">
+            <h3 className="font-semibold text-emerald-800">Direct: Uart0&</h3>
+          </div>
+          <pre className="p-3 text-xs font-mono text-slate-700 bg-slate-50">{`BL    Uart0_send    ; direct branch
+
+
+`}</pre>
+          <div className="px-3 py-2 bg-emerald-50 text-sm text-emerald-800">
+            Overhead: <strong>none</strong> (address known at link time)
+          </div>
+        </div>
+      </div>
+
+      {/* Key points */}
+      <div className="p-4 bg-slate-100 rounded max-w-3xl">
+        <h3 className="font-semibold text-slate-700 mb-2">Key Takeaways</h3>
+        <ul className="text-sm text-slate-600 space-y-1">
+          <li>• <strong>vptr</strong> — hidden pointer, +4 bytes per object, points to the class's vtable</li>
+          <li>• <strong>vtable</strong> — array of function pointers in FLASH, one per class (not per object)</li>
+          <li>• <strong>2 memory reads</strong> before you can call the function</li>
+          <li>• <strong>Indirect branch</strong> — CPU can't prefetch, causes pipeline stall</li>
+          <li>• Use templates for zero-overhead polymorphism in performance-critical code</li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<VtableVisualization />);
+    </script>
+</body>
+</html>
