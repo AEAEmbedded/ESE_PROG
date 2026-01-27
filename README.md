@@ -42,6 +42,10 @@ Labs:
 
 This repository is for educational purposes. The code may be incomplete or contain errors. Use at your own risk.
 
+## Related Repositories
+
+* **[PiTest](https://github.com/jakorten/PiTest)** - Test connection between Raspberry Pi 4 and SensorHub (SAMD21) via I2C. Contains Python code for the Pi and C++ Arduino sketches for the SAMD21.
+
 ## Inspiration
 
 Inspiration:
