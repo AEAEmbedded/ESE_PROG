@@ -1,6 +1,6 @@
-# Rubric Prog 6 v1.5 – 2026-2027
+# Rubric Prog 6 v1.5 - 2026-2027
 
-**HAN University of Applied Sciences – Embedded Systems Engineering – Programming 6**
+**HAN University of Applied Sciences - Embedded Systems Engineering - Programming 6**
 
 | Competency | Advanced | Proficient | Emerging | Novice |
 |---------------------|-----------------------------------|-----------------------------------|-----------------------------------|-----------------------------------|

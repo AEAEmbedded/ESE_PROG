@@ -1,6 +1,6 @@
-# Rubric Prog 5/6 v1.4 – 2026-2027 – Hackathon
+# Rubric Prog 5/6 v1.4 - 2026-2027 - Hackathon
 
-**HAN University of Applied Sciences – Embedded Systems Engineering – Programming 5/6**
+**HAN University of Applied Sciences - Embedded Systems Engineering - Programming 5/6**
 
 | Competency | Advanced | Proficient | Emerging | Novice |
 |---------------------|-----------------------------------|-----------------------------------|-----------------------------------|-----------------------------------|

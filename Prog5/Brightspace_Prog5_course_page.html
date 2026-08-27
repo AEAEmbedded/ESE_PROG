@@ -1,0 +1,66 @@
+<h1>Welcome to Prog 5</h1>
+
+<p>Prog 5 and Prog 6 are the final lap of the programming courses in your ESE journey. Together they work towards one overall goal: <strong>becoming a professional embedded software and systems developer</strong>.</p>
+
+<p>Prog 5 (period 1) is about object-oriented C++ on microcontrollers (Arduino / SAMD21) and on the Raspberry Pi: writing sensor libraries, designing them with UML, connecting them to the outside world (I2C, MQTT) and testing them. Prog 6 (period 2, November-January) builds on that with software-engineering practice - build systems, unit testing, clean code and design patterns - and applies it in the Hackathon and the Challenge project.</p>
+
+<h2>Why everything is done with Git</h2>
+
+<p>All work in Prog 5 and 6 is done with <strong>Git</strong>, because it is the only way to reach our learning goals. Git:</p>
+<ul>
+  <li>lets several developers work on the same project at the same time;</li>
+  <li>keeps a complete history of every change to the code;</li>
+  <li>makes it easy to revert a change or recover an earlier version;</li>
+  <li>helps you resolve conflicts between contributions efficiently.</li>
+</ul>
+<p>More importantly, it takes you out of an artificial learning environment and into the professional field: the companies where you will do your internship and, later, land a job use exactly these tools. Being fluent in them is part of being a professional - watch <a href="https://youtu.be/fcjBfSiyI0k">Coder vs Developer vs Software Engineer: what's the difference?</a></p>
+
+<h2>Course repository</h2>
+
+<p>All lecture content (slides, labs, assignments, example code) is in the GitHub repository:<br>
+<a href="https://github.com/AEAEmbedded/ESE_PROG">https://github.com/AEAEmbedded/ESE_PROG</a></p>
+
+<h2>Learning outcomes Prog 5</h2>
+
+<p>After period 1 you can (competency from the HAN engineering rubric in brackets):</p>
+<ol>
+  <li><strong>Analyse</strong> a realistic problem into user stories and SMART requirements, categorised with FURPS+ and prioritised with MoSCoW. <em>(Analyze)</em></li>
+  <li><strong>Design</strong> software with UML: a use-case diagram with descriptions, a class diagram and a sequence diagram - and a state diagram where behaviour asks for it. <em>(Design)</em></li>
+  <li><strong>Implement</strong> object-oriented C++ on embedded targets: classes and encapsulation, constructors/destructors and object lifecycle, inheritance, abstract classes and interfaces, polymorphism, smart pointers, lambdas and callbacks, basic concurrency. <em>(Realize)</em></li>
+  <li><strong>Build reusable sensor libraries</strong>: an Arduino library for an (I2C) sensor, a C++ library for an I2C sensor on the Raspberry Pi, and connect it to an MQTT broker. <em>(Realize)</em></li>
+  <li><strong>Apply DRY, KISS, SOLID and loose coupling / strong cohesion</strong>, recognise where your own code violates them, refactor it and explain what improved. <em>(Realize)</em></li>
+  <li><strong>Test</strong> a library with basic unit tests in C++. <em>(Control)</em></li>
+  <li><strong>Use Git professionally</strong> for all your work: meaningful commits, branches, pull requests and a readable history, in a repository you share with your lecturer or via GitHub Classroom. <em>(Manage)</em></li>
+</ol>
+<p>In Prog 6 every outcome is raised to a professional level (CMake, CppUTest with mocking, clean code &amp; MISRA C++, design patterns) and assessed in the Hackathon and the Challenge with the Prog 6 rubrics.</p>
+
+<h2>Week planner Prog 5 (period 1, 2026-2027)</h2>
+
+<p>The course starts on <strong>Thursday 3 September 2026</strong> and runs for seven weeks. Every week combines one design principle, a C++ topic and a UML topic. Each assignment is introduced in the lecture of that week and is due <strong>one week later, on the Thursday of the following week</strong>.</p>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr><th>Week</th><th>Lecture (Thu)</th><th>Design principle</th><th>C++</th><th>UML</th><th>Assignment</th><th>Deadline</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>3 Sep 2026</td><td>Single Responsibility</td><td>Scope, namespaces, string</td><td>Use cases / class diagram</td><td><strong>1.</strong> Make a basic stepper motor library and submit it via GitHub Classroom.</td><td>Thu 10 Sep 2026</td></tr>
+    <tr><td>2</td><td>10 Sep 2026</td><td>Open-Closed Principle</td><td>Constructors, iterators, lambdas</td><td>Inheritance / generalization</td><td><strong>2.</strong> Create a UML use-case diagram with description for a sensor application (e.g. KNMI / weather station).</td><td>Thu 17 Sep 2026</td></tr>
+    <tr><td>3</td><td>17 Sep 2026</td><td>Liskov Substitution Principle</td><td>Lists, inline functions, default params</td><td>Activity diagrams</td><td><strong>3.</strong> Create an Arduino library in C++ for a sensor (bring your own, or use the BMP280).</td><td>Thu 24 Sep 2026</td></tr>
+    <tr><td>4</td><td>24 Sep 2026</td><td>Interface Segregation Principle</td><td>Interfaces and abstract classes</td><td>Dependencies</td><td><strong>4.</strong> Create a C++ library for an I2C sensor or function on a Raspberry Pi.</td><td>Thu 1 Oct 2026</td></tr>
+    <tr><td>5</td><td>1 Oct 2026</td><td>Dependency Inversion Principle</td><td>Threads, callbacks</td><td>Sequence diagrams</td><td><strong>5.</strong> Extend the Pi sensor library to connect and publish to an MQTT broker, in C++.</td><td>Thu 8 Oct 2026</td></tr>
+    <tr><td>6</td><td>8 Oct 2026</td><td>Coupling and cohesion</td><td>Polymorphism</td><td>Composition, packages</td><td><strong>6.</strong> Create a UML class diagram and a sequence diagram for your sensor library.</td><td>Thu 15 Oct 2026</td></tr>
+    <tr><td>7</td><td>15 Oct 2026</td><td>Embedded SOLID</td><td>Lifecycle: constructors, destructors, const</td><td> - </td><td><strong>7.</strong> Write unit tests for your Pi sensor library in C++ (basic - no mocking yet).<br><strong>8.</strong> Review your sensor library against DRY, KISS, SOLID and loose coupling / strong cohesion; refactor it and report which principles you improved on.</td><td>Thu 22 Oct 2026</td></tr>
+  </tbody>
+</table>
+
+<p><strong>Resit:</strong> assignments that were not handed in on time, or that did not pass, can be (re)submitted until <strong>Thursday 29 October 2026</strong>.</p>
+
+<p>Assignments 3-8 all build on the same sensor library: keep it in one repository and let its history show how it grows - from a first Arduino version to a tested, refactored Pi library that publishes over MQTT.</p>
+
+<h2>Handing in your work</h2>
+
+<p>Put your assignments in a (private) Git repository and add your lecturer as a collaborator (GitHub username <strong>jakorten</strong>), or use our GitHub Classroom environment. Commit as you go - a repository with a real history of small, meaningful commits is part of what is assessed. Send me your student number and GitHub username in the first week so I can link them.</p>
+
+<h2>Prog 6</h2>
+
+<p>Prog 6 group forms: <a href="#">[link to the group form]</a></p>
