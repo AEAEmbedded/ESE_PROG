@@ -1,0 +1,44 @@
+# Build directories (all stages)
+stage*/build/
+stage*/build-*/
+build/
+build-*/
+
+# Compiled executables
+sensor_app
+*.exe
+
+# Object files and libraries
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+
+# CMake cache and generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+compile_commands.json
+
+# FetchContent downloads (Stage 4+)
+stage*/_deps/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+
+# Installation test directories
+test_install/
+my_install/

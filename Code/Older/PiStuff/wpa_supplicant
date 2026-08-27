@@ -1,0 +1,42 @@
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=NL
+
+network={
+        ssid="routerSSID"
+        psk=some_key
+        key_mgmt=WPA-PSK
+        id_str="home"
+}
+
+network={
+        ssid="eduroam"
+        scan_ssid=1
+        password=hash:12344efd
+        proto=RSN
+        key_mgmt=WPA-EAP
+        eap=TTLS PEAP
+        identity="youraddress@han.nl"
+        anonymous_identity="youraddress@han.nl"
+        phase2="auth=MSCHAPV2"
+        id_str="work"
+        group=CCMP TKIP
+}
+
+# Make a hash like this:
+#  echo -n '<your_password>' | iconv -t utf-16le | openssl md4
+#
+# Connect_wifi.sh
+# /usr/local/bin/connect_wifi.sh:
+# #!/usr/bin/env bash
+
+# echo "Killing old processes and connecting to wifi"
+# sudo killall wpa_supplicant
+# sleep 5
+# sudo wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant.conf -iwlan0
+
+# •     Zet de permissions van het script: sudo chmod 755 /usr/local/bin/connec>
+# •     Test of je instellingen goed zijn met:
+# sudo connect_wifi.sh
+# •     Voeg aan de crontab (met sudo crontab -e) de volgende regel toe:
+# @reboot sleep 20; /usr/local/bin/connect_wifi.sh

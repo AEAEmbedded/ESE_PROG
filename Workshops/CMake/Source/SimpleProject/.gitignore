@@ -1,0 +1,12 @@
+# Compiled executable
+sensor_app
+*.exe
+
+# IDE files
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store

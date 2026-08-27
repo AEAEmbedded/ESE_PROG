@@ -1,0 +1,7 @@
+void calibrate() {
+    writeRegister(0x2D, 0x00);
+    delay(10);
+    writeRegister(0x2D, 0x08);
+    writeRegister(0x31, 0x0B);
+    writeRegister(0x2C, 0x09);
+}

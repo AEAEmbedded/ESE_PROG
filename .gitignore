@@ -1,0 +1,53 @@
+# Build directories
+build/
+Build/
+cmake-build-*/
+out/
+
+# FetchContent downloads (if outside build dir)
+_deps/
+
+# Compiled objects, libraries and binaries
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.elf
+*.hex
+*.bin
+*.dSYM/
+
+# Coverage artifacts
+*.gcno
+*.gcda
+*.gcov
+coverage.info
+coverage/
+
+# Python
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# EDA lock files (KiCad / Eagle)
+*.lck
+.*.lck
+*-backups/
+*.kicad_pcb-bak
+*.sch-bak
+
+# OS
+.DS_Store
+Thumbs.db
+*.textClipping
+
+# macOS "copy" duplicates (e.g. "file 2.o")
+* 2
+* 2.*
