@@ -37,31 +37,31 @@ tools. Being fluent in them is part of being a professional - see
 ### Handing in your work
 
 Put your assignments in a (private) Git repository and add your lecturer as a collaborator
-(GitHub username **jakorten**), or use our GitHub Classroom environment. Commit as you go - a
+(GitHub username **jakorten**). Commit as you go - a
 repository with a real history of small, meaningful commits is part of what is assessed.
 
 ## Prog 5 schedule and deadlines (period 1, 2026-2027)
 
 The course starts on **Thursday 3 September 2026** and runs for seven weeks. Every week combines
 one design principle, a C++ topic and a UML topic (the same seven-step plan is on the schedule
-slide of every lecture deck):
+slide of every lecture deck). In the first two weeks there is a workshop on Friday:
 
-| Week | Lecture (Thu) | Design principle | C++ | UML | Slides |
-| :-: | --- | --- | --- | --- | --- |
-| 1 | 3 Sep 2026 | Single Responsibility | Scope, namespaces, string | Use cases / class diagram | [0. Course introduction](Prog5/Keynotes/), [1. Introduction](Prog5/Keynotes/) |
-| 2 | 10 Sep 2026 | Open-Closed Principle | Constructors, iterators, lambdas | Inheritance / generalization | [2. Constructors and more](Prog5/Keynotes/) |
-| 3 | 17 Sep 2026 | Liskov Substitution Principle | Lists, inline functions, default params | Activity diagrams | [3. Lists, inline functions and default params](Prog5/Keynotes/) |
-| 4 | 24 Sep 2026 | Interface Segregation Principle | Interfaces and abstract classes | Dependencies | [4. Interfaces and abstract classes](Prog5/Keynotes/) |
-| 5 | 1 Oct 2026 | Dependency Inversion Principle | Threads, callbacks | Sequence diagrams | [5. Threading and callbacks](Prog5/Keynotes/) |
-| 6 | 8 Oct 2026 | Coupling and cohesion | Polymorphism | Composition, packages | [6. Polymorphism](Prog5/Keynotes/) |
-| 7 | 15 Oct 2026 | Embedded SOLID | Lifecycle: constructors, destructors, const | - | [7. Lifecycle](Prog5/Keynotes/) |
+| Week | Lecture (Thu) | Design principle | C++ | UML | Slides | Workshop (Fri) |
+| :-: | --- | --- | --- | --- | --- | --- |
+| 1 | 3 Sep 2026 | Single Responsibility | Scope, namespaces, string | Use cases / class diagram | [0. Course introduction](Prog5/Keynotes/), [1. Introduction](Prog5/Keynotes/) | Fri 4 Sep: [Git workshop 1](Prog5/Workshops/Git/Workshop1_Basics.md) - the basics (clone, add, commit, push, .gitignore, handing in) |
+| 2 | 10 Sep 2026 | Open-Closed Principle | Constructors, iterators, lambdas | Inheritance / generalization | [2. Constructors and more](Prog5/Keynotes/) | Fri 11 Sep: Requirements (SMART, FURPS+, MoSCoW, use cases) |
+| 3 | 17 Sep 2026 | Liskov Substitution Principle | Lists, inline functions, default params | Activity diagrams | [3. Lists, inline functions and default params](Prog5/Keynotes/) | - |
+| 4 | 24 Sep 2026 | Interface Segregation Principle | Interfaces and abstract classes | Dependencies | [4. Interfaces and abstract classes](Prog5/Keynotes/) | - |
+| 5 | 1 Oct 2026 | Dependency Inversion Principle | Threads, callbacks | Sequence diagrams | [5. Threading and callbacks](Prog5/Keynotes/) | - |
+| 6 | 8 Oct 2026 | Coupling and cohesion | Polymorphism | Composition, packages | [6. Polymorphism](Prog5/Keynotes/) | - |
+| 7 | 15 Oct 2026 | Embedded SOLID | Lifecycle: constructors, destructors, const | - | [7. Lifecycle](Prog5/Keynotes/) | - |
 
 Each assignment is introduced in the lecture of the week listed below and is due **one week
 later, on the Thursday of the following week**.
 
 | Week | Lecture | Assignment | Deadline |
 | :-: | --- | --- | --- |
-| 1 | Thu 3 Sep 2026 | **1.** Make a basic stepper motor library and submit it via GitHub Classroom. | Thu 10 Sep 2026 |
+| 1 | Thu 3 Sep 2026 | **1.** Make a basic stepper motor library and hand it in via your Git repository. | Thu 10 Sep 2026 |
 | 2 | Thu 10 Sep 2026 | **2.** Create a UML use-case diagram with description for a sensor application (e.g. KNMI / weather station). | Thu 17 Sep 2026 |
 | 3 | Thu 17 Sep 2026 | **3.** Create an Arduino library in C++ for a sensor (bring your own, or use the BMP280). | Thu 24 Sep 2026 |
 | 4 | Thu 24 Sep 2026 | **4.** Create a C++ library for an I2C sensor or function on a Raspberry Pi. | Thu 1 Oct 2026 |
@@ -93,7 +93,7 @@ Challenge.
 | P5.4 | **Build reusable sensor libraries**: an Arduino library for an (I2C) sensor, a C++ library for an I2C sensor on the Raspberry Pi, and connect it to an MQTT broker. | Realize |
 | P5.5 | **Apply DRY, KISS, SOLID and loose coupling / strong cohesion**, recognise where your own code violates them, refactor it and explain what improved. | Realize |
 | P5.6 | **Test** a library with basic unit tests in C++. | Control |
-| P5.7 | **Use Git professionally** for all your work: meaningful commits, branches, pull requests and a readable history, in a repository you share with your lecturer / GitHub Classroom. | Manage |
+| P5.7 | **Use Git professionally** for all your work: meaningful commits, branches, pull requests and a readable history, in a repository you share with your lecturer. | Manage |
 
 ### Prog 6 - after period 2 you can
 
@@ -114,24 +114,24 @@ Assessment: Prog 5 by the weekly assignments (see schedule below); Prog 6 with t
 
 The course starts on **Thursday 3 September 2026** and runs for seven weeks. Every week combines
 one design principle, a C++ topic and a UML topic (the same seven-step plan is on the schedule
-slide of every lecture deck):
+slide of every lecture deck). In the first two weeks there is a workshop on Friday:
 
-| Week | Lecture (Thu) | Design principle | C++ | UML | Slides |
-| :-: | --- | --- | --- | --- | --- |
-| 1 | 3 Sep 2026 | Single Responsibility | Scope, namespaces, string | Use cases / class diagram | [0. Course introduction](Prog5/Keynotes/), [1. Introduction](Prog5/Keynotes/) |
-| 2 | 10 Sep 2026 | Open-Closed Principle | Constructors, iterators, lambdas | Inheritance / generalization | [2. Constructors and more](Prog5/Keynotes/) |
-| 3 | 17 Sep 2026 | Liskov Substitution Principle | Lists, inline functions, default params | Activity diagrams | [3. Lists, inline functions and default params](Prog5/Keynotes/) |
-| 4 | 24 Sep 2026 | Interface Segregation Principle | Interfaces and abstract classes | Dependencies | [4. Interfaces and abstract classes](Prog5/Keynotes/) |
-| 5 | 1 Oct 2026 | Dependency Inversion Principle | Threads, callbacks | Sequence diagrams | [5. Threading and callbacks](Prog5/Keynotes/) |
-| 6 | 8 Oct 2026 | Coupling and cohesion | Polymorphism | Composition, packages | [6. Polymorphism](Prog5/Keynotes/) |
-| 7 | 15 Oct 2026 | Embedded SOLID | Lifecycle: constructors, destructors, const | - | [7. Lifecycle](Prog5/Keynotes/) |
+| Week | Lecture (Thu) | Design principle | C++ | UML | Slides | Workshop (Fri) |
+| :-: | --- | --- | --- | --- | --- | --- |
+| 1 | 3 Sep 2026 | Single Responsibility | Scope, namespaces, string | Use cases / class diagram | [0. Course introduction](Prog5/Keynotes/), [1. Introduction](Prog5/Keynotes/) | Fri 4 Sep: [Git workshop 1](Prog5/Workshops/Git/Workshop1_Basics.md) - the basics (clone, add, commit, push, .gitignore, handing in) |
+| 2 | 10 Sep 2026 | Open-Closed Principle | Constructors, iterators, lambdas | Inheritance / generalization | [2. Constructors and more](Prog5/Keynotes/) | Fri 11 Sep: Requirements (SMART, FURPS+, MoSCoW, use cases) |
+| 3 | 17 Sep 2026 | Liskov Substitution Principle | Lists, inline functions, default params | Activity diagrams | [3. Lists, inline functions and default params](Prog5/Keynotes/) | - |
+| 4 | 24 Sep 2026 | Interface Segregation Principle | Interfaces and abstract classes | Dependencies | [4. Interfaces and abstract classes](Prog5/Keynotes/) | - |
+| 5 | 1 Oct 2026 | Dependency Inversion Principle | Threads, callbacks | Sequence diagrams | [5. Threading and callbacks](Prog5/Keynotes/) | - |
+| 6 | 8 Oct 2026 | Coupling and cohesion | Polymorphism | Composition, packages | [6. Polymorphism](Prog5/Keynotes/) | - |
+| 7 | 15 Oct 2026 | Embedded SOLID | Lifecycle: constructors, destructors, const | - | [7. Lifecycle](Prog5/Keynotes/) | - |
 
 Each assignment is introduced in the lecture of the week listed below and is due **one week
 later, on the Thursday of the following week**.
 
 | Week | Lecture | Assignment | Deadline |
 | :-: | --- | --- | --- |
-| 1 | Thu 3 Sep 2026 | **1.** Make a basic stepper motor library and submit it via GitHub Classroom. | Thu 10 Sep 2026 |
+| 1 | Thu 3 Sep 2026 | **1.** Make a basic stepper motor library and hand it in via your Git repository. | Thu 10 Sep 2026 |
 | 2 | Thu 10 Sep 2026 | **2.** Create a UML use-case diagram with description for a sensor application (e.g. KNMI / weather station). | Thu 17 Sep 2026 |
 | 3 | Thu 17 Sep 2026 | **3.** Create an Arduino library in C++ for a sensor (bring your own, or use the BMP280). | Thu 24 Sep 2026 |
 | 4 | Thu 24 Sep 2026 | **4.** Create a C++ library for an I2C sensor or function on a Raspberry Pi. | Thu 1 Oct 2026 |
@@ -155,6 +155,7 @@ publishes over MQTT.
 | [`Prog5/Assignments/`](Prog5/Assignments/) | Assignment descriptions (e.g. week 2: UML use-case diagram for the syringe system). |
 | [`Prog5/Code/week1/`](Prog5/Code/week1/) | Week 1 example code: stepper motor examples, `SimpleStepper` library, TB6600 test. |
 | [`Prog5/Code/Examples/`](Prog5/Code/Examples/) | Demo code used in the lectures and labs (abstract interfaces, object lifecycle, ToF sensor library, SOLID terminal, I2C scanner). |
+| [`Prog5/Workshops/Git/`](Prog5/Workshops/Git/) | Git workshops 1 (the basics) and 2 (working together), with an interactive version. |
 | [`Prog5/Demos/`](Prog5/Demos/) | Hand-outs: Git manual, CMake basics, interfaces demo. |
 | [`Prog6/Workshops/`](Prog6/Workshops/) | Workshops: CMake, Unit Testing (CppUTest), Commenting, Clean Code / MISRA C++, Design Patterns & Architecture. |
 | [`Prog6/Hackathon/`](Prog6/Hackathon/) | Hackathon material: the VitalSignsBox modules (ECG lead detection, SpO2 detection, temperature sensors) with firmware, API descriptions and hardware files. |

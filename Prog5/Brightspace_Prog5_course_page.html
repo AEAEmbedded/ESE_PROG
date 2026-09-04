@@ -30,26 +30,26 @@
   <li><strong>Build reusable sensor libraries</strong>: an Arduino library for an (I2C) sensor, a C++ library for an I2C sensor on the Raspberry Pi, and connect it to an MQTT broker. <em>(Realize)</em></li>
   <li><strong>Apply DRY, KISS, SOLID and loose coupling / strong cohesion</strong>, recognise where your own code violates them, refactor it and explain what improved. <em>(Realize)</em></li>
   <li><strong>Test</strong> a library with basic unit tests in C++. <em>(Control)</em></li>
-  <li><strong>Use Git professionally</strong> for all your work: meaningful commits, branches, pull requests and a readable history, in a repository you share with your lecturer or via GitHub Classroom. <em>(Manage)</em></li>
+  <li><strong>Use Git professionally</strong> for all your work: meaningful commits, branches, pull requests and a readable history, in a repository you share with your lecturer. <em>(Manage)</em></li>
 </ol>
 <p>In Prog 6 every outcome is raised to a professional level (CMake, CppUTest with mocking, clean code &amp; MISRA C++, design patterns) and assessed in the Hackathon and the Challenge with the Prog 6 rubrics.</p>
 
 <h2>Week planner Prog 5 (period 1, 2026-2027)</h2>
 
-<p>The course starts on <strong>Thursday 3 September 2026</strong> and runs for seven weeks. Every week combines one design principle, a C++ topic and a UML topic. Each assignment is introduced in the lecture of that week and is due <strong>one week later, on the Thursday of the following week</strong>.</p>
+<p>The course starts on <strong>Thursday 3 September 2026</strong> and runs for seven weeks. Every week combines one design principle, a C++ topic and a UML topic; in the first two weeks there is a workshop on Friday (Git, Requirements). Each assignment is introduced in the lecture of that week and is due <strong>one week later, on the Thursday of the following week</strong>.</p>
 
 <table border="1" cellpadding="6" cellspacing="0">
   <thead>
-    <tr><th>Week</th><th>Lecture (Thu)</th><th>Design principle</th><th>C++</th><th>UML</th><th>Assignment</th><th>Deadline</th></tr>
+    <tr><th>Week</th><th>Lecture (Thu)</th><th>Design principle</th><th>C++</th><th>UML</th><th>Workshop (Fri)</th><th>Assignment</th><th>Deadline</th></tr>
   </thead>
   <tbody>
-    <tr><td>1</td><td>3 Sep 2026</td><td>Single Responsibility</td><td>Scope, namespaces, string</td><td>Use cases / class diagram</td><td><strong>1.</strong> Make a basic stepper motor library and submit it via GitHub Classroom.</td><td>Thu 10 Sep 2026</td></tr>
-    <tr><td>2</td><td>10 Sep 2026</td><td>Open-Closed Principle</td><td>Constructors, iterators, lambdas</td><td>Inheritance / generalization</td><td><strong>2.</strong> Create a UML use-case diagram with description for a sensor application (e.g. KNMI / weather station).</td><td>Thu 17 Sep 2026</td></tr>
-    <tr><td>3</td><td>17 Sep 2026</td><td>Liskov Substitution Principle</td><td>Lists, inline functions, default params</td><td>Activity diagrams</td><td><strong>3.</strong> Create an Arduino library in C++ for a sensor (bring your own, or use the BMP280).</td><td>Thu 24 Sep 2026</td></tr>
-    <tr><td>4</td><td>24 Sep 2026</td><td>Interface Segregation Principle</td><td>Interfaces and abstract classes</td><td>Dependencies</td><td><strong>4.</strong> Create a C++ library for an I2C sensor or function on a Raspberry Pi.</td><td>Thu 1 Oct 2026</td></tr>
-    <tr><td>5</td><td>1 Oct 2026</td><td>Dependency Inversion Principle</td><td>Threads, callbacks</td><td>Sequence diagrams</td><td><strong>5.</strong> Extend the Pi sensor library to connect and publish to an MQTT broker, in C++.</td><td>Thu 8 Oct 2026</td></tr>
-    <tr><td>6</td><td>8 Oct 2026</td><td>Coupling and cohesion</td><td>Polymorphism</td><td>Composition, packages</td><td><strong>6.</strong> Create a UML class diagram and a sequence diagram for your sensor library.</td><td>Thu 15 Oct 2026</td></tr>
-    <tr><td>7</td><td>15 Oct 2026</td><td>Embedded SOLID</td><td>Lifecycle: constructors, destructors, const</td><td> - </td><td><strong>7.</strong> Write unit tests for your Pi sensor library in C++ (basic - no mocking yet).<br><strong>8.</strong> Review your sensor library against DRY, KISS, SOLID and loose coupling / strong cohesion; refactor it and report which principles you improved on.</td><td>Thu 22 Oct 2026</td></tr>
+    <tr><td>1</td><td>3 Sep 2026</td><td>Single Responsibility</td><td>Scope, namespaces, string</td><td>Use cases / class diagram</td><td>Fri 4 Sep: Git workshop 1 - the basics (clone, add, commit, push, .gitignore, handing in)</td><td><strong>1.</strong> Make a basic stepper motor library and hand it in via your Git repository.</td><td>Thu 10 Sep 2026</td></tr>
+    <tr><td>2</td><td>10 Sep 2026</td><td>Open-Closed Principle</td><td>Constructors, iterators, lambdas</td><td>Inheritance / generalization</td><td>Fri 11 Sep: Requirements (SMART, FURPS+, MoSCoW, use cases)</td><td><strong>2.</strong> Create a UML use-case diagram with description for a sensor application (e.g. KNMI / weather station).</td><td>Thu 17 Sep 2026</td></tr>
+    <tr><td>3</td><td>17 Sep 2026</td><td>Liskov Substitution Principle</td><td>Lists, inline functions, default params</td><td>Activity diagrams</td><td>-</td><td><strong>3.</strong> Create an Arduino library in C++ for a sensor (bring your own, or use the BMP280).</td><td>Thu 24 Sep 2026</td></tr>
+    <tr><td>4</td><td>24 Sep 2026</td><td>Interface Segregation Principle</td><td>Interfaces and abstract classes</td><td>Dependencies</td><td>-</td><td><strong>4.</strong> Create a C++ library for an I2C sensor or function on a Raspberry Pi.</td><td>Thu 1 Oct 2026</td></tr>
+    <tr><td>5</td><td>1 Oct 2026</td><td>Dependency Inversion Principle</td><td>Threads, callbacks</td><td>Sequence diagrams</td><td>-</td><td><strong>5.</strong> Extend the Pi sensor library to connect and publish to an MQTT broker, in C++.</td><td>Thu 8 Oct 2026</td></tr>
+    <tr><td>6</td><td>8 Oct 2026</td><td>Coupling and cohesion</td><td>Polymorphism</td><td>Composition, packages</td><td>-</td><td><strong>6.</strong> Create a UML class diagram and a sequence diagram for your sensor library.</td><td>Thu 15 Oct 2026</td></tr>
+    <tr><td>7</td><td>15 Oct 2026</td><td>Embedded SOLID</td><td>Lifecycle: constructors, destructors, const</td><td> - </td><td>-</td><td><strong>7.</strong> Write unit tests for your Pi sensor library in C++ (basic - no mocking yet).<br><strong>8.</strong> Review your sensor library against DRY, KISS, SOLID and loose coupling / strong cohesion; refactor it and report which principles you improved on.</td><td>Thu 22 Oct 2026</td></tr>
   </tbody>
 </table>
 
@@ -59,7 +59,7 @@
 
 <h2>Handing in your work</h2>
 
-<p>Put your assignments in a (private) Git repository and add your lecturer as a collaborator (GitHub username <strong>jakorten</strong>), or use our GitHub Classroom environment. Commit as you go - a repository with a real history of small, meaningful commits is part of what is assessed. Send me your student number and GitHub username in the first week so I can link them.</p>
+<p>Put your assignments in a (private) Git repository and add your lecturer as a collaborator (GitHub username <strong>jakorten</strong>). Commit as you go - a repository with a real history of small, meaningful commits is part of what is assessed. Send me your student number and GitHub username in the first week so I can link them.</p>
 
 <h2>Prog 6</h2>
 

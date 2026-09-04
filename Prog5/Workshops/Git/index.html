@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Git Workshops Prog 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@600;700&family=Instrument+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{--paper:#F7F7F4;--surface:#FFFFFF;--ink:#17191C;--muted:#5C6370;--line:#D9DBD6;--accent:#D8441F;--accent-soft:#FBE9E3;--remote:#2B6CB0;--remote-soft:#E3EEFB;--ok:#2F855A;--ok-soft:#E3F3EA;--code-bg:#1E2226;--code-ink:#E8EAED;--shadow:0 1px 2px rgba(23,25,28,.06),0 8px 24px -12px rgba(23,25,28,.18)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#141618;--surface:#1D2023;--ink:#E7E8EA;--muted:#9AA1AB;--line:#2E3236;--accent:#F26B4A;--accent-soft:#3A2119;--remote:#6FA8F5;--remote-soft:#1B2A3F;--ok:#6BCB8B;--ok-soft:#183324;--code-bg:#0F1113;--code-ink:#E1E4E8;--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6)}}
+:root[data-theme="dark"]{--paper:#141618;--surface:#1D2023;--ink:#E7E8EA;--muted:#9AA1AB;--line:#2E3236;--accent:#F26B4A;--accent-soft:#3A2119;--remote:#6FA8F5;--remote-soft:#1B2A3F;--ok:#6BCB8B;--ok-soft:#183324;--code-bg:#0F1113;--code-ink:#E1E4E8;--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--remote)}
+code,pre,kbd{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+p code,li code,td code,h3 code{background:var(--accent-soft);color:inherit;padding:.05em .35em;border-radius:4px;font-size:.88em}
+h1,h2,h3,h4{font-family:"Familjen Grotesk","Instrument Sans",system-ui,sans-serif;line-height:1.15;text-wrap:balance;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.top{padding:clamp(28px,6vw,64px) 0 24px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:600}
+.top h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:700;letter-spacing:-.01em}
+.top h1 em{font-style:normal;color:var(--accent)}
+.top .lede{max-width:62ch;font-size:1.08rem;color:var(--muted);margin:14px 0 0}
+.tabs{display:flex;gap:8px;margin:28px 0 0}
+.tabs button{font:inherit;font-weight:600;padding:10px 16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tabs button:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--remote);outline-offset:2px}
+.model{margin:40px 0;padding:28px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.model h2{font-size:1.6rem;margin-bottom:6px}
+.model-head p{margin:6px 0 0;max-width:60ch;color:var(--muted)}
+.places{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:10px;align-items:stretch;margin:24px 0 16px}
+.place{border:1.5px dashed var(--line);border-radius:10px;padding:12px;min-height:118px;transition:border-color .25s,background .25s}
+.place h4{font-size:1rem}
+.place .sub{margin:0 0 10px;font-size:.8rem;color:var(--muted)}
+.place.remote{border-color:var(--remote)}
+.place.active{border-style:solid;border-color:var(--accent);background:var(--accent-soft)}
+.place.remote.active{border-color:var(--remote);background:var(--remote-soft)}
+.arrow{align-self:center;color:var(--muted);font-size:1.3rem}
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:"JetBrains Mono",monospace;font-size:.8rem;padding:4px 8px;border-radius:6px;background:var(--paper);border:1px solid var(--line)}
+.chip.dirty{border-color:var(--accent);color:var(--accent)}
+.chip.ok{border-color:var(--ok);color:var(--ok)}
+.cmds{display:flex;flex-wrap:wrap;gap:8px}
+.cmds button{font-family:"JetBrains Mono",monospace;font-size:.85rem;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.cmds button:hover{border-color:var(--accent)}
+.cmds button.ghost{color:var(--muted)}
+.cmds button[disabled]{opacity:.45;cursor:not-allowed}
+.status{margin:16px 0 0;background:var(--code-bg);color:var(--code-ink);padding:14px 16px;border-radius:10px;font-size:.85rem;overflow-x:auto}
+.workshop{display:none;padding-bottom:48px}
+.workshop.show{display:block}
+.ws-head{padding:40px 0 8px;max-width:70ch}
+.ws-head h2{font-size:clamp(1.8rem,4vw,2.6rem)}
+.ws-head .lede{color:var(--muted);font-size:1.05rem;margin:12px 0 0}
+.ws-body{display:grid;grid-template-columns:260px minmax(0,1fr);gap:40px;align-items:start;margin-top:28px}
+.rail{position:sticky;top:16px}
+.rail ol{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:2px}
+.rail a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--ink);padding:7px 10px;border-radius:8px;font-size:.92rem}
+.rail a:hover{background:var(--surface)}
+.rail a.done{color:var(--muted);text-decoration:line-through}
+.rail a.done .n{background:var(--ok);color:#fff;border-color:var(--ok)}
+.rail .n{flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);font-size:.72rem;display:inline-grid;place-items:center;font-variant-numeric:tabular-nums;font-weight:700}
+.progress{display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--muted)}
+.bar{flex:1;height:6px;background:var(--line);border-radius:999px;overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+.steps{display:flex;flex-direction:column;gap:22px;max-width:74ch}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 26px 24px;box-shadow:var(--shadow)}
+.step.done{border-color:var(--ok)}
+.step-head{display:flex;gap:14px;align-items:flex-start}
+.step-head h3{font-size:1.35rem}
+.step-num{flex:none;width:36px;height:36px;border-radius:10px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-family:"Familjen Grotesk",sans-serif;font-weight:700;font-variant-numeric:tabular-nums}
+.step.done .step-num{background:var(--ok)}
+.step-time{font-size:.8rem;color:var(--muted);letter-spacing:.04em}
+.done{margin-left:auto;font-size:.85rem;color:var(--muted);display:flex;gap:6px;align-items:center;white-space:nowrap}
+.lbl{display:inline-block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--accent);margin-right:8px}
+.goal{margin:14px 0 4px;padding:10px 14px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+.step p{margin:12px 0}
+.code{position:relative;margin:12px 0}
+.code pre,.out{margin:0;background:var(--code-bg);color:var(--code-ink);padding:14px 16px;border-radius:10px;font-size:.86rem;line-height:1.5;overflow-x:auto}
+.out{margin:12px 0;border-left:3px solid var(--muted)}
+.copy{position:absolute;top:8px;right:8px;font:600 .72rem "Instrument Sans",sans-serif;letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--code-ink);border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:3px 8px;cursor:pointer}
+.copy:hover{border-color:#fff}
+.check{margin:14px 0 4px;padding:12px 14px;background:var(--ok-soft);border-radius:10px}
+.check .lbl{color:var(--ok)}
+.check ul{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.check input{margin-top:5px}
+.check input:checked+span{color:var(--muted);text-decoration:line-through}
+.hint{margin:12px 0;border:1px solid var(--line);border-radius:10px;padding:8px 14px}
+.hint summary{cursor:pointer;font-weight:600;color:var(--remote)}
+.hint p{margin:8px 0 4px}
+.quiz{margin:16px 0 0;padding:14px;border:1px dashed var(--line);border-radius:10px}
+.quiz .q{margin:6px 0 10px;font-weight:600}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:6px 10px;border-radius:8px;cursor:pointer}
+.opt:hover{background:var(--paper)}
+.opt.right{background:var(--ok-soft)}
+.opt.wrong{background:var(--accent-soft)}
+.feedback{margin:10px 0 0;font-weight:600;min-height:1.2em}
+.feedback.ok{color:var(--ok)}.feedback.no{color:var(--accent)}
+.expl{margin:4px 0 0;color:var(--muted)}
+.hidden{display:none}
+.extras{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;padding:36px 0 56px;border-top:1px solid var(--line)}
+.extras h2{font-size:1.3rem;margin-bottom:12px}
+.ref{width:100%;border-collapse:collapse;font-size:.92rem}
+.ref th{text-align:left;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line)}
+.ref td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.ref code{background:transparent;padding:0;font-size:.85em;white-space:nowrap}
+.tablewrap{overflow-x:auto}
+.res{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+footer{padding:20px 0 40px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
+@media (max-width:860px){.ws-body{grid-template-columns:1fr;gap:20px}.rail{position:static}.rail ol{flex-direction:row;flex-wrap:wrap}.rail a{font-size:.85rem}.places{grid-template-columns:1fr 1fr;gap:8px}.arrow{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><p class="eyebrow">Prog 5 &middot; Embedded Systems Engineering &middot; HAN &middot; 2026-2027</p>
+<h1>Git <em>Workshops</em></h1>
+<p class="lede">Two hands-on sessions. Workshop 1 (Friday 4 September) gets your first repository on GitHub with clean commits. Workshop 2 adds branches, pull requests, reviews and conflict resolution. Your progress is saved in this browser.</p>
+<div class="tabs" role="tablist"><button type="button" role="tab" data-tab="ws1" aria-selected="false">Workshop 1: The basics</button><button type="button" role="tab" data-tab="ws2" aria-selected="false">Workshop 2: Working together</button></div></header>
+<section class="model" aria-label="The four places of Git">
+<div class="model-head"><p class="eyebrow">Interactive model</p><h2>Where is my change?</h2><p>Click the commands and watch <code>blink.cpp</code> move between the four places. This is the picture behind every step below.</p></div>
+<div class="places">
+ <div class="place" data-place="wt"><h4>Working tree</h4><p class="sub">your folder</p><div class="slot"></div></div>
+ <div class="arrow">&rarr;</div>
+ <div class="place" data-place="idx"><h4>Staging area</h4><p class="sub">the index</p><div class="slot"></div></div>
+ <div class="arrow">&rarr;</div>
+ <div class="place" data-place="repo"><h4>Local repository</h4><p class="sub">.git folder</p><div class="slot"></div></div>
+ <div class="arrow">&rarr;</div>
+ <div class="place remote" data-place="remote"><h4>Remote</h4><p class="sub">GitHub</p><div class="slot"></div></div>
+</div>
+<div class="cmds">
+ <button type="button" data-cmd="edit">edit blink.cpp</button>
+ <button type="button" data-cmd="add">git add blink.cpp</button>
+ <button type="button" data-cmd="commit">git commit -m "..."</button>
+ <button type="button" data-cmd="push">git push</button>
+ <button type="button" data-cmd="reset" class="ghost">start over</button>
+</div>
+<pre class="status" aria-live="polite"><code>$ git status
+On branch main
+nothing to commit, working tree clean</code></pre>
+</section>
+<article class="workshop" id="ws1" data-ws="ws1">
+<div class="ws-head"><p class="eyebrow">Workshop 1 &middot; Friday 4 September 2026 &middot; about 90 min</p><h2>The basics</h2><p class="lede">Everything in Prog 5 and 6 is handed in through Git. After this workshop you can clone a repository, work in small commits, keep junk out of it and push your work to GitHub before a deadline. Work through the steps in order; every step ends with a check you can verify yourself.</p></div>
+<div class="ws-body">
+<nav class="rail" aria-label="Steps of workshop 1"><div class="progress"><div class="bar"><span></span></div><span class="pct">0 / 6 done</span></div><ol><li><a href="#ws1-setup" data-nav="ws1-setup"><span class="n">1</span>Set up Git and GitHub</a></li><li><a href="#ws1-model" data-nav="ws1-model"><span class="n">2</span>The mental model: four places</a></li><li><a href="#ws1-first" data-nav="ws1-first"><span class="n">3</span>Your first repository: clone, commit, push</a></li><li><a href="#ws1-status" data-nav="ws1-status"><span class="n">4</span>See what changed: status, diff, log</a></li><li><a href="#ws1-ignore" data-nav="ws1-ignore"><span class="n">5</span>Keep junk out: .gitignore</a></li><li><a href="#ws1-handin" data-nav="ws1-handin"><span class="n">6</span>Hand in the Prog 5 way</a></li></ol></nav>
+<div class="steps"><section class="step" id="ws1-setup" data-step="ws1-setup">
+<header class="step-head"><span class="step-num">1</span><div><h3>Set up Git and GitHub</h3><span class="step-time">15 min</span></div><label class="done"><input type="checkbox" class="step-done" data-key="ws1-setup:done"> done</label></header>
+<p class="goal"><span class="lbl">Goal</span> Git works on your laptop, it knows who you are, and GitHub knows your SSH key or token.</p>
+<p>Install Git (macOS: <code>xcode-select --install</code> or Homebrew; Windows: git-scm.com, choose Git Bash; Linux: your package manager). Create a GitHub account if you do not have one - use a name you are happy to show an employer.</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy commands">copy</button><pre><code>git --version
+git config --global user.name &quot;Your Name&quot;
+git config --global user.email &quot;you@student.han.nl&quot;
+git config --global init.defaultBranch main
+git config --global pull.rebase true
+git config --list --show-origin | grep -E &#x27;user|pull|init&#x27;</code></pre></div>
+<p>Authenticate to GitHub once: either create an SSH key (<code>ssh-keygen -t ed25519</code>, add the public key under GitHub &gt; Settings &gt; SSH keys, test with <code>ssh -T git@github.com</code>) or install the GitHub CLI and run <code>gh auth login</code>.</p>
+<div class="check"><span class="lbl">Check</span><ul><li><label><input type="checkbox" class="chk" data-key="ws1-setup:c0"> <span><code>git --version</code> prints 2.40 or newer</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws1-setup:c1"> <span><code>git config user.email</code> shows your HAN address</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws1-setup:c2"> <span><code>ssh -T git@github.com</code> greets you by username (or <code>gh auth status</code> says logged in)</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws1-setup:c3"> <span>You have sent your GitHub username and student number to your lecturer</span></label></li></ul></div>
+<details class="hint"><summary>Hint</summary><p><code>pull.rebase true</code> makes <code>git pull</code> do a rebase instead of a merge. Prog 5 rule: never use a plain merging pull - it litters your history with 'Merge branch' commits (see the video linked in Prog5_Git.pdf).</p></details>
+<div class="quiz" data-answer="1"><span class="lbl">Self-check</span><p class="q">What does <code>git config --global user.email</code> change?</p><div class="opts"><label class="opt"><input type="radio" name="ws1-setup-q1" value="0"> <span>The e-mail address GitHub sends notifications to</span></label><label class="opt"><input type="radio" name="ws1-setup-q1" value="1"> <span>The author e-mail written into every commit you make on this computer</span></label><label class="opt"><input type="radio" name="ws1-setup-q1" value="2"> <span>Your GitHub login</span></label></div><p class="feedback" aria-live="polite"></p><p class="expl hidden">Git stamps author name and e-mail into each commit. GitHub only links the commit to your profile if that e-mail is registered on your account.</p></div>
+</section>
+<section class="step" id="ws1-model" data-step="ws1-model">
+<header class="step-head"><span class="step-num">2</span><div><h3>The mental model: four places</h3><span class="step-time">15 min</span></div><label class="done"><input type="checkbox" class="step-done" data-key="ws1-model:done"> done</label></header>
+<p class="goal"><span class="lbl">Goal</span> You can explain where a change is - working tree, staging area, local repository or remote - and which command moves it.</p>
+<p>A Git project has four places. The <strong>working tree</strong> is the folder with your files. <code>git add</code> copies a snapshot of a file into the <strong>staging area</strong> (the index). <code>git commit</code> stores what is staged as a permanent commit in the <strong>local repository</strong> (the hidden <code>.git</code> folder). <code>git push</code> copies your commits to the <strong>remote</strong> (GitHub). <code>git clone</code> and <code>git pull</code> go the other way.</p>
+<p>Use the interactive model (in the web version of this workshop) or draw the four boxes on paper. For every command in this workshop, ask: which arrow is this?</p>
+<div class="check"><span class="lbl">Check</span><ul><li><label><input type="checkbox" class="chk" data-key="ws1-model:c0"> <span>You can draw the four places and put <code>add</code>, <code>commit</code>, <code>push</code>, <code>pull</code>, <code>clone</code> on the right arrows</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws1-model:c1"> <span>You can explain why a commit is not yet on GitHub</span></label></li></ul></div>
+<div class="quiz" data-answer="1"><span class="lbl">Self-check</span><p class="q">You edited <code>main.cpp</code> and ran <code>git commit -m "fix"</code> - but <code>git status</code> still shows <code>main.cpp</code> as modified. Why?</p><div class="opts"><label class="opt"><input type="radio" name="ws1-model-q1" value="0"> <span>The commit failed</span></label><label class="opt"><input type="radio" name="ws1-model-q1" value="1"> <span>You never ran <code>git add</code>, so nothing was staged and the commit contained no changes</span></label><label class="opt"><input type="radio" name="ws1-model-q1" value="2"> <span>GitHub rejected the commit</span></label></div><p class="feedback" aria-live="polite"></p><p class="expl hidden"><code>git commit</code> only records what is in the staging area. Without <code>git add</code> the change stays in the working tree. (<code>git commit -a</code> stages tracked files for you - but be deliberate about what goes in a commit.)</p></div>
+</section>
+<section class="step" id="ws1-first" data-step="ws1-first">
+<header class="step-head"><span class="step-num">3</span><div><h3>Your first repository: clone, commit, push</h3><span class="step-time">20 min</span></div><label class="done"><input type="checkbox" class="step-done" data-key="ws1-first:done"> done</label></header>
+<p class="goal"><span class="lbl">Goal</span> A private repository on GitHub with one commit made by you, from the command line.</p>
+<p>On GitHub create a new <strong>private</strong> repository called <code>prog5-git-workshop</code>, initialised with a README. Then follow the clone-first workflow from the HAN Git manual: create the remote first, clone it, work inside the clone.</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy commands">copy</button><pre><code>cd ~/HAN/Prog5            # or any folder outside OneDrive/iCloud
+git clone git@github.com:&lt;you&gt;/prog5-git-workshop.git
+cd prog5-git-workshop
+git status</code></pre></div>
+<p>Add a file <code>blink.cpp</code> with a minimal Arduino sketch (setup/loop that toggles the LED). Then stage, commit and push:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy commands">copy</button><pre><code>git add blink.cpp
+git status                # blink.cpp is now &#x27;staged&#x27; (green)
+git commit -m &quot;Add blink sketch&quot;
+git log --oneline
+git push</code></pre></div>
+<pre class="out"><code>$ git log --oneline
+3f2a9c1 (HEAD -&gt; main, origin/main) Add blink sketch
+b7e0d44 Initial commit</code></pre>
+<div class="check"><span class="lbl">Check</span><ul><li><label><input type="checkbox" class="chk" data-key="ws1-first:c0"> <span><code>blink.cpp</code> is visible on GitHub</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws1-first:c1"> <span><code>git log --oneline</code> shows your commit with <code>origin/main</code> next to it after the push</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws1-first:c2"> <span>Your commit on GitHub shows your avatar (author e-mail matches your account)</span></label></li></ul></div>
+<details class="hint"><summary>Hint</summary><p>Keep repositories out of cloud-synced folders (iCloud Drive, OneDrive, Google Drive). Sync clients corrupt <code>.git</code> folders. Git <em>is</em> your backup - that is what <code>push</code> is for.</p></details>
+<div class="quiz" data-answer="2"><span class="lbl">Self-check</span><p class="q">Which command sends your commits to GitHub?</p><div class="opts"><label class="opt"><input type="radio" name="ws1-first-q1" value="0"> <span>git commit</span></label><label class="opt"><input type="radio" name="ws1-first-q1" value="1"> <span>git add</span></label><label class="opt"><input type="radio" name="ws1-first-q1" value="2"> <span>git push</span></label></div><p class="feedback" aria-live="polite"></p><p class="expl hidden"><code>commit</code> records locally, <code>push</code> transfers commits to the remote. Nothing is on GitHub until you push.</p></div>
+</section>
+<section class="step" id="ws1-status" data-step="ws1-status">
+<header class="step-head"><span class="step-num">4</span><div><h3>See what changed: status, diff, log</h3><span class="step-time">15 min</span></div><label class="done"><input type="checkbox" class="step-done" data-key="ws1-status:done"> done</label></header>
+<p class="goal"><span class="lbl">Goal</span> You read <code>git status</code> and <code>git diff</code> before every commit and write commit messages that explain <em>why</em>.</p>
+<p>Change the blink delay in <code>blink.cpp</code> and add a comment. Before committing, look:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy commands">copy</button><pre><code>git status
+git diff                  # working tree vs staging area
+git add blink.cpp
+git diff --staged         # staging area vs last commit
+git commit -m &quot;Slow down blink to 500 ms for readability&quot;
+git log --oneline --graph --decorate</code></pre></div>
+<p>A good commit message: imperative mood, under 50 characters on the first line, and it says what changed and why - not 'update' or 'fix stuff'. In the course rubric a readable history is part of the grade.</p>
+<div class="check"><span class="lbl">Check</span><ul><li><label><input type="checkbox" class="chk" data-key="ws1-status:c0"> <span>You can tell the difference between <code>git diff</code> and <code>git diff --staged</code></span></label></li><li><label><input type="checkbox" class="chk" data-key="ws1-status:c1"> <span>Your last two commit messages would make sense to a colleague without opening the diff</span></label></li></ul></div>
+<details class="hint"><summary>Hint</summary><p><code>git log --oneline --graph --all</code> is worth an alias: <code>git config --global alias.lg "log --oneline --graph --all --decorate"</code>. Then <code>git lg</code>.</p></details>
+<div class="quiz" data-answer="2"><span class="lbl">Self-check</span><p class="q">Which is the best commit message?</p><div class="opts"><label class="opt"><input type="radio" name="ws1-status-q1" value="0"> <span>fixed</span></label><label class="opt"><input type="radio" name="ws1-status-q1" value="1"> <span>Update blink.cpp</span></label><label class="opt"><input type="radio" name="ws1-status-q1" value="2"> <span>Debounce button input to stop double counts</span></label></div><p class="feedback" aria-live="polite"></p><p class="expl hidden">It says what and why in the imperative. The other two force the reader to open the diff.</p></div>
+</section>
+<section class="step" id="ws1-ignore" data-step="ws1-ignore">
+<header class="step-head"><span class="step-num">5</span><div><h3>Keep junk out: .gitignore</h3><span class="step-time">10 min</span></div><label class="done"><input type="checkbox" class="step-done" data-key="ws1-ignore:done"> done</label></header>
+<p class="goal"><span class="lbl">Goal</span> Build output, IDE folders and OS files never enter the repository.</p>
+<p>Simulate a build: create a folder <code>build/</code> with a file <code>blink.o</code> in it and a <code>.DS_Store</code> or <code>Thumbs.db</code> in the root. Run <code>git status</code> - Git offers to add them. Now add a <code>.gitignore</code>:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy commands">copy</button><pre><code>printf &#x27;build/\ncmake-build-*/\n*.o\n*.a\n.DS_Store\nThumbs.db\n.vscode/\n.idea/\n&#x27; &gt; .gitignore
+git status                # build/ and *.o are gone from the list
+git add .gitignore
+git commit -m &quot;Ignore build output and IDE files&quot;
+git push</code></pre></div>
+<p>If a file was already committed before you ignored it, <code>.gitignore</code> does not remove it: use <code>git rm --cached &lt;file&gt;</code> once, then commit.</p>
+<div class="check"><span class="lbl">Check</span><ul><li><label><input type="checkbox" class="chk" data-key="ws1-ignore:c0"> <span><code>git status</code> no longer lists <code>build/</code></span></label></li><li><label><input type="checkbox" class="chk" data-key="ws1-ignore:c1"> <span><code>.gitignore</code> is committed and pushed</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws1-ignore:c2"> <span>You know why the course repository forbids committing <code>build/</code> (hint: the 2025 repo carried 2,000 build files and 240 MB)</span></label></li></ul></div>
+<div class="quiz" data-answer="1"><span class="lbl">Self-check</span><p class="q">You committed <code>build/</code> last week and add <code>build/</code> to <code>.gitignore</code> today. What happens?</p><div class="opts"><label class="opt"><input type="radio" name="ws1-ignore-q1" value="0"> <span>Git deletes the folder from history</span></label><label class="opt"><input type="radio" name="ws1-ignore-q1" value="1"> <span>Nothing changes for the already-tracked files - you must <code>git rm --cached -r build</code> first</span></label><label class="opt"><input type="radio" name="ws1-ignore-q1" value="2"> <span>GitHub blocks the push</span></label></div><p class="feedback" aria-live="polite"></p><p class="expl hidden"><code>.gitignore</code> only affects untracked files. Tracked files stay tracked until you remove them from the index.</p></div>
+</section>
+<section class="step" id="ws1-handin" data-step="ws1-handin">
+<header class="step-head"><span class="step-num">6</span><div><h3>Hand in the Prog 5 way</h3><span class="step-time">15 min</span></div><label class="done"><input type="checkbox" class="step-done" data-key="ws1-handin:done"> done</label></header>
+<p class="goal"><span class="lbl">Goal</span> You can set up a private repository for an assignment, work in it professionally and hand it in before the deadline.</p>
+<p>Assignment 1 (stepper motor library, deadline Thursday 10 September) is handed in through your own Git repository. Create a new <strong>private</strong> repository on GitHub (e.g. <code>prog5-stepper</code>), add <strong>jakorten</strong> as collaborator (Settings &gt; Collaborators) and clone it. Send your student number and GitHub username to your lecturer so the repository can be linked to you.</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy commands">copy</button><pre><code>git clone git@github.com:&lt;you&gt;/prog5-stepper.git
+cd prog5-stepper
+# work in small steps:
+git switch -c feature/stepper-class
+... edit, git add, git commit (often) ...
+git push -u origin feature/stepper-class
+# open a PR, merge to main before the deadline
+# the state of &#x27;main&#x27; at the deadline is what is graded</code></pre></div>
+<p>What a professional repository looks like (this is what the rubric row <em>Manage: Code Management</em> rewards): a README that says what it is and how to build/run it; small commits with meaningful messages; branches and pull requests for each piece of work; no build output, binaries or IDE folders; a <code>.gitignore</code>; and, in team work, code reviews in the PRs.</p>
+<div class="check"><span class="lbl">Check</span><ul><li><label><input type="checkbox" class="chk" data-key="ws1-handin:c0"> <span>You created a private repository for assignment 1, added <strong>jakorten</strong> as collaborator and cloned it</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws1-handin:c1"> <span>Your repository has a README and a <code>.gitignore</code> before the first real commit</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws1-handin:c2"> <span>You know the deadline is Thu 10 Sep and that <code>main</code> on GitHub is what counts</span></label></li></ul></div>
+<div class="quiz" data-answer="1"><span class="lbl">Self-check</span><p class="q">It is 23:50 on deadline day. Your work is committed but <code>git status</code> says 'Your branch is ahead of origin/main by 3 commits'. What is graded?</p><div class="opts"><label class="opt"><input type="radio" name="ws1-handin-q1" value="0"> <span>Your 3 local commits - Git is distributed</span></label><label class="opt"><input type="radio" name="ws1-handin-q1" value="1"> <span>Only what is on GitHub - push now</span></label><label class="opt"><input type="radio" name="ws1-handin-q1" value="2"> <span>The PR draft</span></label></div><p class="feedback" aria-live="polite"></p><p class="expl hidden">'Ahead of origin' means the commits exist only on your laptop. Push, then check GitHub in the browser.</p></div>
+</section></div>
+</div></article><article class="workshop" id="ws2" data-ws="ws2">
+<div class="ws-head"><p class="eyebrow">Workshop 2 &middot; date follows (Prog 5, period 1) &middot; about 95 min</p><h2>Working together</h2><p class="lede">Builds on Workshop 1. After this workshop you develop on branches, open and review pull requests, resolve a merge conflict and recover from mistakes - the skills the rubric criterion "Manage: Code Management" rewards at the professional level. Work in pairs: most steps need a partner.</p></div>
+<div class="ws-body">
+<nav class="rail" aria-label="Steps of workshop 2"><div class="progress"><div class="bar"><span></span></div><span class="pct">0 / 4 done</span></div><ol><li><a href="#ws2-branch" data-nav="ws2-branch"><span class="n">1</span>Branches and pull requests</a></li><li><a href="#ws2-pair" data-nav="ws2-pair"><span class="n">2</span>Work together: collaborator and code review</a></li><li><a href="#ws2-conflict" data-nav="ws2-conflict"><span class="n">3</span>Resolve a merge conflict</a></li><li><a href="#ws2-undo" data-nav="ws2-undo"><span class="n">4</span>Undo without panic</a></li></ol></nav>
+<div class="steps"><section class="step" id="ws2-branch" data-step="ws2-branch">
+<header class="step-head"><span class="step-num">1</span><div><h3>Branches and pull requests</h3><span class="step-time">25 min</span></div><label class="done"><input type="checkbox" class="step-done" data-key="ws2-branch:done"> done</label></header>
+<p class="goal"><span class="lbl">Goal</span> You develop on a branch, open a pull request on GitHub, merge it and update <code>main</code> locally.</p>
+<p>Never develop directly on <code>main</code>. Create a branch for a piece of work, push it, and merge it through a pull request (PR) - the PR is where review happens.</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy commands">copy</button><pre><code>git switch -c feature/button-input
+# add button.cpp with a simple digitalRead loop
+git add button.cpp
+git commit -m &quot;Read push button on D2&quot;
+git push -u origin feature/button-input</code></pre></div>
+<p>GitHub prints a link to open a pull request; open it, write a short description (what, why, how to test) and create the PR. Look at the <em>Files changed</em> tab. Merge it with the green button. Then bring <code>main</code> up to date locally and clean up:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy commands">copy</button><pre><code>git switch main
+git pull
+git branch -d feature/button-input
+git log --oneline --graph</code></pre></div>
+<div class="check"><span class="lbl">Check</span><ul><li><label><input type="checkbox" class="chk" data-key="ws2-branch:c0"> <span>The PR shows as <em>Merged</em> on GitHub</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws2-branch:c1"> <span><code>git log</code> on <code>main</code> contains the button commit</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws2-branch:c2"> <span>The feature branch is deleted locally (and on GitHub, via the PR page)</span></label></li></ul></div>
+<details class="hint"><summary>Hint</summary><p>Branch names: <code>feature/...</code>, <code>fix/...</code>, <code>docs/...</code>. Short-lived: a branch should live hours or days, not weeks.</p></details>
+<div class="quiz" data-answer="1"><span class="lbl">Self-check</span><p class="q">What does <code>git push -u origin feature/x</code> do that <code>git push</code> does not?</p><div class="opts"><label class="opt"><input type="radio" name="ws2-branch-q1" value="0"> <span>It forces the push</span></label><label class="opt"><input type="radio" name="ws2-branch-q1" value="1"> <span>It creates the branch on the remote and remembers it as the upstream, so later <code>git push</code>/<code>git pull</code> need no arguments</span></label><label class="opt"><input type="radio" name="ws2-branch-q1" value="2"> <span>It merges into main</span></label></div><p class="feedback" aria-live="polite"></p><p class="expl hidden"><code>-u</code> (<code>--set-upstream</code>) links your local branch to the remote branch once. You saw this message when pushing a new branch.</p></div>
+</section>
+<section class="step" id="ws2-pair" data-step="ws2-pair">
+<header class="step-head"><span class="step-num">2</span><div><h3>Work together: collaborator and code review</h3><span class="step-time">25 min</span></div><label class="done"><input type="checkbox" class="step-done" data-key="ws2-pair:done"> done</label></header>
+<p class="goal"><span class="lbl">Goal</span> Your partner contributes through a pull request and you review it like a professional.</p>
+<p>Add your partner as a collaborator (GitHub &gt; Settings &gt; Collaborators). Partner: accept, clone, create a branch <code>feature/led-pattern</code>, add a file, commit, push, open a PR - exactly the flow from the previous step.</p>
+<p>Owner: review the PR on GitHub. Leave at least one inline comment on a specific line (<em>Files changed</em> &gt; hover a line &gt; +), ask for one change (<em>Request changes</em>), and after the partner pushes a fix, approve and merge. Then swap roles on the partner's repository.</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy commands">copy</button><pre><code># partner, after &#x27;Request changes&#x27;:
+git add led_pattern.cpp
+git commit -m &quot;Use constexpr for pattern length (review)&quot;
+git push                  # the PR updates automatically</code></pre></div>
+<div class="check"><span class="lbl">Check</span><ul><li><label><input type="checkbox" class="chk" data-key="ws2-pair:c0"> <span>Each of you has opened one PR and reviewed one PR</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws2-pair:c1"> <span>A review comment and a follow-up commit are visible in a PR</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws2-pair:c2"> <span><code>git log</code> on <code>main</code> shows commits by two different authors</span></label></li></ul></div>
+<details class="hint"><summary>Hint</summary><p>Review the code, not the person. Say what and why: 'Magic number 8 - name it so the next reader knows it is the LED count.'</p></details>
+<div class="quiz" data-answer="1"><span class="lbl">Self-check</span><p class="q">A reviewer clicked <em>Request changes</em>. What should the author do?</p><div class="opts"><label class="opt"><input type="radio" name="ws2-pair-q1" value="0"> <span>Open a new PR</span></label><label class="opt"><input type="radio" name="ws2-pair-q1" value="1"> <span>Push extra commits to the same branch; the PR updates and the reviewer re-reviews</span></label><label class="opt"><input type="radio" name="ws2-pair-q1" value="2"> <span>Force-push over main</span></label></div><p class="feedback" aria-live="polite"></p><p class="expl hidden">PRs track a branch. New commits on that branch appear in the PR automatically.</p></div>
+</section>
+<section class="step" id="ws2-conflict" data-step="ws2-conflict">
+<header class="step-head"><span class="step-num">3</span><div><h3>Resolve a merge conflict</h3><span class="step-time">25 min</span></div><label class="done"><input type="checkbox" class="step-done" data-key="ws2-conflict:done"> done</label></header>
+<p class="goal"><span class="lbl">Goal</span> You have caused, understood and resolved a merge conflict on purpose - so the real one next month does not scare you.</p>
+<p>Both of you edit the <strong>same line</strong> of <code>blink.cpp</code> (the delay value) on two different branches from the same <code>main</code>. Merge the first PR on GitHub. The second PR now says <em>This branch has conflicts</em>. Resolve it locally:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy commands">copy</button><pre><code>git switch feature/blink-fast      # the second branch
+git fetch origin
+git rebase origin/main               # or: git merge origin/main
+# CONFLICT (content): Merge conflict in blink.cpp
+git status                           # &#x27;both modified: blink.cpp&#x27;</code></pre></div>
+<pre class="out"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+  delay(1000);
+=======
+  delay(100);
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/blink-fast</code></pre>
+<p>Open the file, decide what the code should be (one delay value, or something smarter), delete the <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> markers, then:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy commands">copy</button><pre><code>git add blink.cpp
+git rebase --continue                # (after a merge instead: git commit)
+git push --force-with-lease          # only after a rebase, only on YOUR feature branch
+# the PR is now mergeable</code></pre></div>
+<div class="check"><span class="lbl">Check</span><ul><li><label><input type="checkbox" class="chk" data-key="ws2-conflict:c0"> <span>No conflict markers are left in the file (<code>grep -n '&lt;&lt;&lt;&lt;' blink.cpp</code> finds nothing)</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws2-conflict:c1"> <span>The code compiles / makes sense - a conflict is resolved by thinking, not by picking a side blindly</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws2-conflict:c2"> <span>The second PR is merged</span></label></li></ul></div>
+<details class="hint"><summary>Hint</summary><p><code>--force-with-lease</code> is the safe force: it refuses if someone else pushed in the meantime. Never force-push <code>main</code>.</p></details>
+<div class="quiz" data-answer="1"><span class="lbl">Self-check</span><p class="q">When does a merge conflict occur?</p><div class="opts"><label class="opt"><input type="radio" name="ws2-conflict-q1" value="0"> <span>Whenever two people commit to the same repository</span></label><label class="opt"><input type="radio" name="ws2-conflict-q1" value="1"> <span>When two branches changed the same lines (or one deleted a file the other edited) and Git cannot decide</span></label><label class="opt"><input type="radio" name="ws2-conflict-q1" value="2"> <span>When you forget to pull</span></label></div><p class="feedback" aria-live="polite"></p><p class="expl hidden">Git merges non-overlapping changes automatically. Only overlapping edits need a human decision.</p></div>
+</section>
+<section class="step" id="ws2-undo" data-step="ws2-undo">
+<header class="step-head"><span class="step-num">4</span><div><h3>Undo without panic</h3><span class="step-time">20 min</span></div><label class="done"><input type="checkbox" class="step-done" data-key="ws2-undo:done"> done</label></header>
+<p class="goal"><span class="lbl">Goal</span> You know the right undo for each situation - and that almost nothing committed is ever lost.</p>
+<p>Try each of these on your workshop repo. Read <code>git status</code> after every command - it tells you what it did.</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy commands">copy</button><pre><code># 1. discard an uncommitted change in the working tree
+git restore blink.cpp
+# 2. un-stage a file (keep the change)
+git restore --staged blink.cpp
+# 3. fix the last commit message (not yet pushed)
+git commit --amend -m &quot;Better message&quot;
+# 4. undo a pushed commit safely: make a new commit that reverses it
+git revert HEAD
+# 5. park half-done work to switch branches
+git stash
+git stash pop
+# 6. find anything you &#x27;lost&#x27;
+git reflog</code></pre></div>
+<div class="check"><span class="lbl">Check</span><ul><li><label><input type="checkbox" class="chk" data-key="ws2-undo:c0"> <span>You can say which of the six you would use for: wrong file staged / typo in last message / broken commit already on main</span></label></li><li><label><input type="checkbox" class="chk" data-key="ws2-undo:c1"> <span>You have seen <code>git reflog</code> list commits that no branch points to</span></label></li></ul></div>
+<details class="hint"><summary>Hint</summary><p>Rule of thumb: not pushed yet -&gt; <code>amend</code>/<code>reset</code>; already pushed -&gt; <code>revert</code>. Rewriting history that others have pulled breaks their repositories.</p></details>
+<div class="quiz" data-answer="1"><span class="lbl">Self-check</span><p class="q">A commit on <code>main</code> (already pushed, teammates have pulled it) broke the build. Safest fix?</p><div class="opts"><label class="opt"><input type="radio" name="ws2-undo-q1" value="0"> <span>git reset --hard HEAD~1 and force-push</span></label><label class="opt"><input type="radio" name="ws2-undo-q1" value="1"> <span>git revert &lt;commit&gt; and push</span></label><label class="opt"><input type="radio" name="ws2-undo-q1" value="2"> <span>Delete the repository and clone again</span></label></div><p class="feedback" aria-live="polite"></p><p class="expl hidden"><code>revert</code> adds a new commit that undoes the change; history stays linear and nobody's clone breaks.</p></div>
+</section></div>
+</div></article>
+<section class="extras"><div><h2>Command reference</h2><div class="tablewrap"><table class="ref"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>git status</code></td><td>where am I, what changed</td></tr><tr><td><code>git add &lt;file&gt;</code></td><td>stage a change</td></tr><tr><td><code>git commit -m &quot;msg&quot;</code></td><td>record staged changes</td></tr><tr><td><code>git push</code></td><td>send commits to remote</td></tr><tr><td><code>git pull</code></td><td>fetch + rebase (with pull.rebase=true)</td></tr><tr><td><code>git switch -c &lt;branch&gt;</code></td><td>create and switch to a branch</td></tr><tr><td><code>git log --oneline --graph</code></td><td>history</td></tr><tr><td><code>git diff / --staged</code></td><td>what changed</td></tr><tr><td><code>git restore &lt;file&gt;</code></td><td>discard working-tree change</td></tr><tr><td><code>git revert &lt;commit&gt;</code></td><td>undo a pushed commit safely</td></tr><tr><td><code>git stash / stash pop</code></td><td>park and restore work</td></tr><tr><td><code>git reflog</code></td><td>find lost commits</td></tr></tbody></table></div></div><div><h2>Resources</h2><ul class="res"><li><a href="../../Demos/Git manual SE HAN v1.1 jakorten.pdf">HAN SE Git manual v1.1 (Prog5/Demos)</a></li><li><a href="../../Demos/Prog5_Git.pdf">Prog5_Git.pdf - basics slides</a></li><li><a href="https://git-scm.com/book/en/v2">Pro Git book (free)</a></li><li><a href="https://youtu.be/xN1-2p06Urc">Merging vs rebasing - why not plain git pull (video)</a></li><li><a href="https://youtu.be/lH3ZkwbVp5E">Git stash in 5 minutes (video)</a></li><li><a href="https://ohshitgit.com/">Oh Shit, Git!?! - undo recipes</a></li><li><a href="https://docs.github.com/pull-requests">GitHub Docs: about pull requests</a></li></ul></div></section>
+<footer>Johan Korten &middot; HAN University of Applied Sciences &middot; Software Engineering &middot; Programming 5 (2026-2027)</footer>
+</div>
+<script>
+(function(){
+  var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  // tabs
+  var tabs=document.querySelectorAll('.tabs button'),shows=document.querySelectorAll('.workshop');
+  function showWs(key){shows.forEach(function(w){w.classList.toggle('show',w.dataset.ws===key)});tabs.forEach(function(b){b.setAttribute('aria-selected',b.dataset.tab===key)});store.set('gitws:tab',key)}
+  tabs.forEach(function(b){b.addEventListener('click',function(){showWs(b.dataset.tab)})});
+  var initial=(location.hash&&location.hash.indexOf('#ws2')===0)?'ws2':(store.get('gitws:tab')||'ws1');showWs(initial);
+  // checkboxes with persistence
+  document.querySelectorAll('input[type=checkbox][data-key]').forEach(function(c){c.checked=store.get('gitws:'+c.dataset.key)==='1';c.addEventListener('change',function(){store.set('gitws:'+c.dataset.key,c.checked?'1':'0');refresh()})});
+  function refresh(){
+    document.querySelectorAll('.workshop').forEach(function(w){
+      var steps=w.querySelectorAll('.step'),done=0;
+      steps.forEach(function(s){var d=s.querySelector('.step-done').checked;s.classList.toggle('done',d);if(d)done++;var a=w.querySelector('[data-nav="'+s.dataset.step+'"]');if(a)a.classList.toggle('done',d)});
+      var bar=w.querySelector('.bar span'),pct=w.querySelector('.pct');if(bar){bar.style.width=(steps.length?done/steps.length*100:0)+'%';pct.textContent=done+' / '+steps.length+' done'}
+    });
+  }
+  refresh();
+  // quizzes
+  document.querySelectorAll('.quiz').forEach(function(q){
+    var ans=q.dataset.answer,fb=q.querySelector('.feedback'),ex=q.querySelector('.expl');
+    q.querySelectorAll('input[type=radio]').forEach(function(r){r.addEventListener('change',function(){
+      q.querySelectorAll('.opt').forEach(function(o){o.classList.remove('right','wrong')});
+      var lab=r.closest('.opt'),ok=r.value===ans;lab.classList.add(ok?'right':'wrong');
+      fb.textContent=ok?'Correct.':'Not quite - try again.';fb.className='feedback '+(ok?'ok':'no');ex.classList.toggle('hidden',!ok);
+    })});
+  });
+  // copy buttons
+  document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){var t=b.nextElementSibling.textContent;if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){b.textContent='copied';setTimeout(function(){b.textContent='copy'},1200)})}})});
+  // interactive model
+  var m=document.querySelector('.model');if(!m)return;
+  var slots={wt:m.querySelector('[data-place=wt] .slot'),idx:m.querySelector('[data-place=idx] .slot'),repo:m.querySelector('[data-place=repo] .slot'),remote:m.querySelector('[data-place=remote] .slot')};
+  var st=m.querySelector('.status code');var state;
+  function chip(txt,cls){var s=document.createElement('span');s.className='chip '+(cls||'');s.textContent=txt;return s}
+  function render(){
+    Object.keys(slots).forEach(function(k){slots[k].innerHTML=''});m.querySelectorAll('.place').forEach(function(p){p.classList.remove('active')});
+    slots.wt.appendChild(chip('blink.cpp',state.dirty?'dirty':'ok'));
+    if(state.staged)slots.idx.appendChild(chip('blink.cpp (staged)','ok'));
+    for(var i=0;i<state.local;i++)slots.repo.appendChild(chip('commit '+(i+1),'ok'));
+    for(var j=0;j<state.pushed;j++)slots.remote.appendChild(chip('commit '+(j+1),'ok'));
+    var lines=['$ git status','On branch main'];
+    var ahead=state.local-state.pushed;if(ahead>0)lines.push("Your branch is ahead of 'origin/main' by "+ahead+' commit'+(ahead>1?'s':'')+'.');
+    if(state.staged)lines.push('Changes to be committed:\n  modified:   blink.cpp');
+    if(state.dirty)lines.push('Changes not staged for commit:\n  modified:   blink.cpp');
+    if(!state.staged&&!state.dirty)lines.push(ahead>0?'nothing to commit, working tree clean\n(use "git push" to publish your local commits)':'nothing to commit, working tree clean');
+    st.textContent=lines.join('\n');
+    m.querySelector('[data-cmd=add]').disabled=!state.dirty;m.querySelector('[data-cmd=commit]').disabled=!state.staged;m.querySelector('[data-cmd=push]').disabled=!(state.local>state.pushed);
+    if(state.active){var p=m.querySelector('[data-place='+state.active+']');if(p)p.classList.add('active')}
+  }
+  function reset(){state={dirty:false,staged:false,local:0,pushed:0,active:null};render()}
+  m.querySelectorAll('.cmds button').forEach(function(b){b.addEventListener('click',function(){
+    var c=b.dataset.cmd;
+    if(c==='edit'){state.dirty=true;state.active='wt'}
+    else if(c==='add'){state.dirty=false;state.staged=true;state.active='idx'}
+    else if(c==='commit'){state.staged=false;state.local++;state.active='repo'}
+    else if(c==='push'){state.pushed=state.local;state.active='remote'}
+    else{reset();return}
+    render();
+  })});
+  reset();
+})();
+</script>
+</body>
+</html>
