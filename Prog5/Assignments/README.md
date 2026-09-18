@@ -1,11 +1,12 @@
 # Prog 5 assignments - one sensor library, seven weeks
 
-From week 3 onwards every assignment adds one layer to the **same BME280 library** (BMP280 if
-that is what you have: identical, minus humidity). Keep it in **one Git repository**, commit as you
+From week 3 onwards every assignment adds one layer to the **same sensor library**, and the Friday
+lab of that week is where you build that layer. The BME280 is the sensor we use as the concrete
+example; a BMP280 or another I2C sensor works just as well, the structure is the same. Keep it in **one Git repository**, commit as you
 go and tag each hand-in (`v0.3-arduino`, `v0.4-pi`, ...). The history of that repository is part of
 what is assessed.
 
-| Week | Lecture (Thu) | What the library gains | Principle / C++ / UML it practises | Hand-out | Deadline |
+| Week | Lecture (Thu) | What the library gains (= Friday lab) | Principle / C++ / UML it practises | Hand-out | Deadline |
 | :-: | --- | --- | --- | --- | --- |
 | 1 | 3 Sep | - (stepper motor warm-up) | SRP, scope / namespaces, class diagram | [`week1`](../Code/week1/Assignment/student_instructions.md) | Thu 10 Sep |
 | 2 | 10 Sep | - (use-case diagram of the weather station it will live in) | OCP, constructors, use cases | [`week2`](week2/syringe_system_requirements.md) | Thu 17 Sep |

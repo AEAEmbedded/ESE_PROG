@@ -1,4 +1,4 @@
-# Assignment 3 - BME280 library, core + Arduino
+# Assignment 3 - Sensor library (BME280), core + Arduino
 
 *Introduced Thu 17 Sep 2026 - deadline Thu 24 Sep 2026 - tag `v0.3-arduino`*
 

@@ -1,4 +1,4 @@
-# Assignment 4 - Same library, second platform: Raspberry Pi
+# Assignment 4 - Same sensor library, second platform: Raspberry Pi
 
 *Introduced Thu 24 Sep 2026 - deadline Thu 1 Oct 2026 - tag `v0.4-pi`*
 
