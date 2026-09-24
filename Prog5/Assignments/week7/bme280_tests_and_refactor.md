@@ -13,7 +13,7 @@ register map plus a write log) and a `FakeClock` that only counts. Test framewor
 
 Required tests, all in `tests/`, all run by `ctest`:
 
-1. `init()` returns `WrongChipId` when register `0xD0` is not `0x60` (BME280) / `0x58` (BMP280).
+1. `init()` returns `WrongChipId` when register `0xD0` is not `0x60`.
 2. `init()` returns `BusFailure` when the bus fails the first read.
 3. `read()` before `init()` returns `NotInitialised`.
 4. `init()` succeeds with the correct chip ID and the calibration block pre-loaded.
@@ -30,6 +30,30 @@ Review your own library at tag `v0.6-design` against **DRY, KISS, SOLID, loose c
 strong cohesion**, and the lifecycle rules below. Refactor. Hand in a report
 (`docs/refactor_report.md`) with, per finding: what, where (file:line at the old tag), which
 principle, what you changed, and the commit that changed it.
+
+One refactor is mandatory, because every library in this course has it coming:
+
+**The second sensor.** Your `Bus`, `Clock` and `EnvironmentSensor` live in the namespace (and
+folder, and CMake target) of your sensor: `bme280::Bus`. Now add a second sensor class, real
+(SHT45, SHT31, a second BME280 on another bus) or `FakeSensor` if you have no hardware. It must
+use the same `Bus` and implement the same `EnvironmentSensor`. Question: does `sht45::Sht45`
+now depend on `bme280::`? If yes, the abstractions are in the wrong package.
+
+1. Draw the package diagram *before* (sensor B depends on sensor A) and *after*.
+2. Move what both sensors share (`Bus`, `Clock`, `EnvironmentSensor`, `Measurement`, `Error`)
+   into a package of its own, for example `hal/` with namespace `hal`, with its own CMake
+   target. Rule afterwards: `bme280` and `sht45` depend on `hal`; neither depends on the other;
+   `hal` depends on nothing.
+3. Decide, and write down, what stays sensor-specific: `Config` and the register map are
+   BME280-only; is `Measurement` shared or does each sensor have its own?
+4. The station's `vector<hal::EnvironmentSensor*>` from assignment 6 now holds two different
+   classes from two packages. The `Sampler` and the publishers must not change at all; if they
+   do, say why in the report.
+
+Name the principles you applied (DIP: both sensors depend on the same abstraction; ISP: a
+distance sensor would *not* implement `EnvironmentSensor`; SRP for the package: one reason to
+change) and show the dependency arrows in the diagram. This is the difference between a
+BME280 library and a sensor library.
 
 Lifecycle checklist to review against:
 

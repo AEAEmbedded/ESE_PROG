@@ -5,7 +5,7 @@
 //
 // Prints one measurement per second until Ctrl-C.
 
-#include "bmp280/Bmp280.hpp"
+#include "bme280/Bme280.hpp"
 #include "rpi/LinuxI2cBus.hpp"
 
 #include <atomic>
@@ -18,14 +18,14 @@ namespace {
 std::atomic<bool> keepRunning{true};
 void onSigint(int) { keepRunning = false; }
 
-const char* toString(bmp280::Error e)
+const char* toString(bme280::Error e)
 {
     switch (e) {
-        case bmp280::Error::None:           return "None";
-        case bmp280::Error::NotInitialised: return "NotInitialised";
-        case bmp280::Error::BusFailure:     return "BusFailure";
-        case bmp280::Error::WrongChipId:    return "WrongChipId";
-        case bmp280::Error::InvalidConfig:  return "InvalidConfig";
+        case bme280::Error::None:           return "None";
+        case bme280::Error::NotInitialised: return "NotInitialised";
+        case bme280::Error::BusFailure:     return "BusFailure";
+        case bme280::Error::WrongChipId:    return "WrongChipId";
+        case bme280::Error::InvalidConfig:  return "InvalidConfig";
         default:                            return "Unknown";
     }
 }
@@ -43,8 +43,8 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    bmp280::Bmp280 sensor(bus);           // week 4 step 3: Bmp280 sensor(bus, clock);
-    if (const auto err = sensor.init(); err != bmp280::Error::None) {
+    bme280::Bme280 sensor(bus);           // week 4 step 3: Bme280 sensor(bus, clock);
+    if (const auto err = sensor.init(); err != bme280::Error::None) {
         std::fprintf(stderr, "init failed: %s (address 0x%02X)\n", toString(err), address);
         return 2;
     }
@@ -52,9 +52,9 @@ int main(int argc, char** argv)
 
     // --- main loop -----------------------------------------------------------
     while (keepRunning) {
-        bmp280::Measurement m;
-        if (const auto err = sensor.readForced(m); err == bmp280::Error::None) {
-            std::printf("T = %6.2f C   p = %9.1f Pa\n", m.temperatureC, m.pressurePa);
+        bme280::Measurement m;
+        if (const auto err = sensor.readForced(m); err == bme280::Error::None) {
+            std::printf("T = %6.2f C   p = %9.1f Pa   RH = %5.1f %%\n", m.temperatureC, m.pressurePa, m.humidityPct);
         } else {
             std::printf("read failed: %s\n", toString(err));
         }
@@ -62,5 +62,5 @@ int main(int argc, char** argv)
     }
 
     std::printf("\nbye\n");
-    return 0;   // ~Bmp280, then ~LinuxI2cBus closes /dev/i2c-1: RAII
+    return 0;   // ~Bme280, then ~LinuxI2cBus closes /dev/i2c-1: RAII
 }

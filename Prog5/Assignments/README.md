@@ -14,7 +14,7 @@ what is assessed.
 | 4 | 24 Sep | **Second platform**: `LinuxI2cBus` on the Raspberry Pi, `Bus`/`Clock` split, CMake | ISP, abstract classes, dependencies | [`week4`](week4/bme280_raspberry_pi.md) | Thu 1 Oct |
 | 5 | 1 Oct | **Out into the world**: sampling thread, measurement callback, `Publisher` -> MQTT | DIP, threads / callbacks, sequence diagram | [`week5`](week5/bme280_mqtt.md) | Thu 8 Oct |
 | 6 | 8 Oct | **Design on paper**: class diagram, package diagram, sequence diagram; `EnvironmentSensor` polymorphism | coupling / cohesion, polymorphism, composition / packages | [`week6`](week6/bme280_uml_design.md) | Thu 15 Oct |
-| 7 | 15 Oct | **Trustworthy**: host unit tests with the `MockBus`, RAII review, refactor report | Embedded SOLID, lifecycle / const | [`week7`](week7/bme280_tests_and_refactor.md) | Thu 22 Oct |
+| 7 | 15 Oct | **Trustworthy**: host unit tests with the `MockBus`, RAII review, refactor report; the second sensor forces the shared abstractions out of `bme280::` into their own package | Embedded SOLID, lifecycle / const | [`week7`](week7/bme280_tests_and_refactor.md) | Thu 22 Oct |
 
 Resit deadline for everything: **Thursday 29 October 2026**.
 

@@ -14,9 +14,9 @@
 #include "station/Sampler.hpp"
 
 #ifdef STATION_HAS_HARDWARE
-#include "bmp280/Bmp280.hpp"
+#include "bme280/Bme280.hpp"
 #include "rpi/LinuxI2cBus.hpp"
-#include "station/Bmp280Adapter.hpp"
+#include "station/Bme280Adapter.hpp"
 #endif
 
 #include <atomic>
@@ -39,10 +39,10 @@ bool hasFlag(int argc, char** argv, const char* flag)
     return false;
 }
 
-std::string toJson(const bmp280::Measurement& m)
+std::string toJson(const bme280::Measurement& m)
 {
     char buf[64];
-    std::snprintf(buf, sizeof buf, "{\"t\":%.2f,\"p\":%.0f}", m.temperatureC, m.pressurePa);
+    std::snprintf(buf, sizeof buf, "{\"t\":%.2f,\"p\":%.0f,\"h\":%.1f}", m.temperatureC, m.pressurePa, m.humidityPct);
     return buf;
 }
 } // namespace
@@ -57,8 +57,8 @@ int main(int argc, char** argv)
     // --- sensor ---------------------------------------------------------------
 #ifdef STATION_HAS_HARDWARE
     rpi::LinuxI2cBus bus("/dev/i2c-1", 0x76);
-    bmp280::Bmp280   bmp(bus);
-    station::Bmp280Adapter realSensor(bmp);
+    bme280::Bme280   bmp(bus);
+    station::Bme280Adapter realSensor(bmp);
 #endif
     station::FakeSensor fakeSensor;
 
@@ -71,7 +71,7 @@ int main(int argc, char** argv)
 #else
     if (!useFake) { std::fprintf(stderr, "no hardware in this build, using --fake\n"); }
 #endif
-    if (sensor->init() != bmp280::Error::None) {
+    if (sensor->init() != bme280::Error::None) {
         std::fprintf(stderr, "sensor init failed\n");
         return 2;
     }
@@ -84,7 +84,7 @@ int main(int argc, char** argv)
 
     // --- wiring: the callback is a lambda, the sampler never sees MQTT ----------
     station::Sampler sampler(*sensor, std::chrono::seconds(1));
-    sampler.onMeasurement([&](const bmp280::Measurement& m) {
+    sampler.onMeasurement([&](const bme280::Measurement& m) {
         if (!publisher.publish(topic, toJson(m))) {
             std::fprintf(stderr, "publish failed (broker down?)\n");
         }

@@ -8,7 +8,7 @@
 //
 // Adapt the include and base class to your own library (bme280::Bus, ...).
 
-#include "bmp280/Bus.hpp"
+#include "bme280/Bus.hpp"
 
 #include <cstddef>
 #include <cstdint>
@@ -17,7 +17,7 @@
 // compile. We use `rpi`.
 namespace rpi {
 
-class LinuxI2cBus final : public bmp280::Bus {
+class LinuxI2cBus final : public bme280::Bus {
 public:
     /// Opens `device` (e.g. "/dev/i2c-1") for the slave at 7-bit `address`.
     /// Check isOpen() afterwards; the constructor does not throw.

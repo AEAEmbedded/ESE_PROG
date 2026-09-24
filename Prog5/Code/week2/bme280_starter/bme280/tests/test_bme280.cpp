@@ -2,16 +2,16 @@
 #include <doctest/doctest.h>
 
 #include "MockBus.hpp"
-#include "bmp280/Bmp280.hpp"
+#include "bme280/Bme280.hpp"
 
-using namespace bmp280;
-using bmp280::test::MockBus;
+using namespace bme280;
+using bme280::test::MockBus;
 
 TEST_CASE("init fails on wrong chip id")
 {
     MockBus bus;
     bus.reg(MockBus::kRegChipId) = 0x00;
-    Bmp280 sensor(bus);
+    Bme280 sensor(bus);
 
     CHECK(sensor.init() == Error::WrongChipId);
     CHECK_FALSE(sensor.isInitialised());
@@ -21,7 +21,7 @@ TEST_CASE("init fails when bus fails")
 {
     MockBus bus;
     bus.failNextRead();
-    Bmp280 sensor(bus);
+    Bme280 sensor(bus);
 
     CHECK(sensor.init() == Error::BusFailure);
 }
@@ -29,7 +29,7 @@ TEST_CASE("init fails when bus fails")
 TEST_CASE("read before init is rejected")
 {
     MockBus bus;
-    Bmp280 sensor(bus);
+    Bme280 sensor(bus);
     Measurement m;
 
     CHECK(sensor.read(m) == Error::NotInitialised);
@@ -38,8 +38,8 @@ TEST_CASE("read before init is rejected")
 TEST_CASE("init succeeds with correct chip id")
 {
     MockBus bus;
-    // TODO: pre-load calibration registers 0x88..0x9F
-    Bmp280 sensor(bus);
+    // TODO: pre-load calibration registers 0x88..0xA1 and 0xE1..0xE7
+    Bme280 sensor(bus);
 
     CHECK(sensor.init() == Error::None);
     CHECK(sensor.isInitialised());

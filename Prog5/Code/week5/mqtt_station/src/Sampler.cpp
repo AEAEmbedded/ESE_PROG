@@ -41,8 +41,8 @@ void Sampler::stop()
 void Sampler::run()
 {
     while (running_) {
-        bmp280::Measurement m;
-        if (sensor_.readForced(m) == bmp280::Error::None && callback_) {
+        bme280::Measurement m;
+        if (sensor_.readForced(m) == bme280::Error::None && callback_) {
             callback_(m);          // sampler thread, not main
         }
 

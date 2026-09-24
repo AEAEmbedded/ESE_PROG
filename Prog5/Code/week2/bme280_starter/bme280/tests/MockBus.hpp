@@ -1,12 +1,12 @@
 #pragma once
 
-#include "bmp280/Bus.hpp"
+#include "bme280/Bus.hpp"
 
 #include <array>
 #include <cstring>
 #include <vector>
 
-namespace bmp280::test {
+namespace bme280::test {
 
 /// Fake sensor: a 256-byte register map plus a log of what was written.
 /// Pre-load it in a test (chip ID, calibration, raw data), then let the
@@ -14,9 +14,9 @@ namespace bmp280::test {
 class MockBus : public Bus {
 public:
     static constexpr uint8_t kRegChipId    = 0xD0;
-    static constexpr uint8_t kChipIdBmp280 = 0x58;
+    static constexpr uint8_t kChipIdBme280 = 0x60;
 
-    MockBus() { regs_[kRegChipId] = kChipIdBmp280; }
+    MockBus() { regs_[kRegChipId] = kChipIdBme280; }
 
     bool read(uint8_t reg, uint8_t* data, size_t len) override
     {
@@ -54,4 +54,4 @@ private:
     bool failNextWrite_ = false;
 };
 
-} // namespace bmp280::test
+} // namespace bme280::test

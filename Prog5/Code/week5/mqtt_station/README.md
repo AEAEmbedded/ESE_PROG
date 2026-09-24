@@ -5,7 +5,7 @@ a dedicated thread. The sensor class does not change.
 
 ```
 include/station/EnvironmentSensor.hpp  interface the station sees (init, readForced)
-include/station/Bmp280Adapter.hpp      week-2 starter class -> EnvironmentSensor (delete once Bme280 implements it)
+include/station/Bme280Adapter.hpp      week-2 starter class -> EnvironmentSensor (delete once Bme280 implements it)
 include/station/FakeSensor.hpp         ramp generator, no hardware needed
 include/station/Publisher.hpp          interface: publish(topic, payload)
 include/station/ConsolePublisher.hpp   prints
@@ -14,7 +14,7 @@ include/station/Sampler.hpp/.cpp       std::thread + std::function callback, sto
 examples/station_main.cpp              composition root
 ```
 
-Layers: `bmp280` (core) -> `rpi_platform` (Linux I2C) and `station` (threads, MQTT) -> `station_main`.
+Layers: `bme280` (core) -> `rpi_platform` (Linux I2C) and `station` (threads, MQTT) -> `station_main`.
 `station` links against the core only for the `Measurement` and `Error` types.
 
 ## Broker on the Pi

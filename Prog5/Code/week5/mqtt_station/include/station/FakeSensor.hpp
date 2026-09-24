@@ -10,21 +10,21 @@ namespace station {
 
 class FakeSensor final : public EnvironmentSensor {
 public:
-    bmp280::Error init() override
+    bme280::Error init() override
     {
         initialised_ = true;
-        return bmp280::Error::None;
+        return bme280::Error::None;
     }
 
-    bmp280::Error readForced(bmp280::Measurement& out) override
+    bme280::Error readForced(bme280::Measurement& out) override
     {
         if (!initialised_) {
-            return bmp280::Error::NotInitialised;
+            return bme280::Error::NotInitialised;
         }
         out.temperatureC = 20.0F + static_cast<float>(tick_ % 50) * 0.1F;
         out.pressurePa   = 101325.0F;
         ++tick_;
-        return bmp280::Error::None;
+        return bme280::Error::None;
     }
 
 private:

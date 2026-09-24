@@ -11,9 +11,9 @@ A C++ library for the Bosch **BME280** (temperature, pressure, humidity) that ru
 Arduino / SAMD21 board **and** is structured so that next week it also runs on a Raspberry Pi
 without touching the sensor code.
 
-The starter in [`Code/week2/bmp280_starter`](../../Code/week2/bmp280_starter/bmp280/) shows
-the structure for the BMP280 (same layout, no humidity). You may start from it or from scratch,
-but the structure below is mandatory.
+The starter in [`Code/week2/bme280_starter`](../../Code/week2/bme280_starter/bme280/) has the
+structure and the Bosch driver already in place; the wrapper methods are marked `TODO`. You may
+start from it or from scratch, but the structure below is mandatory.
 
 ## Structure
 
@@ -31,7 +31,8 @@ bme280lib/
 ## Steps
 
 1. **Vendor the Bosch driver** (`bme280.c`, `bme280.h`, `bme280_defs.h`, LICENSE) into
-   `third_party/`. Do not edit it. It already is platform independent: it asks you for three
+   `third_party/` (the starter already has them, from github.com/boschsensortec/BME280_SensorAPI).
+   Do not edit it. It already is platform independent: it asks you for three
    function pointers (`read`, `write`, `delay_us`) and an `intf_ptr`.
 2. **Define `Bus`**: an abstract class with `read(reg, data, len)`, `write(reg, data, len)` and
    `delayUs(us)`. Nothing else. Only `<cstdint>` and `<cstddef>` in this header.

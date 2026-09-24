@@ -17,7 +17,7 @@ namespace station {
 
 class Sampler {
 public:
-    using Callback = std::function<void(const bmp280::Measurement&)>;
+    using Callback = std::function<void(const bme280::Measurement&)>;
 
     Sampler(EnvironmentSensor& sensor, std::chrono::milliseconds period);
     ~Sampler();

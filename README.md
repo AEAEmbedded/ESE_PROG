@@ -69,7 +69,7 @@ later, on the Thursday of the following week**. Full hand-outs: [`Prog5/Assignme
 | 4 | Thu 24 Sep 2026 | **4.** [Same library on the Raspberry Pi](Prog5/Assignments/week4/bme280_raspberry_pi.md): CMake build, `LinuxI2cBus`, `Bus` / `Clock` split (ISP), dependency diagram. Tag `v0.4-pi`. | Thu 1 Oct 2026 |
 | 5 | Thu 1 Oct 2026 | **5.** [Sampling thread, callback, MQTT](Prog5/Assignments/week5/bme280_mqtt.md): `Sampler`, `Publisher` / `MqttPublisher`, `EnvironmentSensor` + `FakeSensor`, sequence diagram sketch. Tag `v0.5-mqtt`. | Thu 8 Oct 2026 |
 | 6 | Thu 8 Oct 2026 | **6.** [Design on paper](Prog5/Assignments/week6/bme280_uml_design.md): class, package and sequence diagrams of the library; `vector<EnvironmentSensor*>` with a second sensor. Tag `v0.6-design`. | Thu 15 Oct 2026 |
-| 7 | Thu 15 Oct 2026 | **7.** [Unit tests on the host](Prog5/Assignments/week7/bme280_tests_and_refactor.md) with the `MockBus` (no mocking framework yet). <br> **8.** Review the library against DRY, KISS, SOLID, coupling / cohesion and the lifecycle checklist; refactor and report. Tag `v1.0`. | Thu 22 Oct 2026 |
+| 7 | Thu 15 Oct 2026 | **7.** [Unit tests on the host](Prog5/Assignments/week7/bme280_tests_and_refactor.md) with the `MockBus` (no mocking framework yet). <br> **8.** Review the library against DRY, KISS, SOLID, coupling / cohesion and the lifecycle checklist; add a second sensor and move the shared abstractions (`Bus`, `Clock`, `EnvironmentSensor`) into their own package; refactor and report. Tag `v1.0`. | Thu 22 Oct 2026 |
 
 **Resit:** assignments that were not handed in on time, or that did not pass, can be (re)submitted
 until the resit deadline of **Thursday 29 October 2026**.
@@ -121,7 +121,7 @@ Assessment: Prog 5 by the weekly assignments (see schedule below); Prog 6 with t
 | [`Prog5/Labs/`](Prog5/Labs/) | Lab hand-outs (Lab 2: Arduino basics with OOP / SOLID; Lab 3: I2C sensor library). |
 | [`Prog5/Assignments/`](Prog5/Assignments/) | Assignment hand-outs per week; from week 3 on all steps of the one sensor library (BME280 as the worked example). |
 | [`Prog5/Code/week1/`](Prog5/Code/week1/) | Week 1 example code: stepper motor examples, `SimpleStepper` library, TB6600 test. |
-| [`Prog5/Code/week2/`](Prog5/Code/week2/) | BMP280/BME280 starter library: `Bus` interface, wrapper around the Bosch C driver, `MockBus` + doctest. |
+| [`Prog5/Code/week2/`](Prog5/Code/week2/) | BME280 starter library: `Bus` interface, wrapper around the vendored Bosch BME280 SensorAPI, `MockBus` + doctest. |
 | [`Prog5/Code/week4/`](Prog5/Code/week4/) | `rpi_platform`: `LinuxI2cBus` on `/dev/i2c-1` and a smoke test, CMake build of core + platform. |
 | [`Prog5/Code/week5/`](Prog5/Code/week5/) | `mqtt_station`: `EnvironmentSensor`, `Sampler` (thread + callback), `Publisher` / `MqttPublisher` (libmosquitto), composition root. |
 | [`Prog5/Code/Examples/`](Prog5/Code/Examples/) | Demo code used in the lectures and labs (abstract interfaces, object lifecycle, ToF sensor library, SOLID terminal, I2C scanner). |

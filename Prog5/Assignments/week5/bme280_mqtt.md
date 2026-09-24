@@ -27,8 +27,8 @@ your own library.
 
    ```cpp
    rpi::LinuxI2cBus bus("/dev/i2c-1", 0x76);
-   rpi::LinuxClock  clock;
-   bme280::Bme280   sensor(bus, clock);
+   rpi::LinuxClock  sysClock;          // not `clock`: C already owns that name
+   bme280::Bme280   sensor(bus, sysClock);
    MqttPublisher    publisher("localhost", 1883);
    Sampler          sampler(sensor, std::chrono::seconds(1));
    sampler.onMeasurement([&](const Measurement& m) { publisher.publish(topic, toJson(m)); });

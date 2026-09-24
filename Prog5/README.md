@@ -10,7 +10,7 @@ learning outcomes are in the [main README](../README.md).
 | [`Labs/`](Labs/) | Lab hand-outs: Lab 2 (Arduino basics with OOP / SOLID), Lab 3 (I2C sensor library, with class diagram in [`Prog5_Lab3_I2CSensorLib.md`](Labs/Prog5_Lab3_I2CSensorLib.md)). |
 | [`Assignments/`](Assignments/) | Assignment hand-outs per week ([overview](Assignments/README.md)). Week 2: use-case diagram; weeks 3-7: one sensor library (BME280 as example), one layer per week, each the Friday lab (Arduino, Pi, MQTT, UML design, tests + refactor). |
 | [`Code/week1/`](Code/week1/) | Week 1: stepper motor examples `1a` - `1g`, the `SimpleStepper` Arduino library, a plain-C `stepper_library` and a TB6600 driver test. |
-| [`Code/week2/`](Code/week2/) | BMP280/BME280 starter library: `Bus` interface, wrapper around the Bosch driver, `MockBus` + doctest. |
+| [`Code/week2/`](Code/week2/) | BME280 starter library: `Bus` interface, wrapper around the vendored Bosch BME280 SensorAPI, `MockBus` + doctest. |
 | [`Code/week4/`](Code/week4/) | `rpi_platform`: `LinuxI2cBus` + smoke test on the Raspberry Pi. |
 | [`Code/week5/`](Code/week5/) | `mqtt_station`: sampler thread, callback, `Publisher` / `MqttPublisher`. |
 | [`Code/Examples/`](Code/Examples/) | Lecture demo code: `AbstractInterfaces` (dogs & fish), `Lifecycle` (raw vs smart pointers), `LibDemoArduinoToF` (VL6180X ToF sensor + `I2CHelper`, used in Lab 3), `SOLIDTerminal`, `SHTExample`, `WireScanner`, `UnitTesting`, `PiStuff` (Pi Wi-Fi setup template). |

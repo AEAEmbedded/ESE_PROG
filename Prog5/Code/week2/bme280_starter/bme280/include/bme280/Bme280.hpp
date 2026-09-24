@@ -1,29 +1,29 @@
 #pragma once
 
-#include "bmp280/Bus.hpp"
-#include "bmp280/Types.hpp"
+#include "bme280/Bus.hpp"
+#include "bme280/Types.hpp"
 
 extern "C" {
-#include "bmp2.h"   // Bosch BMP2 SensorAPI (third_party/bmp2)
+#include "bme280.h"   // Bosch BME280 SensorAPI (third_party/bme280)
 }
 
-namespace bmp280 {
+namespace bme280 {
 
-/// C++ wrapper around the Bosch BMP2 C driver.
+/// C++ wrapper around the Bosch BME280 C driver.
 ///
 /// Lifecycle:  Uninitialised --init()--> Ready --read()--> Ready
 ///             (any step may return an Error and stay in its state)
 ///
 /// SRP: this class configures and reads one sensor. Byte transport lives in
 /// Bus, compensation maths lives in the Bosch code, altitude lives elsewhere.
-class Bmp280 {
+class Bme280 {
 public:
     /// Does not touch hardware; call init() for that.
-    explicit Bmp280(Bus& bus);
+    explicit Bme280(Bus& bus);
 
     // Non-copyable: the Bosch struct stores a pointer back to our bus.
-    Bmp280(const Bmp280&)            = delete;
-    Bmp280& operator=(const Bmp280&) = delete;
+    Bme280(const Bme280&)            = delete;
+    Bme280& operator=(const Bme280&) = delete;
 
     /// Soft-reset, verify chip ID, load calibration, apply `config`.
     Error init(const Config& config = Config{});
@@ -52,12 +52,12 @@ private:
     static void   delayCb(uint32_t us, void* intf);
 
     static Error toError(int8_t bosch_result);
-    static void  toBoschConfig(const Config& in, bmp2_config& out);
+    static void  toBoschSettings(const Config& in, bme280_settings& out);
 
-    Bus&        bus_;
-    bmp2_dev    dev_{};
-    bmp2_config config_{};
-    bool        initialised_ = false;
+    Bus&            bus_;
+    bme280_dev      dev_{};
+    bme280_settings settings_{};
+    bool            initialised_ = false;
 };
 
-} // namespace bmp280
+} // namespace bme280

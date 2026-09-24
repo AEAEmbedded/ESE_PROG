@@ -16,6 +16,13 @@ smoke-test program and a CMake file that builds the week-2 starter library on th
 
 ## Steps
 
+0. **Make what you inject an abstraction.** After Lab 3 your sensor probably receives an
+   `I2CHelper` (wrapping a `TwoWire*`) through its constructor: injected, but a concrete Arduino
+   type. Define the `Bus` interface, let `I2CHelper` (or a new `ArduinoI2cBus`) implement it, and
+   give the sensor a `Bus&` instead. If your sensor still calls `Wire` directly, move those calls
+   into that class first. The sensor never calls `Wire.begin()`: whoever owns the bus (the sketch, later
+   `main()`) starts it, the sensor only uses it. Check: the sensor class compiles without
+   `<Wire.h>`. The rest of this assignment assumes that split exists.
 1. **Build the core on the Pi with CMake.** Add a `CMakeLists.txt` at the root of your library
    with three targets: the Bosch C code, your wrapper library, and (later) tests. The wrapper
    target must build on the Pi *and* on your laptop, because it contains no platform code.

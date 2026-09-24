@@ -20,14 +20,14 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../week4/rpi_platform ${CMAKE_BINARY_DIR}/rpi_platform)
     set(STATION_HAS_HARDWARE ON)
 else()
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../week2/bmp280_starter/bmp280 ${CMAKE_BINARY_DIR}/sensor_lib)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../week2/bme280_starter/bme280 ${CMAKE_BINARY_DIR}/sensor_lib)
     set(STATION_HAS_HARDWARE OFF)
 endif()
 
 # --- station library: sampler + publishers, no platform code -------------------
 add_library(station STATIC src/Sampler.cpp src/MqttPublisher.cpp)
 target_include_directories(station PUBLIC include PRIVATE ${MOSQUITTO_INCLUDE_DIR})
-target_link_libraries(station PUBLIC bmp280 Threads::Threads PRIVATE ${MOSQUITTO_LIBRARY})
+target_link_libraries(station PUBLIC bme280 Threads::Threads PRIVATE ${MOSQUITTO_LIBRARY})
 target_compile_options(station PRIVATE -Wall -Wextra -Wpedantic)
 
 # --- executable ----------------------------------------------------------------
