@@ -1,0 +1,16 @@
+{
+  "version": 3,
+  "configurePresets": [
+    { "name": "host", "displayName": "Host (tests)", "binaryDir": "${sourceDir}/build",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "BME280_BUILD_TESTS": "ON" } },
+    { "name": "pi", "displayName": "Raspberry Pi (on the Pi itself)", "binaryDir": "${sourceDir}/build",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "BME280_BUILD_TESTS": "ON" } }
+  ],
+  "buildPresets": [
+    { "name": "host", "configurePreset": "host" },
+    { "name": "pi",   "configurePreset": "pi" }
+  ],
+  "testPresets": [
+    { "name": "host", "configurePreset": "host", "output": { "outputOnFailure": true } }
+  ]
+}
