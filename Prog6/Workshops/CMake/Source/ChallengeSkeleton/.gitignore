@@ -1,0 +1,14 @@
+# Build directories (CMake out-of-source builds, incl. presets)
+build/
+build-*/
+
+# IDE files
+.cache/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store

@@ -2,7 +2,7 @@
 
 **HAN University of Applied Sciences**
 **Software Engineering - Programming 6**
-**Johan Korten - v1.0 2025**
+**Johan Korten - v1.1 2026 (2026-2027)**
 
 ---
 
@@ -32,16 +32,15 @@ cd ESE_PROG/Workshops/CMake/Source
 
 ### Prerequisites
 
-- Basic C++ knowledge
-- Previous workshops: Clean Code, MISRA C++
-- CMake installed (version 3.10 or higher)
+- Basic C++ knowledge (Programming 4/5)
+- CMake installed (version 3.20 or higher; 3.21+ for the presets in ChallengeSkeleton)
 - A C++17 compatible compiler (g++, clang, or MSVC)
 
 ---
 
 ## Workshop Structure
 
-The workshop progresses through 5 stages, each building on the previous one:
+The workshop progresses through 7 steps, each building on the previous one:
 
 ```
 Source/
@@ -49,8 +48,14 @@ Source/
 ├── SimpleLibrary/          # Step 2: Multiple files
 ├── BiggerLibrary/          # Step 3: Complex project (manual compilation)
 ├── BiggerLibraryMake/      # Step 4: Using Makefiles
-└── BiggerLibraryCMake/     # Step 5: Using CMake
+├── BiggerLibraryCMake/     # Step 5: Using CMake
+├── BiggerLibraryCMakeV2/   # Step 6: Modern CMake in 6 stages (libraries,
+│                           #         FetchContent, professional setup, STM32)
+└── ChallengeSkeleton/      # Step 7: Project skeleton for the final challenge
+                            #         (core library + app + CppUTest tests)
 ```
+
+For the live-demo flow of the lesson, see [`DEMO.md`](DEMO.md).
 
 ---
 
@@ -206,12 +211,13 @@ Same files as BiggerLibrary, plus:
 ### Build and Run
 ```bash
 cd Source/BiggerLibraryCMake
-mkdir build              # Create build directory (out-of-source build)
-cd build
-cmake ..                 # Generate build system
-cmake --build .          # Build the project
-./sensor_app            # Run the application
+cmake -S . -B build      # Configure: -S source dir, -B build dir (out-of-source)
+cmake --build build      # Build the project
+./build/sensor_app       # Run the application
 ```
+
+(The classic `mkdir build && cd build && cmake ..` does the same thing; the
+`-S`/`-B` form is the modern one-liner and works from any directory.)
 
 Or using make (if CMake generated Makefiles):
 ```bash
@@ -285,6 +291,47 @@ That's it! CMake figures out the rest!
    - Add new file? Just add filename to `SOURCES`
    - Change includes? CMake detects automatically
    - One simple configuration file
+
+---
+
+## Step 6: BiggerLibraryCMakeV2
+
+**Goal:** From "it works" to professional, modern CMake
+
+Six self-contained stages, each with its own README and `CMakeLists.txt`
+(run `./copy_sources.sh` once to populate the stage directories with sources):
+
+1. **stage1** - Basic CMake (functional, but old-style)
+2. **stage2** - Modern CMake: target-specific commands
+3. **stage3** - Library structure: modular, reusable libraries
+4. **stage4** - External dependencies with `FetchContent`
+5. **stage5** - Professional, production-ready configuration
+6. **stage6** - Real-world STM32 embedded project
+
+See [`Source/BiggerLibraryCMakeV2/README.md`](Source/BiggerLibraryCMakeV2/README.md).
+
+---
+
+## Step 7: ChallengeSkeleton
+
+**Goal:** Take everything home - the starting point for your final challenge
+
+A minimal, buildable project with the structure the final assignment needs:
+a core-logic **library** (testable, no I/O), an **app** that links against it,
+and **CppUTest unit tests** run via `ctest`, plus `CMakePresets.json` so the
+whole team builds identically.
+
+```bash
+cd Source/ChallengeSkeleton
+cmake -S . -B build          # Downloads CppUTest automatically (FetchContent)
+cmake --build build
+./build/app/skeleton_app
+ctest --test-dir build --output-on-failure
+```
+
+Copy it as the start of your team repository. See
+[`Source/ChallengeSkeleton/README.md`](Source/ChallengeSkeleton/README.md).
+The Unit Testing workshop builds directly on this structure.
 
 ---
 

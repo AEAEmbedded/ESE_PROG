@@ -6,7 +6,7 @@ Hands-on workshops for Programming 6 (period 2, 2026-2027). Each workshop folder
 
 | Workshop | Folder | Topic |
 | --- | --- | --- |
-| 1 | [`CMake/`](CMake/) | Why build systems exist, from Make to CMake, libraries, staged example project (`BiggerLibraryCMakeV2/stage1..6`). |
+| 1 | [`CMake/`](CMake/) | Why build systems exist, from Make to CMake, libraries, staged example project (`BiggerLibraryCMakeV2/stage1..6`) and the `ChallengeSkeleton` starting point for the final challenge (core library + app + CppUTest tests). |
 | 2 | [`UnitTesting/`](UnitTesting/) | Unit testing with CppUTest: minimal test, temperature-conversion example (start, complex, finished) and mocking. |
 | 3 | [`Commenting/`](Commenting/) | Writing useful comments and documentation; exercises 1-5. |
 | 4 | [`CleanCode/`](CleanCode/) | Clean code, code smells and MISRA C++:2023, including the `SmellScanner` tooling. |
