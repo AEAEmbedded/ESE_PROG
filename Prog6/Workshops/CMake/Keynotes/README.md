@@ -2,7 +2,7 @@
 
 **HAN University of Applied Sciences**
 **Software Engineering - Programming 6**
-**Johan Korten - v1.0 2025**
+**Johan Korten - v1.1 2026**
 
 ---
 
@@ -12,9 +12,9 @@ This directory contains the workshop presentation in multiple formats:
 
 | Format | File | Description | Use For |
 |--------|------|-------------|---------|
-| **Keynote** | `Workshop CMake 2025.key` | Original presentation (macOS) | Editing and presenting on Mac |
-| **PDF** | `Workshop CMake 2025.pdf` | Portable Document Format | Viewing, printing, sharing |
-| **PowerPoint** | `Workshop CMake 2025.pptx` | Microsoft PowerPoint format | Presenting on Windows/Linux |
+| **Keynote** | `Workshop CMake 2026.key` | Original presentation (macOS) | Editing and presenting on Mac |
+| **PDF** | `Workshop CMake 2026.pdf` | Portable Document Format | Viewing, printing, sharing |
+| **PowerPoint** | `Workshop CMake 2026.pptx` | Microsoft PowerPoint format | Presenting on Windows/Linux |
 
 ---
 
@@ -72,9 +72,9 @@ This presentation accompanies the hands-on CMake workshop and covers:
 ### For Instructors
 
 **Opening the Presentation:**
-- **On macOS:** Double-click `Workshop CMake 2025.key` (requires Keynote)
-- **On Windows/Linux:** Use `Workshop CMake 2025.pptx` (requires PowerPoint or LibreOffice)
-- **For sharing:** Use `Workshop CMake 2025.pdf`
+- **On macOS:** Double-click `Workshop CMake 2026.key` (requires Keynote)
+- **On Windows/Linux:** Use `Workshop CMake 2026.pptx` (requires PowerPoint or LibreOffice)
+- **For sharing:** Use `Workshop CMake 2026.pdf`
 
 **Presentation Flow:**
 1. Start with theory (slides 1-10)

@@ -421,28 +421,31 @@ Add a new sensor class (e.g., `bmp280.cpp/hpp` for pressure sensor):
 3. Update BiggerLibraryCMake's CMakeLists.txt - just add one line!
 
 ### Exercise 3: Cross-Platform Build
-Try generating different build systems:
+Try generating different build systems. Run these **from the project
+directory** (the one containing `CMakeLists.txt`, e.g. `BiggerLibraryCMake/`)
+and give each generator its own build directory, so the generator-mismatch
+error cannot occur:
 ```bash
 # Unix Makefiles (default on Linux/Mac)
-cmake -G "Unix Makefiles" ..
+cmake -S . -B build-make -G "Unix Makefiles"
 
 # Ninja (fast build system)
-cmake -G "Ninja" ..
+cmake -S . -B build-ninja -G "Ninja"
 
 # Xcode (macOS)
-cmake -G "Xcode" ..
+cmake -S . -B build-xcode -G "Xcode"
 ```
 
 ### Exercise 4: Debug vs Release
-Build with different configurations:
+Build with different configurations (again from the project directory):
 ```bash
 # Debug build (no optimization, debug symbols)
-cmake -DCMAKE_BUILD_TYPE=Debug ..
-cmake --build .
+cmake -S . -B build-debug -DCMAKE_BUILD_TYPE=Debug
+cmake --build build-debug
 
 # Release build (optimized)
-cmake -DCMAKE_BUILD_TYPE=Release ..
-cmake --build .
+cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release
+cmake --build build-release
 ```
 
 ---
@@ -450,24 +453,28 @@ cmake --build .
 ## Common CMake Commands
 
 ### Basic Commands
+Run from the **project directory** (where `CMakeLists.txt` lives):
 ```bash
-cmake ..                    # Configure (from build directory)
-cmake --build .             # Build
-cmake --build . --clean-first  # Clean then build
+cmake -S . -B build         # Configure
+cmake --build build         # Build
+cmake --build build --clean-first  # Clean then build
 ```
+
+(`cmake ..` is the same configure step, but only works from inside a `build/`
+directory: `..` must point at the directory with `CMakeLists.txt`.)
 
 ### Configuration Options
 ```bash
-cmake -DCMAKE_BUILD_TYPE=Debug ..       # Debug build
-cmake -DCMAKE_BUILD_TYPE=Release ..     # Release build
-cmake -DCMAKE_CXX_COMPILER=clang++ ..   # Use clang instead of g++
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug       # Debug build
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release     # Release build
+cmake -S . -B build -DCMAKE_CXX_COMPILER=clang++   # Use clang instead of g++
 ```
 
 ### Generator Selection
 ```bash
-cmake -G "Ninja" ..                     # Use Ninja build system
-cmake -G "Unix Makefiles" ..            # Use make
-cmake -G "Xcode" ..                     # Generate Xcode project
+cmake -S . -B build-ninja -G "Ninja"           # Use Ninja build system
+cmake -S . -B build-make -G "Unix Makefiles"   # Use make
+cmake -S . -B build-xcode -G "Xcode"           # Generate Xcode project
 ```
 
 ---
