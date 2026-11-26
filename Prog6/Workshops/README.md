@@ -11,6 +11,7 @@ Hands-on workshops for Programming 6 (period 2, 2026-2027). Each workshop folder
 | 3 | [`Commenting/`](Commenting/) | Writing useful comments and documentation; exercises 1-5. |
 | 4 | [`CleanCode/`](CleanCode/) | Clean code, code smells and MISRA C++:2023, including the `SmellScanner` tooling. |
 | 5 | [`PatternsArchitecture/`](PatternsArchitecture/) | Design patterns for embedded systems (cyclic executive, debouncing, hardware proxy, observer, state, fixed-point) and vtable overhead visualisations. |
+| 6 | [`Zephyr/`](Zephyr/) | First RTOS: from superloop to threads and message queues, devicetree and Kconfig, on QEMU (`qemu_cortex_m3`, no hardware needed) with a real-hardware blinky finale on the XIAO nRF52840 and Pi Pico 2 W (both UF2 drag-and-drop), plus guidance on using AI assistants with the tooling. |
 
 ## Building the CMake examples
 

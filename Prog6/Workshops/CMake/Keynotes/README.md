@@ -52,18 +52,20 @@ This presentation accompanies the hands-on CMake workshop and covers:
   - BiggerLibrary (6 files, manual)
   - BiggerLibraryMake (with Makefile)
   - BiggerLibraryCMake (with CMake)
+  - BiggerLibraryCMakeV2 (modern CMake in 6 stages)
+  - ChallengeSkeleton (library + app + CppUTest tests)
 
-### 6. Code Quality
-- MISRA C++ compliance
-- Clean Code principles
-- Bjarne Stroustrup guidelines
-- RAII and modern C++ best practices
+### 6. Modern CMake
+- Target-based commands (`target_*`, PRIVATE/PUBLIC/INTERFACE)
+- Separate libraries for reusability
+- FetchContent for external dependencies
+- Options, conditions, build summary (stage 5)
+- Toolchain files and STM32 targets (stage 6)
 
-### 7. CMake Best Practices
-- Out-of-source builds
-- Project structure
-- Common commands
-- Troubleshooting tips
+### 7. Practical Matters
+- When CMake gets confused: clean vs pristine build
+- Ninja and other alternatives to Make
+- From the workshop to your final challenge: ChallengeSkeleton
 
 ---
 

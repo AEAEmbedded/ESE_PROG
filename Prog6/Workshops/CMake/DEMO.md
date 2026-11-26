@@ -16,7 +16,10 @@ cmake -S . -B build && cmake --build build   # Warmt CppUTest-download op
 ctest --test-dir build --output-on-failure   # Check: 1/1 Passed
 ```
 
-Terminal: groot font, werkmap `Source/`. Keynote op tweede scherm.
+Eén beamer, dus Keynote en Terminal wisselen elkaar af. Terminal: groot font,
+werkmap `Source/`, van tevoren open. Keynote afspelen "In venster" (menu
+Afspelen) of de PDF in Preview gebruiken, dan is Cmd-Tab genoeg om te wisselen
+en hoef je de presentatie niet elke keer te stoppen en herstarten.
 
 ---
 

@@ -1,0 +1,28 @@
+/*
+ * Board overlay for the Raspberry Pi Pico 2 / Pico 2 W.
+ * Zephyr applies this file automatically when you build for
+ * rpi_pico2/rp2350a/m33 (file name = board name with / -> _).
+ *
+ * Why: on the Pico 2 W the onboard LED is wired to the WiFi chip,
+ * not to a normal GPIO. So we give led0 a new meaning: an external
+ * LED on pin GP15 (LED + resistor ~220 ohm to GND, breadboard).
+ *
+ * Note that main.c does not change AT ALL. That is the point of
+ * devicetree: board differences live in data, not in your code.
+ */
+
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+/ {
+    leds {
+        compatible = "gpio-leds";
+        external_led: led_external {
+            gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;
+            label = "External LED on GP15";
+        };
+    };
+
+    aliases {
+        led0 = &external_led;
+    };
+};

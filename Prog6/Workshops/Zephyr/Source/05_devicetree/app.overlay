@@ -1,0 +1,15 @@
+/*
+ * Devicetree overlay: our additions ON TOP of the board's devicetree.
+ * Zephyr picks up a file called app.overlay automatically.
+ *
+ * The /zephyr,user node is the official place for your own application
+ * settings, no driver bindings needed. Configuration lives here, not
+ * hard-coded in C: change the threshold, rebuild, done. Same Open-
+ * Closed thinking as the band tables in your final challenge.
+ */
+
+/ {
+    zephyr,user {
+        fever-threshold-mdeg = <38000>;
+    };
+};

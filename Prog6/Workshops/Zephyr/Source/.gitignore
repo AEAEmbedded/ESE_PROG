@@ -1,0 +1,10 @@
+# Zephyr/west build output
+*/build/
+
+# IDE files
+.cache/
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
