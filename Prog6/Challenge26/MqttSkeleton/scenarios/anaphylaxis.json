@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "title": "Anaphylaxis, child 6 years",
+    "version": "1.1",
+    "time_compression_ratio": 60,
+    "age_band": "5-11y",
+    "note": "Same scenario as in the challenge document, extended with Temp, DBP and AVPU so the virtual thermometer has a value to show."
+  },
+  "states": {
+    "onset": {
+      "type": "initial",
+      "vitals": { "HR": 140, "SBP": 85, "DBP": 50, "RR": 36, "SpO2": 92, "Temp": 37.2, "AVPU": "Alert" },
+      "rhythm": "sinus_tachycardia"
+    },
+    "stabilizing": {
+      "vitals": { "HR": 115, "SBP": 95, "DBP": 60, "RR": 26, "SpO2": 97, "Temp": 37.0, "AVPU": "Alert" }
+    },
+    "deteriorating": {
+      "vitals": { "HR": 175, "SBP": 65, "DBP": 40, "RR": 50, "SpO2": 84, "Temp": 37.8, "AVPU": "Voice" }
+    }
+  },
+  "transitions": [
+    { "from": "onset", "to": "stabilizing", "trigger": "intervention",
+      "intervention": "epinephrine_im", "optimal_within_s": 120, "ramp_s": 60 },
+    { "from": "onset", "to": "deteriorating", "trigger": "timeout", "timeout_s": 180 }
+  ],
+  "interventions": {
+    "epinephrine_im": { "display_name": "Epinephrine IM", "nfc_tag_id": "04:1A:2B:3C" }
+  }
+}

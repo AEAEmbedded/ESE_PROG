@@ -9,5 +9,5 @@ Learning outcomes are in the [main README](../README.md#learning-outcomes).
 | --- | --- |
 | [`Workshops/`](Workshops/) | Five workshops with slides and source: CMake, Unit Testing (CppUTest), Commenting, Clean Code / MISRA C++:2023, Design Patterns & Architecture. See [`Workshops/README.md`](Workshops/README.md). |
 | [`Hackathon/`](Hackathon/) | [VitalSignsBox](Hackathon/VitalSignsBox/): ECG lead detection, SpO2 detection and temperature-sensor modules - firmware, I2C API descriptions and hardware files. |
-| [`Challenge/`](Challenge/) | Challenge assignment document and hardware design files (SensorHub, ActuatorHub, sim modules for ECG / NIBP / SpO2 / temperature, adapters). |
+| [`Challenge26/`](Challenge26/) | Challenge 2026-2027: assignment document (scenario-driven patient simulation with WKZ) and the [MqttSkeleton](Challenge26/MqttSkeleton/) starter code: engine stub, virtual thermometer, topic set, unit tests (Python and C++). |
 | [`Rubrics/`](Rubrics/) | 2026-2027 rubrics: Prog 6 v1.5 and Hackathon v1.4 (Markdown source + PDF), plus previous editions in `Legacy/`. |

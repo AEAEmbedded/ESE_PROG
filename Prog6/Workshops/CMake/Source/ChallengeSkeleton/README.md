@@ -84,7 +84,10 @@ ctest --preset debug
 2. Rename the project and targets in the `CMakeLists.txt` files.
 3. Grow `core/` into your scenario engine; add one test file per class.
 4. Add more subdirectories the same way (`add_subdirectory`), e.g. for the
-   MQTT layer or a virtual SimDevice.
+   MQTT layer or a virtual SimDevice. The MqttSkeleton in
+   `Prog6/Challenge26/MqttSkeleton/cpp/` does exactly that on top of this
+   layout: an `IMessageBus` interface, a libmosquitto implementation, a
+   virtual thermometer and tests with a `FakeBus`.
 
 Next workshop (Unit Testing) builds directly on this skeleton: we will hang
 real tests, test doubles and mocks into exactly this structure.

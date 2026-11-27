@@ -129,7 +129,7 @@ Assessment: Prog 5 by the weekly assignments (see schedule below); Prog 6 with t
 | [`Prog5/Demos/`](Prog5/Demos/) | Hand-outs: Git manual, CMake basics, interfaces demo. |
 | [`Prog6/Workshops/`](Prog6/Workshops/) | Workshops: CMake, Unit Testing (CppUTest), Commenting, Clean Code / MISRA C++, Design Patterns & Architecture. |
 | [`Prog6/Hackathon/`](Prog6/Hackathon/) | Hackathon material: the VitalSignsBox modules (ECG lead detection, SpO2 detection, temperature sensors) with firmware, API descriptions and hardware files. |
-| [`Prog6/Challenge/`](Prog6/Challenge/) | Challenge project: assignment document and hardware design files (SensorHub, ActuatorHub, sim modules, adapters). |
+| [`Prog6/Challenge26/`](Prog6/Challenge26/) | Challenge project 2026-2027 (scenario-driven patient simulation with WKZ): assignment document (LaTeX source + PDF) and the [MqttSkeleton](Prog6/Challenge26/MqttSkeleton/) starter code (Python and C++). |
 | [`Prog6/Rubrics/`](Prog6/Rubrics/) | Assessment rubrics 2026-2027 (Prog 6 v1.5, Hackathon v1.4; Markdown source + PDF) and previous editions. |
 | [`Resources/`](Resources/) | Background reading, e.g. choosing a development method. |
 
